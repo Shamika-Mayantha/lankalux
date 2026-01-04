@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LankaLux | Sri Lanka Journeys</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7}
+
+header{
+  position:fixed;top:0;width:100%;
+  background:rgba(15,15,15,.85);
+  backdrop-filter:blur(6px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 70px;z-index:1000
+}
+
+.logo{font-family:'Playfair Display',serif;font-size:26px;letter-spacing:1px}
+
+nav a{margin-left:32px;color:#f5f5f5;text-decoration:none;font-size:14px}
+nav a.cta,nav button.cta{
+  color:#caa24d;background:none;border:none;
+  cursor:pointer;font-family:inherit;font-size:14px;
+  margin-left:32px;padding:0;transition:color .3s
+}
+nav button.cta:hover{color:#d4b35f}
+
+.hero{
+  height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')
+    center/cover no-repeat;
+  display:flex;align-items:center;padding:0 70px
+}
+
+.hero-content{max-width:650px}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:58px;margin-bottom:20px
+}
+
+.hero p{font-size:18px;color:#e0e0e0;margin-bottom:35px}
+
+.btn{
+  display:inline-block;padding:14px 34px;
+  background:#caa24d;color:#0f0f0f;
+  text-decoration:none;font-weight:500;letter-spacing:1px;
+  border:none;cursor:pointer;font-family:inherit;font-size:inherit
+}
+
+section{padding:120px 70px}
+#about{padding-bottom:60px}
+.center{text-align:center;max-width:900px;margin:auto}
+#about .center p{
+  font-size:18px;line-height:1.9;color:#e0e0e0;
+  margin-bottom:20px;font-weight:300
+}
+#about .center p:last-child{margin-bottom:0}
+
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:38px;margin-bottom:20px
+}
+
+.services{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:30px;margin-top:60px
+}
+
+.card{
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  padding:45px;border-left:4px solid #caa24d;
+  cursor:pointer;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;overflow:hidden;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  border-radius:6px
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(135deg, rgba(202,162,77,.08), transparent);
+  opacity:0;transition:opacity .4s ease;pointer-events:none
+}
+.card:hover::before{opacity:1}
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:
+    0 12px 30px rgba(202,162,77,.25),
+    0 6px 15px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 0 20px rgba(202,162,77,.15);
+  background:linear-gradient(145deg, #1f1f1f, #171717);
+  border-left-color:#d4b35f
+}
+.card:active{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:
+    0 6px 15px rgba(202,162,77,.2),
+    0 3px 8px rgba(0,0,0,.3)
+}
+
+.card h3{
+  font-family:'Playfair Display',serif;
+  margin-bottom:15px;font-size:22px;
+  color:#f5f5f5;transition:color .3s ease
+}
+.card:hover h3{color:#caa24d}
+.card p{
+  color:#d0d0d0;line-height:1.7;
+  font-size:15px;transition:color .3s ease
+}
+.card:hover p{color:#e5e5e5}
+
+.experiences{background:#151515}
+
+.exp-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:30px;margin-top:60px
+}
+
+.exp{
+  padding:50px 40px;border:1px solid #2a2a2a;text-align:center;
+  cursor:pointer;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  font-family:'Playfair Display',serif;
+  font-size:24px;font-weight:600;letter-spacing:1.5px;
+  color:#f5f5f5;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  border-radius:8px;
+  position:relative;
+  overflow:hidden
+}
+.exp::before{
+  content:'';position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(135deg, rgba(202,162,77,.1), transparent);
+  opacity:0;transition:opacity .4s ease
+}
+.exp:hover::before{opacity:1}
+.exp:hover{
+  border-color:#caa24d;
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:
+    0 12px 30px rgba(202,162,77,.25),
+    0 6px 15px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 0 20px rgba(202,162,77,.15);
+  background:linear-gradient(145deg, #1f1f1f, #171717)
+}
+.exp:active{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:
+    0 6px 15px rgba(202,162,77,.2),
+    0 3px 8px rgba(0,0,0,.3)
+}
+
+/* Modal Styles */
+.modal-overlay{
+  display:none;position:fixed;top:0;left:0;
+  width:100%;height:100%;background:rgba(0,0,0,.9);
+  z-index:2000;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px)
+}
+.modal-overlay.active{display:flex}
+
+.modal-content{
+  background:#1a1a1a;max-width:900px;width:90%;
+  max-height:90vh;overflow-y:auto;position:relative;
+  border:1px solid #333;box-shadow:0 20px 60px rgba(0,0,0,.5)
+}
+
+.modal-header{
+  padding:25px 30px;border-bottom:1px solid #333;
+  display:flex;justify-content:space-between;align-items:center
+}
+.modal-header h3{
+  font-family:'Playfair Display',serif;font-size:28px;color:#caa24d
+}
+.close-btn{
+  background:none;border:none;color:#f5f5f5;
+  font-size:32px;cursor:pointer;padding:0;width:35px;height:35px;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .3s
+}
+.close-btn:hover{color:#caa24d}
+
+.modal-body{padding:30px}
+
+.carousel-container{
+  position:relative;margin-bottom:25px
+}
+.carousel-wrapper{
+  overflow:hidden;border-radius:8px
+}
+.carousel-track{
+  display:flex;transition:transform .5s ease
+}
+.carousel-slide{
+  min-width:100%;position:relative
+}
+.carousel-slide img{
+  width:100%;height:400px;object-fit:cover;display:block
+}
+.carousel-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,.6);color:#f5f5f5;border:none;
+  width:45px;height:45px;cursor:pointer;font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;z-index:10
+}
+.carousel-nav:hover{background:rgba(202,162,77,.8)}
+.carousel-nav.prev{left:15px}
+.carousel-nav.next{right:15px}
+.carousel-dots{
+  display:flex;justify-content:center;gap:10px;margin-top:20px
+}
+.carousel-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#444;border:none;cursor:pointer;transition:all .3s
+}
+.carousel-dot.active{background:#caa24d;width:30px;border-radius:5px}
+
+.modal-description{
+  color:#e0e0e0;font-size:16px;line-height:1.8
+}
+
+/* Contact Options Modal */
+.contact-modal-content{
+  background:#1a1a1a;max-width:500px;width:90%;
+  position:relative;border:1px solid #333;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  border-radius:8px
+}
+.contact-modal-header{
+  padding:30px;text-align:center;border-bottom:1px solid #333;
+  position:relative
+}
+.contact-modal-header .close-btn{
+  position:absolute;top:15px;right:15px
+}
+.contact-modal-header h3{
+  font-family:'Playfair Display',serif;
+  font-size:28px;color:#caa24d;margin-bottom:10px
+}
+.contact-modal-header p{
+  color:#d0d0d0;font-size:15px
+}
+.contact-options{
+  padding:30px;display:flex;flex-direction:column;gap:20px
+}
+.contact-option{
+  display:flex;align-items:center;gap:20px;
+  padding:20px;background:#161616;
+  border:2px solid #2a2a2a;border-radius:6px;
+  text-decoration:none;color:#f5f5f5;
+  transition:all .3s ease;cursor:pointer
+}
+.contact-option:hover{
+  border-color:#caa24d;background:#1f1f1f;
+  transform:translateX(5px);
+  box-shadow:0 4px 12px rgba(202,162,77,.2)
+}
+.contact-option-icon{
+  width:50px;height:50px;display:flex;
+  align-items:center;justify-content:center;
+  background:rgba(202,162,77,.1);
+  border-radius:50%;font-size:24px;flex-shrink:0
+}
+.contact-option-content h4{
+  font-family:'Playfair Display',serif;
+  font-size:20px;margin-bottom:5px;color:#caa24d
+}
+.contact-option-content p{
+  color:#d0d0d0;font-size:14px;margin:0
+}
+
+.reviews{background:#111}
+
+.review-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:40px;margin-top:60px
+}
+
+.review{
+  background:#161616;padding:40px;
+  font-style:italic;border-top:2px solid #caa24d
+}
+
+.review span{
+  display:block;margin-top:20px;
+  font-style:normal;color:#caa24d;font-size:14px
+}
+
+.cta-section{
+  text-align:center;background:#111;
+  display:flex;flex-direction:column;align-items:center;gap:30px
+}
+.contact-buttons{
+  display:flex;gap:20px;flex-wrap:wrap;justify-content:center
+}
+.btn-secondary{
+  display:inline-block;padding:14px 34px;
+  background:transparent;color:#caa24d;
+  text-decoration:none;font-weight:500;letter-spacing:1px;
+  border:2px solid #caa24d;transition:all .3s ease
+}
+.btn-secondary:hover{
+  background:#caa24d;color:#0f0f0f
+}
+.btn:hover{
+  background:#d4b35f;transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(202,162,77,.3)
+}
+
+footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
+
+@media(max-width:1200px){
+  .services{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:900px){
+  header{padding:20px 30px}
+  .hero{padding:0 30px}
+  .hero h1{font-size:42px}
+  section{padding:80px 30px}
+  .services,.exp-grid,.review-grid{grid-template-columns:1fr}
+  .contact-buttons{flex-direction:column;align-items:stretch}
+  .contact-buttons .btn,.contact-buttons .btn-secondary{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">LankaLux</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#experiences">Experiences</a>
+    <button class="cta" id="headerContactBtn">Contact Us</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Journeys, Crafted Around Sri Lanka</h1>
+    <p>Bespoke travel experiences with private chauffeurs and handpicked stays.</p>
+    <button class="btn" id="planJourneyBtn">Plan Your Journey</button>
+  </div>
+</section>
+
+<section id="about">
+  <div class="center">
+    <h2>Refined Sri Lanka Experiences</h2>
+    <p>
+      LankaLux curates elegant, stress-free journeys across Sri Lanka, designed for travelers who value comfort, privacy, and flexibility.
+    </p>
+    <p>
+      Rather than fixed routes or standard packages, each itinerary is carefully crafted to reflect your interests, rhythm, and travel style. With local insight and attentive planning, LankaLux ensures every journey feels smooth, personal, and unhurried.
+    </p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="center"><h2>Our Services</h2></div>
+  <div class="services">
+    <div class="card">
+      <h3>Chauffeur-Driven Tours</h3>
+      <p>Comfortable private travel with experienced local drivers.</p>
+    </div>
+    <div class="card">
+      <h3>Tailor-Made Itineraries</h3>
+      <p>Thoughtfully planned journeys, never rushed or generic.</p>
+    </div>
+    <div class="card">
+      <h3>Handpicked Stays</h3>
+      <p>Carefully selected hotels, villas, and boutique retreats.</p>
+    </div>
+    <div class="card">
+      <h3>Airport Transfers</h3>
+      <p>Seamless arrivals and departures with reliable, comfortable transfers.</p>
+    </div>
+  </div>
+</section>
+
+<section id="experiences" class="experiences">
+  <div class="center"><h2>Sri Lanka Highlights</h2></div>
+  <div class="exp-grid">
+    <div class="exp" data-highlight="cultural">Cultural Heritage</div>
+    <div class="exp" data-highlight="tea">Tea Country</div>
+    <div class="exp" data-highlight="wildlife">Wildlife Safaris</div>
+    <div class="exp" data-highlight="beach">Beach Escapes</div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="center"><h2>What Our Guests Say</h2></div>
+  <div class="review-grid">
+    <div class="review">
+      “Everything was perfectly arranged — calm, professional, and very personal.”
+      <span>— Daniel M., Germany</span>
+    </div>
+    <div class="review">
+      “Nothing felt rushed. It was flexible, thoughtful, and beautifully planned.”
+      <span>— Sofia & Marco, Italy</span>
+    </div>
+    <div class="review">
+      “Exactly the kind of journey we wanted, without stress or compromises.”
+      <span>— Emma R., United Kingdom</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Begin Your Sri Lanka Journey</h2>
+  <div class="contact-buttons">
+    <a href="https://wa.me/94763261788" class="btn">Chat on WhatsApp</a>
+    <a href="mailto:lankalux25@gmail.com" class="btn-secondary">Send Email</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 LankaLux
+</footer>
+
+<!-- Modal Popup -->
+<div class="modal-overlay" id="highlightModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Cultural Heritage</h3>
+      <button class="close-btn" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="carousel-container">
+        <div class="carousel-wrapper">
+          <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+        <button class="carousel-nav prev" id="prevBtn">&#8249;</button>
+        <button class="carousel-nav next" id="nextBtn">&#8250;</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+      </div>
+      <div class="modal-description" id="modalDescription"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Options Modal -->
+<div class="modal-overlay" id="contactModal">
+  <div class="contact-modal-content">
+    <div class="contact-modal-header">
+      <h3>Get In Touch</h3>
+      <p>Choose your preferred way to contact us</p>
+      <button class="close-btn" id="closeContactModal">&times;</button>
+    </div>
+    <div class="contact-options">
+      <a href="https://wa.me/94763261788" class="contact-option" target="_blank">
+        <div class="contact-option-icon">💬</div>
+        <div class="contact-option-content">
+          <h4>WhatsApp</h4>
+          <p>Chat with us instantly</p>
+        </div>
+      </a>
+      <a href="mailto:lankalux25@gmail.com" class="contact-option">
+        <div class="contact-option-icon">✉️</div>
+        <div class="contact-option-content">
+          <h4>Email</h4>
+          <p>Send us a message</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Highlight data with images and descriptions
+const highlightsData = {
+  cultural: {
+    title: 'Cultural Heritage',
+    description: 'Discover the ancient wonders of Sri Lanka, from the sacred city of Kandy with its Temple of the Tooth Relic to the magnificent rock fortress of Sigiriya. Explore UNESCO World Heritage sites including the ancient cities of Anuradhapura and Polonnaruwa, where centuries of history come alive through intricate stone carvings, towering stupas, and well-preserved ruins.',
+    images: [
+      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1200&q=80'
+    ]
+  },
+  tea: {
+    title: 'Tea Country',
+    description: 'Journey through the misty hills of Nuwara Eliya and the rolling tea plantations that produce some of the world\'s finest Ceylon tea. Visit traditional tea factories, meet local tea pluckers, and enjoy breathtaking mountain vistas. Experience the cool climate and colonial charm of hill country towns while sipping freshly brewed tea overlooking endless emerald-green terraces.',
+    images: [
+      'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=1200&q=80'
+    ]
+  },
+  wildlife: {
+    title: 'Wildlife Safaris',
+    description: 'Embark on unforgettable wildlife encounters in Yala, Udawalawe, and Wilpattu National Parks. Spot leopards, elephants, sloth bears, and a diverse array of bird species in their natural habitats. Experience the thrill of early morning and evening game drives, guided by expert naturalists who share their deep knowledge of Sri Lanka\'s rich biodiversity and conservation efforts.',
+    images: [
+      'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80'
+    ]
+  },
+  beach: {
+    title: 'Beach Escapes',
+    description: 'Relax on pristine golden beaches along Sri Lanka\'s stunning coastline. From the vibrant shores of Mirissa and Unawatuna to the tranquil bays of Pasikudah and Arugam Bay, discover perfect spots for swimming, surfing, and sunset watching. Enjoy fresh seafood, water sports, and the warm hospitality of coastal communities in these tropical paradises.',
+    images: [
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80'
+    ]
+  }
+};
+
+let currentSlide = 0;
+let currentHighlight = null;
+
+// Open modal function
+function openModal(highlightKey) {
+  const highlight = highlightsData[highlightKey];
+  if (!highlight) return;
+  
+  currentHighlight = highlightKey;
+  currentSlide = 0;
+  
+  document.getElementById('modalTitle').textContent = highlight.title;
+  document.getElementById('modalDescription').textContent = highlight.description;
+  
+  // Build carousel
+  const carouselTrack = document.getElementById('carouselTrack');
+  carouselTrack.innerHTML = '';
+  carouselTrack.style.transform = 'translateX(0)';
+  
+  highlight.images.forEach((img, index) => {
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+    const imgEl = document.createElement('img');
+    imgEl.src = img;
+    imgEl.alt = highlight.title;
+    slide.appendChild(imgEl);
+    carouselTrack.appendChild(slide);
+  });
+  
+  // Build dots
+  const dotsContainer = document.getElementById('carouselDots');
+  dotsContainer.innerHTML = '';
+  highlight.images.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+  
+  document.getElementById('highlightModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// Close modal function
+function closeModal() {
+  document.getElementById('highlightModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Carousel navigation
+function goToSlide(index) {
+  if (!currentHighlight) return;
+  const highlight = highlightsData[currentHighlight];
+  if (index < 0 || index >= highlight.images.length) return;
+  
+  currentSlide = index;
+  const carouselTrack = document.getElementById('carouselTrack');
+  carouselTrack.style.transform = `translateX(-${index * 100}%)`;
+  
+  // Update dots
+  const dots = document.querySelectorAll('.carousel-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+function nextSlide() {
+  if (!currentHighlight) return;
+  const next = (currentSlide + 1) % highlightsData[currentHighlight].images.length;
+  goToSlide(next);
+}
+
+function prevSlide() {
+  if (!currentHighlight) return;
+  const prev = (currentSlide - 1 + highlightsData[currentHighlight].images.length) % highlightsData[currentHighlight].images.length;
+  goToSlide(prev);
+}
+
+// Event listeners
+document.querySelectorAll('.exp').forEach(exp => {
+  exp.addEventListener('click', () => {
+    const highlightKey = exp.getAttribute('data-highlight');
+    openModal(highlightKey);
+  });
+});
+
+document.getElementById('closeModal').addEventListener('click', closeModal);
+document.getElementById('prevBtn').addEventListener('click', prevSlide);
+document.getElementById('nextBtn').addEventListener('click', nextSlide);
+
+// Close modal when clicking overlay
+document.getElementById('highlightModal').addEventListener('click', (e) => {
+  if (e.target.id === 'highlightModal') {
+    closeModal();
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  const modal = document.getElementById('highlightModal');
+  if (!modal.classList.contains('active')) return;
+  
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft') prevSlide();
+  if (e.key === 'ArrowRight') nextSlide();
+});
+
+// Contact Modal Functions
+function openContactModal() {
+  document.getElementById('contactModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeContactModal() {
+  document.getElementById('contactModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Event listeners for contact modal
+document.getElementById('planJourneyBtn').addEventListener('click', openContactModal);
+document.getElementById('headerContactBtn').addEventListener('click', openContactModal);
+document.getElementById('closeContactModal').addEventListener('click', closeContactModal);
+
+// Close contact modal when clicking overlay
+document.getElementById('contactModal').addEventListener('click', (e) => {
+  if (e.target.id === 'contactModal') {
+    closeContactModal();
+  }
+});
+
+// Close contact modal with Escape key
+document.addEventListener('keydown', (e) => {
+  const contactModal = document.getElementById('contactModal');
+  if (contactModal.classList.contains('active') && e.key === 'Escape') {
+    closeContactModal();
+  }
+});
+</script>
+
+</body>
+</html>
