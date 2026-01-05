@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <title>LankaLux | Sri Lanka Journeys</title>
   
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
-<link rel="shortcut icon" href="/favicon.png">
-<link rel="icon" type="image/png" href="/favicon.png?v=2">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="shortcut icon" href="favicon.ico">
   
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -15,6 +15,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7}
 
 header{
@@ -37,11 +38,29 @@ nav button.cta:hover{color:#d4b35f}
 
 .hero{
   height:100vh;
-  background:
-    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
-    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')
-    center/cover no-repeat;
-  display:flex;align-items:center;padding:0 70px
+  position:relative;
+  display:flex;align-items:center;padding:0 70px;
+  overflow:hidden
+}
+.hero-carousel{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  z-index:0
+}
+.hero-slide{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  opacity:0;transition:opacity 1.5s ease-in-out;
+  background-size:cover;background-position:center;background-repeat:no-repeat
+}
+.hero-slide.active{
+  opacity:1
+}
+.hero-slide::before{
+  content:'';position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55))
+}
+.hero-content{
+  position:relative;z-index:1;max-width:650px
 }
 
 .hero-content{max-width:650px}
@@ -292,21 +311,57 @@ h2{
   color:#d0d0d0;font-size:14px;margin:0
 }
 
-.reviews{background:#111}
+.reviews{background:#111;position:relative;overflow:hidden}
+
+.review-carousel-container{
+  position:relative;max-width:1200px;margin:60px auto 0;
+  overflow:hidden
+}
+
+.review-track{
+  display:flex;transition:transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change:transform
+}
+
+.review-slide{
+  min-width:100%;display:flex;justify-content:center;padding:0 20px;
+  box-sizing:border-box
+}
 
 .review-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:40px;margin-top:60px
+  gap:40px;width:100%;max-width:1200px
 }
 
 .review{
   background:#161616;padding:40px;
-  font-style:italic;border-top:2px solid #caa24d
+  font-style:italic;border-top:2px solid #caa24d;
+  opacity:0;transform:translateY(20px);
+  transition:opacity 0.6s ease,transform 0.6s ease
+}
+
+.review.active{
+  opacity:1;transform:translateY(0)
 }
 
 .review span{
   display:block;margin-top:20px;
   font-style:normal;color:#caa24d;font-size:14px
+}
+
+.review-dots{
+  display:flex;justify-content:center;gap:12px;
+  margin-top:40px
+}
+
+.review-dot{
+  width:12px;height:12px;border-radius:50%;
+  background:#444;border:none;cursor:pointer;
+  transition:all .3s;padding:0
+}
+
+.review-dot.active{
+  background:#caa24d;width:30px;border-radius:6px
 }
 
 .cta-section{
@@ -330,19 +385,221 @@ h2{
   box-shadow:0 4px 12px rgba(202,162,77,.3)
 }
 
+.experiences{margin-bottom:0;padding-bottom:60px}
+.journeys-section{background:#151515;padding-top:60px}
+.journeys-content{text-align:center;max-width:900px;margin:0 auto}
+.journeys-content p{font-size:18px;line-height:1.9;color:#e0e0e0;margin-bottom:50px;font-weight:300}
+.journeys-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:25px;margin-top:40px
+}
+.journey-btn{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100px;padding:25px 35px;
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  border:2px solid #2a2a2a;border-radius:8px;
+  text-decoration:none;color:#f5f5f5;
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-weight:600;letter-spacing:1px;
+  text-align:center;transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position:relative;overflow:hidden;
+  cursor:pointer;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  user-select:none
+}
+.journey-btn::before{
+  content:'';position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(135deg, rgba(202,162,77,.15), transparent);
+  opacity:0;transition:opacity .4s ease
+}
+.journey-btn::after{
+  content:'';position:absolute;top:50%;left:50%;
+  width:0;height:0;
+  background:rgba(202,162,77,.2);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .6s ease,height .6s ease
+}
+.journey-btn:hover::before{opacity:1}
+.journey-btn:hover::after{
+  width:300px;height:300px
+}
+.journey-btn:hover{
+  border-color:#caa24d;
+  transform:translateY(-8px) scale(1.03);
+  box-shadow:
+    0 15px 35px rgba(202,162,77,.3),
+    0 8px 20px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 0 25px rgba(202,162,77,.2);
+  background:linear-gradient(145deg, #1f1f1f, #171717);
+  color:#caa24d
+}
+.journey-btn:active{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:
+    0 8px 20px rgba(202,162,77,.25),
+    0 4px 10px rgba(0,0,0,.3);
+  transition:all .15s ease
+}
+@keyframes journeyClick{
+  0%{transform:translateY(-8px) scale(1.03)}
+  50%{transform:translateY(-2px) scale(0.98)}
+  100%{transform:translateY(-8px) scale(1.03)}
+}
+.journey-btn.clicked{
+  animation:journeyClick .4s ease
+}
+
 footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 
 @media(max-width:1200px){
   .services{grid-template-columns:repeat(2,1fr)}
+  .exp-grid{grid-template-columns:repeat(2,1fr)}
 }
+
 @media(max-width:900px){
-  header{padding:20px 30px}
-  .hero{padding:0 30px}
-  .hero h1{font-size:42px}
-  section{padding:80px 30px}
-  .services,.exp-grid,.review-grid{grid-template-columns:1fr}
-  .contact-buttons{flex-direction:column;align-items:stretch}
-  .contact-buttons .btn,.contact-buttons .btn-secondary{width:100%}
+  header{padding:18px 25px}
+  .logo{font-size:22px}
+  nav a{margin-left:20px;font-size:13px}
+  nav a.cta,nav button.cta{margin-left:20px;font-size:13px}
+  .hero{padding:0 25px}
+  .hero-content{max-width:100%}
+  .hero h1{font-size:38px;margin-bottom:18px}
+  .hero p{font-size:16px;margin-bottom:28px}
+  .btn{padding:12px 28px;font-size:14px}
+  section{padding:70px 25px}
+  #about{padding-bottom:50px}
+  h2{font-size:32px;margin-bottom:18px}
+  #about .center p{font-size:16px;line-height:1.8;margin-bottom:18px}
+  .services,.exp-grid,.review-grid,.journeys-grid{grid-template-columns:1fr;gap:25px;margin-top:45px}
+  .journeys-content p{font-size:16px;line-height:1.8;margin-bottom:40px}
+  .journey-btn{min-height:90px;padding:22px 30px;font-size:18px}
+  .experiences{padding-bottom:50px}
+  .journeys-section{padding-top:50px}
+  .review-carousel-container{margin-top:45px}
+  .review-grid{gap:25px}
+  .card{padding:35px 28px}
+  .card h3{font-size:20px;margin-bottom:12px}
+  .card p{font-size:14px;line-height:1.6}
+  .exp{padding:40px 30px;font-size:20px;letter-spacing:1px}
+  .review{padding:32px 28px;font-size:15px}
+  .review span{margin-top:16px;font-size:13px}
+  .contact-buttons{flex-direction:column;align-items:stretch;gap:15px}
+  .contact-buttons .btn,.contact-buttons .btn-secondary{width:100%;padding:14px 28px;font-size:14px}
+  .modal-content{width:95%;max-height:95vh}
+  .modal-header{padding:20px 25px}
+  .modal-header h3{font-size:24px}
+  .modal-body{padding:25px}
+  .carousel-slide img{height:300px}
+  .carousel-nav{width:38px;height:38px;font-size:18px}
+  .carousel-nav.prev{left:10px}
+  .carousel-nav.next{right:10px}
+  .modal-description{font-size:15px;line-height:1.7}
+  .contact-modal-content{width:95%}
+  .contact-modal-header{padding:25px 20px}
+  .contact-modal-header h3{font-size:24px;margin-bottom:8px}
+  .contact-modal-header p{font-size:14px}
+  .contact-options{padding:25px 20px;gap:16px}
+  .contact-option{padding:18px}
+  .contact-option-icon{width:45px;height:45px;font-size:22px}
+  .contact-option-content h4{font-size:18px;margin-bottom:4px}
+  .contact-option-content p{font-size:13px}
+  footer{padding:35px 25px;font-size:12px}
+}
+
+@media(max-width:600px){
+  header{padding:15px 20px;flex-wrap:wrap}
+  .logo{font-size:20px;width:100%;margin-bottom:10px}
+  nav{width:100%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  nav a{margin-left:0;font-size:12px;flex:1;text-align:center;min-width:70px}
+  nav a.cta,nav button.cta{margin-left:0;font-size:12px;flex:1;text-align:center;min-width:100px}
+  .hero{height:90vh;padding:0 20px;justify-content:center}
+  .hero-content{max-width:100%}
+  .hero h1{font-size:28px;margin-bottom:15px;line-height:1.3}
+  .hero p{font-size:15px;margin-bottom:25px;line-height:1.6}
+  .btn{padding:11px 24px;font-size:13px;letter-spacing:0.5px}
+  section{padding:50px 20px}
+  #about{padding-bottom:40px}
+  h2{font-size:26px;margin-bottom:15px;line-height:1.3}
+  #about .center p{font-size:15px;line-height:1.7;margin-bottom:15px}
+  .services,.exp-grid,.review-grid,.journeys-grid{gap:20px;margin-top:35px}
+  .journeys-content p{font-size:15px;line-height:1.7;margin-bottom:35px}
+  .journey-btn{min-height:85px;padding:20px 25px;font-size:16px;letter-spacing:0.5px}
+  .experiences{padding-bottom:40px}
+  .journeys-section{padding-top:40px}
+  .review-carousel-container{margin-top:35px}
+  .review-grid{gap:20px}
+  .card{padding:28px 22px;border-left-width:3px}
+  .card h3{font-size:18px;margin-bottom:10px}
+  .card p{font-size:13px;line-height:1.6}
+  .exp{padding:32px 24px;font-size:18px;letter-spacing:0.5px}
+  .review{padding:26px 22px;font-size:14px;line-height:1.6}
+  .review span{margin-top:14px;font-size:12px}
+  .cta-section{padding:50px 20px;gap:25px}
+  .contact-buttons{gap:12px}
+  .contact-buttons .btn,.contact-buttons .btn-secondary{padding:12px 24px;font-size:13px}
+  .modal-content{width:98%;max-height:98vh;border-radius:4px}
+  .modal-header{padding:18px 20px}
+  .modal-header h3{font-size:22px}
+  .close-btn{width:32px;height:32px;font-size:28px}
+  .modal-body{padding:20px}
+  .carousel-slide img{height:220px}
+  .carousel-nav{width:32px;height:32px;font-size:16px}
+  .carousel-nav.prev{left:8px}
+  .carousel-nav.next{right:8px}
+  .carousel-dots{margin-top:15px;gap:8px}
+  .carousel-dot{width:8px;height:8px}
+  .carousel-dot.active{width:24px}
+  .modal-description{font-size:14px;line-height:1.6}
+  .contact-modal-content{width:98%;border-radius:4px}
+  .contact-modal-header{padding:22px 18px}
+  .contact-modal-header .close-btn{top:12px;right:12px;width:30px;height:30px;font-size:26px}
+  .contact-modal-header h3{font-size:22px;margin-bottom:6px}
+  .contact-modal-header p{font-size:13px}
+  .contact-options{padding:22px 18px;gap:14px}
+  .contact-option{padding:16px;gap:15px}
+  .contact-option-icon{width:40px;height:40px;font-size:20px}
+  .contact-option-content h4{font-size:16px;margin-bottom:3px}
+  .contact-option-content p{font-size:12px}
+  footer{padding:30px 20px;font-size:11px;line-height:1.6}
+}
+
+@media(max-width:400px){
+  header{padding:12px 15px}
+  .logo{font-size:18px;margin-bottom:8px}
+  nav{gap:8px}
+  nav a{font-size:11px;min-width:60px;padding:5px}
+  nav a.cta,nav button.cta{font-size:11px;min-width:90px;padding:5px}
+  .hero{padding:0 15px}
+  .hero h1{font-size:24px;margin-bottom:12px}
+  .hero p{font-size:14px;margin-bottom:20px}
+  .btn{padding:10px 20px;font-size:12px}
+  section{padding:40px 15px}
+  #about{padding-bottom:35px}
+  h2{font-size:22px;margin-bottom:12px}
+  #about .center p{font-size:14px;line-height:1.6;margin-bottom:12px}
+  .services,.exp-grid,.review-grid,.journeys-grid{gap:18px;margin-top:30px}
+  .journeys-content p{font-size:14px;line-height:1.6;margin-bottom:30px}
+  .journey-btn{min-height:80px;padding:18px 22px;font-size:14px}
+  .experiences{padding-bottom:35px}
+  .journeys-section{padding-top:35px}
+  .review-carousel-container{margin-top:30px}
+  .review-grid{gap:18px}
+  .card{padding:24px 18px}
+  .card h3{font-size:16px;margin-bottom:8px}
+  .card p{font-size:12px}
+  .exp{padding:28px 20px;font-size:16px}
+  .review{padding:22px 18px;font-size:13px}
+  .review span{font-size:11px}
+  .cta-section{padding:40px 15px;gap:20px}
+  .contact-buttons .btn,.contact-buttons .btn-secondary{padding:11px 20px;font-size:12px}
+  .carousel-slide img{height:180px}
+  .modal-description{font-size:13px}
 }
 </style>
 </head>
@@ -354,12 +611,21 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   <nav>
     <a href="#about">About</a>
     <a href="#services">Services</a>
-    <a href="#experiences">Experiences</a>
+    <a href="#experiences">Highlights</a>
+    <a href="#journeys">Journeys</a>
     <button class="cta" id="headerContactBtn">Contact Us</button>
   </nav>
 </header>
 
 <section class="hero">
+  <div class="hero-carousel" id="heroCarousel">
+    <div class="hero-slide active" style="background-image:url('Images/sigirya.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Images/kandy.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Images/damrotea.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Images/mirissa.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Images/elephant.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Images/arugambay.jpg')"></div>
+  </div>
   <div class="hero-content">
     <h1>Journeys, Crafted Around Sri Lanka</h1>
     <p>Bespoke travel experiences with private chauffeurs and handpicked stays.</p>
@@ -411,21 +677,73 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   </div>
 </section>
 
+<section id="journeys" class="journeys-section">
+  <div class="journeys-content">
+    <h2>Journeys</h2>
+    <p>Explore Sri Lanka through our signature journeys — well-paced, immersive itineraries crafted for a seamless travel experience.</p>
+    <div class="journeys-grid">
+      <a href="signature-journey.html" class="journey-btn">Signature Sri Lanka Journey</a>
+      <a href="nature-wildlife-journey.html" class="journey-btn">Nature & Wildlife Discovery Journey</a>
+      <a href="hill-country-journey.html" class="journey-btn">Hill Country & Scenic Rail Journey</a>
+      <a href="coastal-retreat-journey.html" class="journey-btn">Coastal Retreat Journey</a>
+    </div>
+  </div>
+</section>
+
 <section class="reviews">
   <div class="center"><h2>What Our Guests Say</h2></div>
-  <div class="review-grid">
-    <div class="review">
-      “Everything was perfectly arranged — calm, professional, and very personal.”
-      <span>— Daniel M., Germany</span>
+  <div class="review-carousel-container">
+    <div class="review-track" id="reviewTrack">
+      <div class="review-slide">
+        <div class="review-grid">
+          <div class="review active">
+            "Everything was perfectly arranged — calm, professional, and very personal."
+            <span>— Daniel M., Germany</span>
+          </div>
+          <div class="review active">
+            "An absolutely incredible experience from start to finish. The attention to detail and personalized service exceeded all our expectations."
+            <span>— Jennifer & Michael T., United States</span>
+          </div>
+          <div class="review active">
+            "Exactly the kind of journey we wanted, without stress or compromises."
+            <span>— Emma R., United Kingdom</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
+          <div class="review active">
+            "Excellent trip organization. Every detail was thoughtfully planned, and we felt like special guests throughout our journey."
+            <span>— Ivan & Elena P., Russia</span>
+          </div>
+          <div class="review active">
+            "Everything was perfectly arranged — calm, professional, and very personal."
+            <span>— Daniel M., Germany</span>
+          </div>
+          <div class="review active">
+            "An absolutely incredible experience from start to finish. The attention to detail and personalized service exceeded all our expectations."
+            <span>— Jennifer & Michael T., United States</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
+          <div class="review active">
+            "Exactly the kind of journey we wanted, without stress or compromises."
+            <span>— Emma R., United Kingdom</span>
+          </div>
+          <div class="review active">
+            "Excellent trip organization. Every detail was thoughtfully planned, and we felt like special guests throughout our journey."
+            <span>— Ivan & Elena P., Russia</span>
+          </div>
+          <div class="review active">
+            "Everything was perfectly arranged — calm, professional, and very personal."
+            <span>— Daniel M., Germany</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="review">
-      “Nothing felt rushed. It was flexible, thoughtful, and beautifully planned.”
-      <span>— Sofia & Marco, Italy</span>
-    </div>
-    <div class="review">
-      “Exactly the kind of journey we wanted, without stress or compromises.”
-      <span>— Emma R., United Kingdom</span>
-    </div>
+    <div class="review-dots" id="reviewDots"></div>
   </div>
 </section>
 
@@ -666,6 +984,103 @@ document.addEventListener('keydown', (e) => {
   if (contactModal.classList.contains('active') && e.key === 'Escape') {
     closeContactModal();
   }
+});
+
+// Journey button click animation
+document.querySelectorAll('.journey-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    // Add clicked class for animation
+    this.classList.add('clicked');
+    
+    // Remove class after animation completes
+    setTimeout(() => {
+      this.classList.remove('clicked');
+    }, 400);
+  });
+});
+
+// Smooth scroll animation for navigation links
+document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      const headerOffset = 80;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      // Smooth scroll with easing
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Hero Image Carousel Auto-Rotation
+let currentHeroSlide = 0;
+const heroSlides = document.querySelectorAll('.hero-slide');
+const totalHeroSlides = heroSlides.length;
+
+function showHeroSlide(index) {
+  heroSlides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+  });
+}
+
+function nextHeroSlide() {
+  currentHeroSlide = (currentHeroSlide + 1) % totalHeroSlides;
+  showHeroSlide(currentHeroSlide);
+}
+
+// Auto-rotate hero images every 5.5 seconds (continuous rotation)
+let heroInterval = setInterval(nextHeroSlide, 5500);
+
+// Review Carousel Auto-Rotation
+let currentReviewSlide = 0;
+const reviewSlides = document.querySelectorAll('.review-slide');
+const reviewDotsContainer = document.getElementById('reviewDots');
+const reviewTrack = document.getElementById('reviewTrack');
+
+// Create dots
+reviewSlides.forEach((_, index) => {
+  const dot = document.createElement('button');
+  dot.className = 'review-dot' + (index === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goToReviewSlide(index));
+  reviewDotsContainer.appendChild(dot);
+});
+
+function goToReviewSlide(index) {
+  currentReviewSlide = index;
+  reviewTrack.style.transform = `translateX(-${index * 100}%)`;
+  
+  // Update dots
+  const dots = document.querySelectorAll('.review-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+function nextReviewSlide() {
+  currentReviewSlide = (currentReviewSlide + 1) % reviewSlides.length;
+  goToReviewSlide(currentReviewSlide);
+}
+
+// Auto-rotate reviews every 5 seconds
+let reviewInterval = setInterval(nextReviewSlide, 5000);
+
+// Pause on hover
+const reviewCarousel = document.querySelector('.review-carousel-container');
+reviewCarousel.addEventListener('mouseenter', () => {
+  clearInterval(reviewInterval);
+});
+
+reviewCarousel.addEventListener('mouseleave', () => {
+  reviewInterval = setInterval(nextReviewSlide, 5000);
 });
 </script>
 

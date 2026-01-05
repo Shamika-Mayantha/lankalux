@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nature & Wildlife Discovery Journey | LankaLux</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7}
+header{
+  position:fixed;top:0;width:100%;
+  background:rgba(15,15,15,.85);
+  backdrop-filter:blur(6px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 70px;z-index:1000
+}
+.logo{font-family:'Playfair Display',serif;font-size:26px;letter-spacing:1px;color:#f5f5f5;text-decoration:none}
+nav a{margin-left:32px;color:#f5f5f5;text-decoration:none;font-size:14px;transition:color .3s}
+nav a:hover{color:#caa24d}
+.journey-hero{
+  margin-top:80px;padding:80px 70px 60px;
+  background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+    url('Images/leopard.jpg') center/cover no-repeat;
+  text-align:center
+}
+.journey-hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:48px;margin-bottom:20px;color:#caa24d
+}
+.journey-hero p{font-size:18px;color:#e0e0e0;max-width:700px;margin:0 auto}
+.itinerary-container{max-width:1000px;margin:0 auto;padding:80px 70px}
+.day-section{
+  margin-bottom:60px;background:linear-gradient(145deg, #1a1a1a, #141414);
+  border-left:4px solid #caa24d;padding:40px;border-radius:6px;
+  box-shadow:0 4px 6px rgba(0,0,0,.3)
+}
+.day-header{
+  display:flex;align-items:center;gap:20px;margin-bottom:25px;
+  padding-bottom:20px;border-bottom:1px solid #2a2a2a
+}
+.day-number{
+  font-family:'Playfair Display',serif;
+  font-size:36px;color:#caa24d;font-weight:600;min-width:60px
+}
+.day-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;color:#f5f5f5
+}
+.day-content{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:25px}
+.day-description{color:#e0e0e0;font-size:16px;line-height:1.8}
+.day-description h3{
+  font-family:'Playfair Display',serif;
+  font-size:20px;color:#caa24d;margin-bottom:12px
+}
+.day-description ul{list-style:none;padding-left:0;margin-top:15px}
+.day-description li{
+  padding:8px 0;padding-left:25px;
+  position:relative;color:#d0d0d0
+}
+.day-description li:before{
+  content:'→';position:absolute;left:0;color:#caa24d
+}
+.day-image{
+  width:100%;height:300px;object-fit:cover;
+  border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.4)
+}
+.back-btn{
+  display:inline-block;margin:40px 70px;
+  padding:12px 28px;background:transparent;
+  color:#caa24d;border:2px solid #caa24d;
+  text-decoration:none;font-weight:500;letter-spacing:1px;
+  transition:all .3s;border-radius:4px
+}
+.back-btn:hover{
+  background:#caa24d;color:#0f0f0f;transform:translateY(-2px)
+}
+footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
+@media(max-width:900px){
+  header{padding:18px 25px}
+  .logo{font-size:22px}
+  nav a{margin-left:20px;font-size:13px}
+  .journey-hero{padding:60px 25px 40px;margin-top:70px}
+  .journey-hero h1{font-size:32px}
+  .journey-hero p{font-size:16px}
+  .itinerary-container{padding:50px 25px}
+  .day-section{padding:30px 25px;margin-bottom:40px}
+  .day-header{flex-direction:column;align-items:flex-start;gap:10px}
+  .day-number{font-size:28px;min-width:auto}
+  .day-title{font-size:22px}
+  .day-content{grid-template-columns:1fr;gap:20px}
+  .day-image{height:250px}
+  .back-btn{margin:30px 25px;padding:10px 24px;font-size:14px}
+}
+@media(max-width:600px){
+  header{padding:15px 20px;flex-wrap:wrap}
+  .logo{font-size:20px}
+  nav{width:100%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  nav a{margin-left:0;font-size:12px}
+  .journey-hero{padding:50px 20px 30px;margin-top:100px}
+  .journey-hero h1{font-size:26px}
+  .journey-hero p{font-size:15px}
+  .itinerary-container{padding:40px 20px}
+  .day-section{padding:25px 20px;margin-bottom:30px}
+  .day-number{font-size:24px}
+  .day-title{font-size:20px}
+  .day-description{font-size:15px}
+  .day-description h3{font-size:18px}
+  .day-image{height:200px}
+  .back-btn{margin:25px 20px;padding:10px 20px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">LankaLux</a>
+  <nav>
+    <a href="index.html#about">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#journeys">Journeys</a>
+  </nav>
+</header>
+
+<a href="index.html#journeys" class="back-btn">← Back to Journeys</a>
+
+<section class="journey-hero">
+  <h1>Nature & Wildlife Discovery Journey</h1>
+  <p>An immersive 8-day adventure focusing on Sri Lanka's incredible biodiversity, from leopards and elephants to diverse birdlife and pristine natural habitats.</p>
+</section>
+
+<div class="itinerary-container">
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">01</div>
+      <div class="day-title">Arrival & Transfer to Yala</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Arrive at Bandaranaike International Airport and meet your private chauffeur. Begin your wildlife journey with a scenic drive to Yala National Park, one of the best places in the world to spot leopards.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Airport meet & greet</li>
+          <li>Private transfer to Yala</li>
+          <li>Check into safari lodge</li>
+          <li>Evening briefing on safari activities</li>
+        </ul>
+      </div>
+      <img src="Images/leopard.jpg" alt="Yala National Park" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">02</div>
+      <div class="day-title">Yala National Park - Full Day Safari</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Early morning game drive (5:30 AM) when wildlife is most active. Return for breakfast, then afternoon game drive. Yala is home to the highest density of leopards in the world, plus elephants, sloth bears, and over 200 bird species.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Early morning game drive (5:30 AM - 9:30 AM)</li>
+          <li>Leopard spotting opportunities</li>
+          <li>Elephant herds and bird watching</li>
+          <li>Afternoon game drive (3:00 PM - 6:30 PM)</li>
+        </ul>
+      </div>
+      <img src="Images/elephant.jpg" alt="Wildlife Safari" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">03</div>
+      <div class="day-title">Yala to Udawalawe</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Travel to Udawalawe National Park, famous for its large elephant population. En route, visit the Udawalawe Elephant Transit Home, where orphaned elephants are cared for before being released back into the wild.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Udawalawe Elephant Transit Home visit</li>
+          <li>Elephant feeding observation</li>
+          <li>Transfer to Udawalawe</li>
+          <li>Evening game drive in Udawalawe</li>
+        </ul>
+      </div>
+      <img src="Images/elephant.jpg" alt="Udawalawe" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">04</div>
+      <div class="day-title">Udawalawe National Park</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Full day exploring Udawalawe, where you're almost guaranteed to see elephants. The park's open grasslands make wildlife viewing excellent. Spot water buffalo, spotted deer, and numerous bird species including eagles and kingfishers.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Morning game drive</li>
+          <li>Elephant herds in natural habitat</li>
+          <li>Bird watching (200+ species)</li>
+          <li>Evening game drive</li>
+        </ul>
+      </div>
+      <img src="Images/bear.jpg" alt="Udawalawe Wildlife" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">05</div>
+      <div class="day-title">Udawalawe to Sinharaja</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Journey to Sinharaja Forest Reserve, a UNESCO World Heritage site and one of the last remaining primary rainforests in Sri Lanka. This biodiversity hotspot is home to many endemic species.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Scenic drive to Sinharaja</li>
+          <li>Rainforest lodge check-in</li>
+          <li>Evening nature walk</li>
+          <li>Bird watching preparation</li>
+        </ul>
+      </div>
+      <img src="Images/bear.jpg" alt="Sinharaja Forest" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">06</div>
+      <div class="day-title">Sinharaja Rainforest Exploration</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Full day exploring Sinharaja with an expert naturalist guide. This pristine rainforest is home to 95% of Sri Lanka's endemic birds, plus rare mammals, reptiles, and countless plant species. Trek through ancient forest trails.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Early morning bird watching</li>
+          <li>Guided rainforest trek</li>
+          <li>Endemic species spotting</li>
+          <li>Waterfall visit</li>
+          <li>Evening nature presentation</li>
+        </ul>
+      </div>
+      <img src="Images/leopard.jpg" alt="Sinharaja Rainforest" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">07</div>
+      <div class="day-title">Sinharaja to Wilpattu</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Travel to Wilpattu National Park, the largest and oldest national park in Sri Lanka. Known for its natural "villus" (lakes), Wilpattu offers a different safari experience with excellent leopard and sloth bear viewing opportunities.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Scenic journey to Wilpattu</li>
+          <li>Safari camp check-in</li>
+          <li>Evening game drive</li>
+          <li>Wildlife photography opportunities</li>
+        </ul>
+      </div>
+      <img src="Images/leopard.jpg" alt="Wilpattu" class="day-image">
+    </div>
+  </div>
+
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-number">08</div>
+      <div class="day-title">Wilpattu Safari & Departure</div>
+    </div>
+    <div class="day-content">
+      <div class="day-description">
+        <p>Early morning game drive in Wilpattu, searching for leopards, sloth bears, and other wildlife. After breakfast, transfer to the airport for your departure flight, enriched by unforgettable wildlife encounters.</p>
+        <h3>Highlights:</h3>
+        <ul>
+          <li>Early morning game drive</li>
+          <li>Final wildlife sightings</li>
+          <li>Transfer to airport</li>
+          <li>Departure assistance</li>
+        </ul>
+      </div>
+      <img src="Images/bear.jpg" alt="Wilpattu Wildlife" class="day-image">
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 LankaLux | <a href="index.html" style="color:#caa24d;text-decoration:none">Return to Home</a>
+</footer>
+</body>
+</html>
+
