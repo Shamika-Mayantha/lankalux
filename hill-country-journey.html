@@ -337,41 +337,51 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   .logo{font-size:22px}
   nav a{margin-left:20px;font-size:13px}
   .journey-hero{padding:50px 25px 35px;margin-top:65px}
-  .journey-hero h1{font-size:32px}
-  .journey-hero p{font-size:16px}
+  .journey-hero h1{font-size:32px;line-height:1.2;margin-bottom:18px}
+  .journey-hero p{font-size:16px;line-height:1.6;padding:0 10px}
   .itinerary-container{padding:50px 25px}
   .day-section{padding:30px 25px;margin-bottom:40px}
   .day-header{flex-direction:column;align-items:flex-start;gap:10px}
   .day-number{font-size:28px;min-width:auto}
-  .day-title{font-size:22px}
+  .day-title{font-size:22px;line-height:1.3}
   .day-content{grid-template-columns:1fr;gap:20px}
   .day-image{height:250px}
-  .back-btn{margin:70px 25px 15px;padding:10px 24px;font-size:14px}
+  .day-description{line-height:1.7}
+  .day-description h3{line-height:1.3}
+  .back-btn{margin:70px 25px 15px;padding:10px 24px;font-size:14px;min-height:44px}
+  .book-now-btn{width:100%;min-height:44px;padding:14px 32px;font-size:16px}
 }
 @media(max-width:600px){
   header{padding:15px 20px;flex-wrap:wrap}
   .logo{font-size:20px}
   nav{width:100%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-  nav a{margin-left:0;font-size:12px}
+  nav a{margin-left:0;font-size:12px;min-height:44px;display:flex;align-items:center;justify-content:center}
+  nav button.cta{min-height:44px;padding:8px 12px}
   .journey-hero{padding:45px 20px 30px;margin-top:80px}
-  .journey-hero h1{font-size:26px}
-  .journey-hero p{font-size:15px}
+  .journey-hero h1{font-size:26px;line-height:1.3;margin-bottom:15px}
+  .journey-hero p{font-size:15px;line-height:1.6;padding:0 5px}
   .itinerary-container{padding:40px 20px}
   .day-section{padding:25px 20px;margin-bottom:30px}
   .day-number{font-size:24px}
-  .day-title{font-size:20px}
-  .day-description{font-size:15px}
-  .day-description h3{font-size:18px}
+  .day-title{font-size:20px;line-height:1.3}
+  .day-description{font-size:15px;line-height:1.7}
+  .day-description h3{font-size:18px;line-height:1.3;margin-bottom:12px}
   .day-image{height:200px}
-  .back-btn{margin:65px 20px 15px;padding:10px 20px;font-size:13px}
+  .back-btn{margin:65px 20px 15px;padding:12px 20px;font-size:13px;min-height:44px;width:calc(100% - 40px);text-align:center}
   .book-now-section{padding:40px 20px}
-  .book-now-btn{padding:16px 40px;font-size:16px}
+  .book-now-btn{width:100%;min-height:44px;padding:14px 32px;font-size:16px;text-align:center}
   .booking-modal-content{width:95%;max-height:95vh}
   .booking-modal-header{padding:20px 25px}
-  .booking-modal-header h3{font-size:24px}
+  .booking-modal-header h3{font-size:24px;line-height:1.3}
   .booking-modal-body{padding:25px}
-  .booking-form-actions{flex-direction:column}
-  .booking-submit-btn,.booking-cancel-btn{width:100%}
+  .booking-form-group label{font-size:14px;margin-bottom:8px}
+  .booking-form-group input,.booking-form-group textarea{font-size:14px;padding:12px;min-height:44px}
+  .booking-form-actions{flex-direction:column;gap:12px}
+  .booking-submit-btn,.booking-cancel-btn{width:100%;min-height:44px;padding:12px 24px;font-size:14px}
+  .reviews{padding:50px 20px}
+  .reviews h2{font-size:28px;line-height:1.3;margin-bottom:20px}
+  .review{padding:26px 22px;font-size:14px;line-height:1.7}
+  .review span{font-size:12px;margin-top:14px}
 }
 
 /* Reviews Section */
@@ -422,25 +432,139 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   font-family:'Playfair Display',serif;
   font-size:38px;margin-bottom:20px
 }
+/* Floating WhatsApp Button */
+.whatsapp-float-btn{
+  position:fixed!important;bottom:30px!important;right:30px!important;
+  width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  border:2px solid #caa24d;box-shadow:0 4px 20px rgba(202,162,77,.3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:999;transition:all .3s ease;
+  font-size:0;padding:0;margin:0
+}
+.whatsapp-float-btn::before{
+  content:'';
+  width:32px;height:32px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23caa24d'%3E%3Cpath d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.98 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z'/%3E%3C/svg%3E");
+  background-size:contain;background-repeat:no-repeat;background-position:center;
+  filter:drop-shadow(0 0 2px rgba(202,162,77,.5))
+}
+.whatsapp-float-btn:hover{
+  transform:scale(1.1);box-shadow:0 6px 30px rgba(202,162,77,.5);
+  border-color:#d4b35f
+}
+.whatsapp-float-btn:hover::before{
+  filter:drop-shadow(0 0 4px rgba(202,162,77,.8))
+}
+.whatsapp-float-btn:active{
+  transform:scale(1.05)
+}
+.whatsapp-float-btn-tooltip{
+  position:absolute;right:75px;top:50%;transform:translateY(-50%);
+  background:rgba(15,15,15,.95);color:#f5f5f5;
+  padding:10px 16px;border-radius:6px;
+  font-size:13px;white-space:nowrap;
+  border:1px solid rgba(202,162,77,.3);
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  z-index:1000;font-family:inherit
+}
+.whatsapp-float-btn-tooltip::after{
+  content:'';position:absolute;left:100%;top:50%;
+  transform:translateY(-50%);
+  border:6px solid transparent;border-left-color:rgba(15,15,15,.95)
+}
+.whatsapp-float-btn:hover .whatsapp-float-btn-tooltip{
+  opacity:1
+}
+/* WhatsApp Message Popup */
+.whatsapp-message-popup{
+  display:none;position:fixed;bottom:100px;right:30px;
+  width:350px;max-width:90vw;background:#1a1a1a;
+  border:1px solid #333;border-radius:12px;
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
+  z-index:1000;padding:25px
+}
+.whatsapp-message-popup.active{
+  display:block
+}
+.whatsapp-message-popup-header{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:15px
+}
+.whatsapp-message-popup-header h4{
+  font-family:'Playfair Display',serif;
+  font-size:20px;color:#caa24d;margin:0
+}
+.whatsapp-message-popup-close{
+  background:none;border:none;color:#f5f5f5;
+  font-size:24px;cursor:pointer;padding:0;
+  width:30px;height:30px;display:flex;
+  align-items:center;justify-content:center;
+  transition:color .3s
+}
+.whatsapp-message-popup-close:hover{
+  color:#caa24d
+}
+.whatsapp-message-input{
+  width:100%;min-height:100px;padding:15px;
+  background:#161616;border:1px solid #2a2a2a;
+  border-radius:6px;color:#f5f5f5;font-family:inherit;
+  font-size:15px;line-height:1.6;resize:vertical;
+  transition:border-color .3s ease;box-sizing:border-box
+}
+.whatsapp-message-input:focus{
+  outline:none;border-color:#caa24d
+}
+.whatsapp-message-input::placeholder{
+  color:#888
+}
+.whatsapp-message-hint{
+  color:#888;font-size:12px;margin-top:8px;text-align:center
+}
+.whatsapp-send-btn{
+  width:100%;padding:12px 24px;margin-top:15px;
+  background:linear-gradient(135deg, #caa24d, #d4b35f);
+  color:#0f0f0f;border:none;border-radius:6px;
+  font-weight:600;font-size:15px;cursor:pointer;
+  transition:all .3s ease;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:8px
+}
+.whatsapp-send-btn:hover{
+  background:linear-gradient(135deg, #d4b35f, #caa24d);
+  transform:translateY(-2px);box-shadow:0 4px 12px rgba(202,162,77,.4)
+}
+.whatsapp-send-btn:active{
+  transform:translateY(0)
+}
 @media(max-width:900px){
   .reviews{padding:60px 25px}
   .review-grid{grid-template-columns:1fr;gap:25px}
-  .review{padding:32px 28px;font-size:15px}
+  .review{padding:32px 28px;font-size:15px;line-height:1.7}
+  .reviews h2{font-size:32px;line-height:1.3;margin-bottom:20px}
+}
+@media(max-width:600px){
+  .whatsapp-float-btn{width:55px;height:55px;bottom:20px!important;right:20px!important}
+  .whatsapp-float-btn::before{width:28px;height:28px}
+  .whatsapp-message-popup{bottom:85px;right:20px;width:calc(100vw - 40px);max-width:350px;padding:20px}
+  .whatsapp-message-popup-header h4{font-size:18px;line-height:1.3}
+  .whatsapp-message-input{min-height:80px;padding:12px;font-size:14px;line-height:1.6}
+  .whatsapp-send-btn{padding:12px 24px;font-size:15px;min-height:44px}
 }
 </style>
 </head>
 <body>
 <header>
-  <a href="index.html" class="logo">LankaLux</a>
+  <a href="/" class="logo">LankaLux</a>
   <nav>
-    <a href="index.html#about">About</a>
-    <a href="index.html#services">Services</a>
-    <a href="index.html">Journeys</a>
+    <a href="/#about">About</a>
+    <a href="/#services">Services</a>
+    <a href="/">Journeys</a>
     <button class="cta" id="headerContactBtn">Contact Us</button>
   </nav>
 </header>
 
-<a href="index.html" class="back-btn" id="backToHomeBtn">← Back to Home</a>
+<a href="/" class="back-btn" id="backToHomeBtn">← Back to Home</a>
 
 <section class="journey-hero">
   <h1>Hill Country & Scenic Rail Journey</h1>
@@ -657,7 +781,7 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 </section>
 
 <footer>
-  © 2026 LankaLux | <a href="index.html" style="color:#caa24d;text-decoration:none">Return to Home</a>
+  © 2026 LankaLux | <a href="/" style="color:#caa24d;text-decoration:none">Return to Home</a>
 </footer>
 
 <!-- Booking Modal -->
@@ -1042,6 +1166,119 @@ document.getElementById('successPopup').addEventListener('click', (e) => {
     initReviewCarousel();
   }
 })();
+</script>
+
+<!-- Floating WhatsApp Button -->
+<button class="whatsapp-float-btn" id="whatsappFloatBtn" aria-label="Send WhatsApp message">
+  <span class="whatsapp-float-btn-tooltip">Send a message instantly</span>
+</button>
+
+<!-- WhatsApp Message Popup -->
+<div class="whatsapp-message-popup" id="whatsappMessagePopup">
+  <div class="whatsapp-message-popup-header">
+    <h4>Send a Quick Message</h4>
+    <button class="whatsapp-message-popup-close" id="closeWhatsAppPopup">&times;</button>
+  </div>
+  <textarea 
+    id="whatsappMessage" 
+    class="whatsapp-message-input" 
+    placeholder="Type your message here..."></textarea>
+  <p class="whatsapp-message-hint">Your message will open in WhatsApp, ready to send</p>
+  <button type="button" class="whatsapp-send-btn" id="sendWhatsAppBtn">
+    <span>💬</span>
+    <span>Send via WhatsApp</span>
+  </button>
+</div>
+
+<script>
+// Floating WhatsApp Button Functionality
+window.addEventListener("load", function() {
+  const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
+  const whatsappMessagePopup = document.getElementById('whatsappMessagePopup');
+  const closeWhatsAppPopup = document.getElementById('closeWhatsAppPopup');
+  const whatsappMessageInput = document.getElementById('whatsappMessage');
+  const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
+  
+  // Open WhatsApp popup
+  if (whatsappFloatBtn && whatsappMessagePopup) {
+    whatsappFloatBtn.addEventListener('click', function() {
+      whatsappMessagePopup.classList.add('active');
+      if (whatsappMessageInput) {
+        setTimeout(() => whatsappMessageInput.focus(), 100);
+      }
+    });
+  }
+  
+  // Close WhatsApp popup
+  if (closeWhatsAppPopup && whatsappMessagePopup) {
+    closeWhatsAppPopup.addEventListener('click', function() {
+      whatsappMessagePopup.classList.remove('active');
+      if (whatsappMessageInput) {
+        whatsappMessageInput.value = '';
+      }
+    });
+  }
+  
+  // Close popup when clicking outside
+  if (whatsappMessagePopup) {
+    whatsappMessagePopup.addEventListener('click', function(e) {
+      if (e.target === whatsappMessagePopup) {
+        whatsappMessagePopup.classList.remove('active');
+        if (whatsappMessageInput) {
+          whatsappMessageInput.value = '';
+        }
+      }
+    });
+  }
+  
+  // Send WhatsApp message
+  if (sendWhatsAppBtn && whatsappMessageInput) {
+    sendWhatsAppBtn.addEventListener('click', function() {
+      const message = whatsappMessageInput.value.trim();
+      
+      if (!message) {
+        // Show subtle hint
+        whatsappMessageInput.style.borderColor = '#caa24d';
+        whatsappMessageInput.focus();
+        setTimeout(() => {
+          whatsappMessageInput.style.borderColor = '#2a2a2a';
+        }, 2000);
+        return;
+      }
+      
+      // URL encode the message
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Open WhatsApp with pre-filled message
+      const whatsappUrl = `https://wa.me/94763261788?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+      
+      // Close popup and clear message
+      if (whatsappMessagePopup) {
+        whatsappMessagePopup.classList.remove('active');
+      }
+      whatsappMessageInput.value = '';
+    });
+    
+    // Allow Enter key to send (Shift+Enter for new line)
+    whatsappMessageInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendWhatsAppBtn.click();
+      }
+    });
+  }
+  
+  // Close popup with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && whatsappMessagePopup && whatsappMessagePopup.classList.contains('active')) {
+      whatsappMessagePopup.classList.remove('active');
+      if (whatsappMessageInput) {
+        whatsappMessageInput.value = '';
+      }
+    }
+  });
+});
 </script>
 
 </body>
