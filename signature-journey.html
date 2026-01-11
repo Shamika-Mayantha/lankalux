@@ -366,6 +366,60 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   .booking-form-actions{flex-direction:column}
   .booking-submit-btn,.booking-cancel-btn{width:100%}
 }
+
+/* Reviews Section */
+.reviews{background:#111;position:relative;overflow:hidden;padding:80px 70px}
+.review-carousel-container{
+  position:relative;max-width:1200px;margin:60px auto 0;
+  overflow:hidden
+}
+.review-track{
+  display:flex;transition:transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change:transform
+}
+.review-slide{
+  flex:0 0 100%;min-width:100%;display:flex;justify-content:center;padding:0 20px;
+  box-sizing:border-box
+}
+.review-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:40px;width:100%;max-width:1000px
+}
+.review{
+  background:#161616;padding:40px;
+  font-style:italic;border-top:2px solid #caa24d;
+  opacity:0;transform:translateY(20px);
+  transition:opacity 0.6s ease,transform 0.6s ease
+}
+.review.active{
+  opacity:1;transform:translateY(0)
+}
+.review span{
+  display:block;margin-top:20px;
+  font-style:normal;color:#caa24d;font-size:14px
+}
+.review-dots{
+  display:flex;justify-content:center;gap:12px;
+  margin-top:40px
+}
+.review-dot{
+  width:12px;height:12px;border-radius:50%;
+  background:#444;border:none;cursor:pointer;
+  transition:all .3s;padding:0
+}
+.review-dot.active{
+  background:#caa24d;width:30px;border-radius:6px
+}
+.center{text-align:center;max-width:900px;margin:0 auto}
+.reviews h2{
+  font-family:'Playfair Display',serif;
+  font-size:38px;margin-bottom:20px
+}
+@media(max-width:900px){
+  .reviews{padding:60px 25px}
+  .review-grid{grid-template-columns:1fr;gap:25px}
+  .review{padding:32px 28px;font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -591,6 +645,39 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
       <button class="book-now-btn" id="bookNowBtn">
         <span class="book-now-btn-text">Reserve This Journey or Let Us Tailor It</span>
       </button>
+</section>
+
+<section class="reviews">
+  <div class="center"><h2>What Our Guests Say</h2></div>
+  <div class="review-carousel-container">
+    <div class="review-track" id="reviewTrack">
+      <div class="review-slide">
+        <div class="review-grid">
+          <div class="review active">
+            "This journey was the perfect introduction to Sri Lanka. We experienced everything from ancient temples in Kandy to tea plantations in Nuwara Eliya, wildlife in Yala, and beautiful beaches. The itinerary was perfectly balanced, and our chauffeur made every day smooth and enjoyable."
+            <span>— Sarah & James W, Australia</span>
+          </div>
+          <div class="review active">
+            "The Signature Journey exceeded our expectations. We loved the variety—cultural sites, wildlife safaris, scenic train rides, and beach time. Every detail was thoughtfully planned, and we never felt rushed. The hotels were excellent, and our driver was knowledgeable and friendly throughout."
+            <span>— Thomas & Maria L, Germany</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
+          <div class="review active">
+            "From Sigiriya's ancient rock fortress to the tea plantations and Yala's wildlife, this journey covered all of Sri Lanka's highlights beautifully. The pace was perfect, allowing us to truly experience each place without feeling rushed. Our chauffeur's local knowledge made every stop more meaningful."
+            <span>— Rachel & Ben C, New Zealand</span>
+          </div>
+          <div class="review active">
+            "What impressed us most was how seamlessly everything flowed—from cultural sites to nature to relaxation. The hotels were carefully selected, the timing was perfect, and we never had to worry about logistics. It truly felt like a bespoke experience tailored just for us."
+            <span>— Luca & Francesca M, Italy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="review-dots" id="reviewDots"></div>
+  </div>
 </section>
 
 <footer>
@@ -886,6 +973,106 @@ document.getElementById('backToHomeBtn').addEventListener('click', function(e) {
     <p>Your inquiry has been sent successfully. We'll get in touch with you soon.</p>
   </div>
 </div>
+
+<script>
+// Review Carousel Auto-Rotation
+(function() {
+  let currentReviewSlide = 0;
+  let reviewInterval = null;
+  let reviewSlides, reviewDotsContainer, reviewTrack;
+  
+  function initReviewCarousel() {
+    reviewSlides = document.querySelectorAll('.review-slide');
+    reviewDotsContainer = document.getElementById('reviewDots');
+    reviewTrack = document.getElementById('reviewTrack');
+    
+    if (!reviewSlides || reviewSlides.length === 0) return;
+    if (!reviewDotsContainer || !reviewTrack) return;
+    
+    // Clear any existing dots
+    reviewDotsContainer.innerHTML = '';
+    
+    // Create dots
+    reviewSlides.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = 'review-dot' + (index === 0 ? ' active' : '');
+      dot.setAttribute('type', 'button');
+      dot.addEventListener('click', () => {
+        goToReviewSlide(index);
+        resetInterval();
+      });
+      reviewDotsContainer.appendChild(dot);
+    });
+    
+    function goToReviewSlide(index) {
+      if (index < 0 || index >= reviewSlides.length) return;
+      currentReviewSlide = index;
+      reviewTrack.style.transform = `translateX(-${index * 100}%)`;
+      
+      // Update dots
+      const dots = document.querySelectorAll('.review-dot');
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+    
+    function nextReviewSlide() {
+      if (!reviewSlides || reviewSlides.length === 0) return;
+      currentReviewSlide = (currentReviewSlide + 1) % reviewSlides.length;
+      goToReviewSlide(currentReviewSlide);
+    }
+    
+    function startInterval() {
+      if (reviewInterval) clearInterval(reviewInterval);
+      reviewInterval = setInterval(nextReviewSlide, 5000);
+    }
+    
+    function resetInterval() {
+      startInterval();
+    }
+    
+    // Initialize first slide
+    goToReviewSlide(0);
+    
+    // Start auto-rotation
+    startInterval();
+    
+    // Pause on hover
+    const reviewCarousel = document.querySelector('.review-carousel-container');
+    if (reviewCarousel) {
+      reviewCarousel.addEventListener('mouseenter', () => {
+        if (reviewInterval) {
+          clearInterval(reviewInterval);
+          reviewInterval = null;
+        }
+      });
+      
+      reviewCarousel.addEventListener('mouseleave', () => {
+        startInterval();
+      });
+    }
+    
+    // Initialize reviews fade-in animation
+    const reviews = document.querySelectorAll('.review');
+    if (reviews.length > 0) {
+      reviews.forEach(review => {
+        review.classList.add('active');
+      });
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReviewCarousel);
+  } else {
+    initReviewCarousel();
+  }
+})();
+</script>
 
 </body>
 </html>

@@ -458,7 +458,7 @@ h2{
 }
 
 .review-slide{
-  min-width:100%;display:flex;justify-content:center;padding:0 20px;
+  flex:0 0 100%;min-width:100%;display:flex;justify-content:center;padding:0 20px;
   box-sizing:border-box
 }
 
@@ -1421,11 +1421,14 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Close success popup when clicking overlay
-document.getElementById('successPopup').addEventListener('click', (e) => {
-  if (e.target.id === 'successPopup') {
-    document.getElementById('successPopup').classList.remove('active');
-  }
-});
+const successPopupElement = document.getElementById('successPopup');
+if (successPopupElement) {
+  successPopupElement.addEventListener('click', (e) => {
+    if (e.target.id === 'successPopup') {
+      successPopupElement.classList.remove('active');
+    }
+  });
+}
 
 // Journey button click animation
 document.querySelectorAll('.journey-btn').forEach(btn => {
@@ -1482,47 +1485,106 @@ function nextHeroSlide() {
 let heroInterval = setInterval(nextHeroSlide, 5500);
 
 // Review Carousel Auto-Rotation
-let currentReviewSlide = 0;
-const reviewSlides = document.querySelectorAll('.review-slide');
-const reviewDotsContainer = document.getElementById('reviewDots');
-const reviewTrack = document.getElementById('reviewTrack');
-
-// Create dots
-reviewSlides.forEach((_, index) => {
-  const dot = document.createElement('button');
-  dot.className = 'review-dot' + (index === 0 ? ' active' : '');
-  dot.addEventListener('click', () => goToReviewSlide(index));
-  reviewDotsContainer.appendChild(dot);
-});
-
-function goToReviewSlide(index) {
-  currentReviewSlide = index;
-  reviewTrack.style.transform = `translateX(-${index * 100}%)`;
+(function() {
+  let currentReviewSlide = 0;
+  let reviewInterval = null;
+  let reviewSlides, reviewDotsContainer, reviewTrack;
   
-  // Update dots
-  const dots = document.querySelectorAll('.review-dot');
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('active', i === index);
-  });
-}
-
-function nextReviewSlide() {
-  currentReviewSlide = (currentReviewSlide + 1) % reviewSlides.length;
-  goToReviewSlide(currentReviewSlide);
-}
-
-// Auto-rotate reviews every 5 seconds
-let reviewInterval = setInterval(nextReviewSlide, 5000);
-
-// Pause on hover
-const reviewCarousel = document.querySelector('.review-carousel-container');
-reviewCarousel.addEventListener('mouseenter', () => {
-  clearInterval(reviewInterval);
-});
-
-reviewCarousel.addEventListener('mouseleave', () => {
-  reviewInterval = setInterval(nextReviewSlide, 5000);
-});
+  function initReviewCarousel() {
+    reviewSlides = document.querySelectorAll('.review-slide');
+    reviewDotsContainer = document.getElementById('reviewDots');
+    reviewTrack = document.getElementById('reviewTrack');
+    
+    // Check if all elements exist
+    if (!reviewSlides || reviewSlides.length === 0) {
+      console.error('Review carousel: No slides found');
+      return;
+    }
+    if (!reviewDotsContainer) {
+      console.error('Review carousel: Dots container not found');
+      return;
+    }
+    if (!reviewTrack) {
+      console.error('Review carousel: Track not found');
+      return;
+    }
+    
+    // Clear any existing dots
+    reviewDotsContainer.innerHTML = '';
+    
+    // Create dots
+    reviewSlides.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = 'review-dot' + (index === 0 ? ' active' : '');
+      dot.setAttribute('type', 'button');
+      dot.addEventListener('click', () => {
+        goToReviewSlide(index);
+        resetInterval();
+      });
+      reviewDotsContainer.appendChild(dot);
+    });
+    
+    function goToReviewSlide(index) {
+      if (index < 0 || index >= reviewSlides.length) return;
+      currentReviewSlide = index;
+      reviewTrack.style.transform = `translateX(-${index * 100}%)`;
+      
+      // Update dots
+      const dots = document.querySelectorAll('.review-dot');
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+    
+    function nextReviewSlide() {
+      if (!reviewSlides || reviewSlides.length === 0) return;
+      currentReviewSlide = (currentReviewSlide + 1) % reviewSlides.length;
+      goToReviewSlide(currentReviewSlide);
+    }
+    
+    function startInterval() {
+      if (reviewInterval) clearInterval(reviewInterval);
+      reviewInterval = setInterval(nextReviewSlide, 5000);
+    }
+    
+    function resetInterval() {
+      startInterval();
+    }
+    
+    // Initialize first slide
+    goToReviewSlide(0);
+    
+    // Start auto-rotation
+    startInterval();
+    
+    // Pause on hover
+    const reviewCarousel = document.querySelector('.review-carousel-container');
+    if (reviewCarousel) {
+      reviewCarousel.addEventListener('mouseenter', () => {
+        if (reviewInterval) {
+          clearInterval(reviewInterval);
+          reviewInterval = null;
+        }
+      });
+      
+      reviewCarousel.addEventListener('mouseleave', () => {
+        startInterval();
+      });
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReviewCarousel);
+  } else {
+    // DOM already loaded
+    initReviewCarousel();
+  }
+})();
 </script>
 
 <!-- Success Popup -->
