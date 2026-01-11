@@ -504,6 +504,12 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   </div>
 </div>
 
+<!-- EmailJS CDN -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  emailjs.init("S2P86iCinDgGxoX5X");
+</script>
+
 <script>
 // Booking Modal Functions
 function openBookingModal() {
@@ -576,9 +582,10 @@ document.getElementById('bookingForm').addEventListener('submit', function(e) {
       // Success
       alert('Thank you! Your inquiry has been sent successfully. We\'ll get back to you soon.');
       closeBookingModal();
-    }, function(error) {
+    })
+    .catch(function(error) {
       // Failure
-      console.error('EmailJS Error:', error);
+      console.error("EmailJS FAILURE:", error);
       alert('Sorry, there was an error sending your message. Please contact us via WhatsApp at +94 76 326 1788 or try again later.');
     });
 });
@@ -590,15 +597,6 @@ document.addEventListener('keydown', (e) => {
     closeBookingModal();
   }
 });
-</script>
-
-<!-- EmailJS CDN -->
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-  // Initialize EmailJS
-  (function(){
-    emailjs.init("S2P86iCinDgGxoX5X");
-  })();
 </script>
 
 </body>
