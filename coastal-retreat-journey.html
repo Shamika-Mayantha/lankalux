@@ -748,7 +748,7 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 </section>
 
 <section class="reviews">
-  <div class="center"><h2>What Our Guests Say</h2></div>
+  <div class="center"><h2>What Guests Thought About This Journey</h2></div>
   <div class="review-carousel-container">
     <div class="review-track" id="reviewTrack">
       <div class="review-slide">
@@ -1279,6 +1279,22 @@ window.addEventListener("load", function() {
     }
   });
 });
+</script>
+
+<script>
+// Clean URL - Remove .html from address bar
+(function() {
+  if (window.location.pathname.includes('.html')) {
+    var cleanPath = window.location.pathname.replace('.html', '');
+    if (window.location.search) {
+      cleanPath += window.location.search;
+    }
+    if (window.location.hash) {
+      cleanPath += window.location.hash;
+    }
+    window.history.replaceState({}, document.title, cleanPath);
+  }
+})();
 </script>
 
 </body>
