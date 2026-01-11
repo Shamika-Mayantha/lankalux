@@ -260,6 +260,13 @@ h2{
 }
 
 /* Contact Options Modal */
+.contact-modal-overlay{
+  display:none;position:fixed;top:0;left:0;
+  width:100%;height:100%;background:rgba(0,0,0,.9);
+  z-index:2000;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px)
+}
+.contact-modal-overlay.active{display:flex}
 .contact-modal-content{
   background:#1a1a1a;max-width:500px;width:90%;
   position:relative;border:1px solid #333;
@@ -307,6 +314,90 @@ h2{
 }
 .contact-option-content p{
   color:#d0d0d0;font-size:14px;margin:0
+}
+
+/* Booking Modal */
+.booking-modal-overlay{
+  display:none;position:fixed;top:0;left:0;
+  width:100%;height:100%;background:rgba(0,0,0,.9);
+  z-index:2000;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px)
+}
+.booking-modal-overlay.active{display:flex}
+.booking-modal-content{
+  background:#1a1a1a;max-width:600px;width:90%;
+  max-height:90vh;overflow-y:auto;position:relative;
+  border:1px solid #333;box-shadow:0 20px 60px rgba(0,0,0,.5);
+  border-radius:8px
+}
+.booking-modal-header{
+  padding:25px 30px;border-bottom:1px solid #333;
+  display:flex;justify-content:space-between;align-items:center
+}
+.booking-modal-header h3{
+  font-family:'Playfair Display',serif;font-size:28px;color:#caa24d
+}
+.booking-modal-body{padding:30px}
+.booking-form-group{
+  margin-bottom:25px
+}
+.booking-form-group label{
+  display:block;margin-bottom:8px;color:#f5f5f5;
+  font-size:14px;font-weight:500
+}
+.booking-form-group input,
+.booking-form-group textarea{
+  width:100%;padding:12px 15px;
+  background:#161616;border:1px solid #2a2a2a;
+  color:#f5f5f5;font-size:15px;font-family:inherit;
+  border-radius:6px;transition:all .3s ease
+}
+.booking-form-group input:focus,
+.booking-form-group textarea:focus{
+  outline:none;border-color:#caa24d;
+  box-shadow:0 0 0 3px rgba(202,162,77,.1)
+}
+.booking-form-group textarea{
+  min-height:120px;resize:vertical
+}
+.booking-checkbox-group{
+  display:flex;align-items:center;gap:10px;margin-bottom:25px
+}
+.booking-checkbox-group input[type="checkbox"]{
+  width:20px;height:20px;cursor:pointer;
+  accent-color:#caa24d
+}
+.booking-checkbox-group label{
+  margin:0;cursor:pointer;color:#f5f5f5
+}
+.airline-fields{
+  display:none;margin-top:20px;padding:20px;
+  background:#161616;border-radius:6px;border:1px solid #2a2a2a
+}
+.airline-fields.active{display:block}
+.booking-form-actions{
+  display:flex;gap:15px;margin-top:30px
+}
+.booking-submit-btn{
+  flex:1;padding:14px 28px;
+  background:#caa24d;color:#0f0f0f;
+  border:none;border-radius:6px;
+  font-weight:600;font-size:16px;cursor:pointer;
+  transition:all .3s ease;font-family:inherit
+}
+.booking-submit-btn:hover{
+  background:#d4b35f;transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(202,162,77,.3)
+}
+.booking-cancel-btn{
+  padding:14px 28px;
+  background:transparent;color:#f5f5f5;
+  border:1px solid #2a2a2a;border-radius:6px;
+  font-weight:500;font-size:16px;cursor:pointer;
+  transition:all .3s ease;font-family:inherit
+}
+.booking-cancel-btn:hover{
+  border-color:#caa24d;color:#caa24d
 }
 
 .reviews{background:#111;position:relative;overflow:hidden}
@@ -373,7 +464,9 @@ h2{
   display:inline-block;padding:14px 34px;
   background:transparent;color:#caa24d;
   text-decoration:none;font-weight:500;letter-spacing:1px;
-  border:2px solid #caa24d;transition:all .3s ease
+  border:2px solid #caa24d;transition:all .3s ease;
+  font-family:inherit;font-size:inherit;cursor:pointer;
+  border:none;border:2px solid #caa24d
 }
 .btn-secondary:hover{
   background:#caa24d;color:#0f0f0f
@@ -406,25 +499,71 @@ h2{
     0 4px 6px rgba(0,0,0,.3),
     0 2px 4px rgba(0,0,0,.2),
     inset 0 1px 0 rgba(255,255,255,.05);
-  user-select:none
+  user-select:none;
+  gap:20px
 }
 .journey-btn::before{
-  content:'';position:absolute;top:0;left:0;
+  content:'';position:absolute;top:0;left:-100%;
   width:100%;height:100%;
-  background:linear-gradient(135deg, rgba(202,162,77,.15), transparent);
-  opacity:0;transition:opacity .4s ease
+  background:linear-gradient(90deg, transparent, rgba(202,162,77,.2), transparent);
+  transition:left .6s ease;z-index:1
+}
+.journey-btn:hover::before{
+  left:100%
 }
 .journey-btn::after{
   content:'';position:absolute;top:50%;left:50%;
   width:0;height:0;
-  background:rgba(202,162,77,.2);
+  background:rgba(202,162,77,.15);
   border-radius:50%;
   transform:translate(-50%,-50%);
-  transition:width .6s ease,height .6s ease
+  transition:width .6s ease,height .6s ease,opacity .6s ease;
+  z-index:1
 }
-.journey-btn:hover::before{opacity:1}
 .journey-btn:hover::after{
-  width:300px;height:300px
+  width:400px;height:400px;opacity:0
+}
+.journey-btn-text{
+  flex:1;position:relative;z-index:2;text-align:center;
+  padding:0 60px 0 20px
+}
+.journey-btn-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:50px;height:50px;min-width:50px;
+  background:rgba(202,162,77,.1);
+  border-radius:50%;
+  position:absolute;right:35px;z-index:2;
+  transition:all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity:0;transform:translateX(-20px) scale(0.8)
+}
+.journey-btn-icon::before{
+  content:'→';font-size:24px;color:#caa24d;
+  transition:transform .4s ease
+}
+.journey-btn-explore{
+  position:absolute;top:8px;right:12px;
+  font-size:10px;font-weight:500;letter-spacing:1.5px;
+  color:#caa24d;opacity:0;
+  transform:translateY(-5px);
+  transition:all .4s ease;
+  z-index:3;text-transform:uppercase;
+  font-family:'Inter',sans-serif;
+  pointer-events:none
+}
+.journey-btn:hover .journey-btn-explore{
+  opacity:1;transform:translateY(0)
+}
+.journey-btn-text{
+  flex:1;position:relative;z-index:2;text-align:center;
+  padding:0 60px 0 20px
+}
+.journey-btn:hover .journey-btn-icon{
+  opacity:1;transform:translateX(0) scale(1);
+  background:rgba(202,162,77,.2);
+  box-shadow:0 0 20px rgba(202,162,77,.3)
+}
+.journey-btn:hover .journey-btn-icon::before{
+  transform:translateX(5px)
 }
 .journey-btn:hover{
   border-color:#caa24d;
@@ -433,9 +572,10 @@ h2{
     0 15px 35px rgba(202,162,77,.3),
     0 8px 20px rgba(0,0,0,.4),
     inset 0 1px 0 rgba(255,255,255,.1),
-    0 0 25px rgba(202,162,77,.2);
+    0 0 30px rgba(202,162,77,.25);
   background:linear-gradient(145deg, #1f1f1f, #171717);
-  color:#caa24d
+  color:#caa24d;
+  padding-right:30px
 }
 .journey-btn:active{
   transform:translateY(-4px) scale(1.01);
@@ -443,6 +583,16 @@ h2{
     0 8px 20px rgba(202,162,77,.25),
     0 4px 10px rgba(0,0,0,.3);
   transition:all .15s ease
+}
+.journey-btn:active .journey-btn-icon::before{
+  transform:translateX(8px)
+}
+@keyframes journeyPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(202,162,77,.4),0 15px 35px rgba(202,162,77,.3),0 8px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1),0 0 30px rgba(202,162,77,.25)}
+  50%{box-shadow:0 0 0 8px rgba(202,162,77,0),0 15px 35px rgba(202,162,77,.3),0 8px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1),0 0 30px rgba(202,162,77,.25)}
+}
+.journey-btn:hover{
+  animation:journeyPulse 2s ease-in-out infinite
 }
 @keyframes journeyClick{
   0%{transform:translateY(-8px) scale(1.03)}
@@ -476,7 +626,9 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   #about .center p{font-size:16px;line-height:1.8;margin-bottom:18px}
   .services,.exp-grid,.review-grid,.journeys-grid{grid-template-columns:1fr;gap:25px;margin-top:45px}
   .journeys-content p{font-size:16px;line-height:1.8;margin-bottom:40px}
-  .journey-btn{min-height:90px;padding:22px 30px;font-size:18px}
+  .journey-btn{min-height:90px;padding:22px 30px;font-size:18px;gap:15px}
+  .journey-btn-icon{width:45px;height:45px;min-width:45px}
+  .journey-btn-icon::before{font-size:22px}
   .experiences{padding-bottom:50px}
   .journeys-section{padding-top:50px}
   .review-carousel-container{margin-top:45px}
@@ -507,6 +659,12 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   .contact-option-icon{width:45px;height:45px;font-size:22px}
   .contact-option-content h4{font-size:18px;margin-bottom:4px}
   .contact-option-content p{font-size:13px}
+  .booking-modal-content{width:95%;max-height:95vh}
+  .booking-modal-header{padding:20px 25px}
+  .booking-modal-header h3{font-size:24px}
+  .booking-modal-body{padding:25px}
+  .booking-form-actions{flex-direction:column}
+  .booking-submit-btn,.booking-cancel-btn{width:100%}
   footer{padding:35px 25px;font-size:12px}
 }
 
@@ -527,7 +685,9 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   #about .center p{font-size:15px;line-height:1.7;margin-bottom:15px}
   .services,.exp-grid,.review-grid,.journeys-grid{gap:20px;margin-top:35px}
   .journeys-content p{font-size:15px;line-height:1.7;margin-bottom:35px}
-  .journey-btn{min-height:85px;padding:20px 25px;font-size:16px;letter-spacing:0.5px}
+  .journey-btn{min-height:85px;padding:20px 25px;font-size:16px;letter-spacing:0.5px;gap:12px}
+  .journey-btn-icon{width:40px;height:40px;min-width:40px}
+  .journey-btn-icon::before{font-size:20px}
   .experiences{padding-bottom:40px}
   .journeys-section{padding-top:40px}
   .review-carousel-container{margin-top:35px}
@@ -564,6 +724,13 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   .contact-option-icon{width:40px;height:40px;font-size:20px}
   .contact-option-content h4{font-size:16px;margin-bottom:3px}
   .contact-option-content p{font-size:12px}
+  .booking-modal-content{width:98%;max-height:98vh;border-radius:4px}
+  .booking-modal-header{padding:18px 20px}
+  .booking-modal-header h3{font-size:22px}
+  .close-btn{width:32px;height:32px;font-size:28px}
+  .booking-modal-body{padding:20px}
+  .booking-form-actions{flex-direction:column;gap:12px}
+  .booking-submit-btn,.booking-cancel-btn{width:100%;padding:12px 24px;font-size:14px}
   footer{padding:30px 20px;font-size:11px;line-height:1.6}
 }
 
@@ -583,7 +750,10 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   #about .center p{font-size:14px;line-height:1.6;margin-bottom:12px}
   .services,.exp-grid,.review-grid,.journeys-grid{gap:18px;margin-top:30px}
   .journeys-content p{font-size:14px;line-height:1.6;margin-bottom:30px}
-  .journey-btn{min-height:80px;padding:18px 22px;font-size:14px}
+  .journey-btn{min-height:80px;padding:18px 22px;font-size:14px;gap:10px}
+  .journey-btn-icon{width:35px;height:35px;min-width:35px}
+  .journey-btn-icon::before{font-size:18px}
+  .journey-btn-explore{font-size:10px;top:8px;right:12px}
   .experiences{padding-bottom:35px}
   .journeys-section{padding-top:35px}
   .review-carousel-container{margin-top:30px}
@@ -681,10 +851,26 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
     <h2>Journeys</h2>
     <p>Explore Sri Lanka through our signature journeys, thoughtfully paced itineraries crafted for a seamless travel experience.</p>
     <div class="journeys-grid">
-      <a href="signature-journey" class="journey-btn">Signature Sri Lanka Journey</a>
-      <a href="nature-wildlife-journey" class="journey-btn">Nature & Wildlife Discovery Journey</a>
-      <a href="hill-country-journey" class="journey-btn">Hill Country & Scenic Rail Journey</a>
-      <a href="coastal-retreat-journey" class="journey-btn">Coastal Retreat Journey</a>
+      <a href="signature-journey.html" class="journey-btn">
+        <span class="journey-btn-explore">Explore</span>
+        <span class="journey-btn-text">Signature Sri Lanka Journey</span>
+        <span class="journey-btn-icon"></span>
+      </a>
+      <a href="nature-wildlife-journey.html" class="journey-btn">
+        <span class="journey-btn-explore">Explore</span>
+        <span class="journey-btn-text">Nature & Wildlife Discovery Journey</span>
+        <span class="journey-btn-icon"></span>
+      </a>
+      <a href="hill-country-journey.html" class="journey-btn">
+        <span class="journey-btn-explore">Explore</span>
+        <span class="journey-btn-text">Hill Country & Scenic Rail Journey</span>
+        <span class="journey-btn-icon"></span>
+      </a>
+      <a href="coastal-retreat-journey.html" class="journey-btn">
+        <span class="journey-btn-explore">Explore</span>
+        <span class="journey-btn-text">Coastal Retreat Journey</span>
+        <span class="journey-btn-icon"></span>
+      </a>
     </div>
   </div>
 </section>
@@ -749,8 +935,8 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 <section class="cta-section">
   <h2>Begin Your Sri Lanka Journey</h2>
   <div class="contact-buttons">
-    <a href="https://wa.me/94763261788" class="btn">Chat on WhatsApp</a>
-    <a href="mailto:hello@lankalux.com" class="btn-secondary">Send Email</a>
+    <button class="btn-secondary" id="sendEmailBtn">Send Email</button>
+    <a href="https://wa.me/94763261788" class="btn" target="_blank">Chat on WhatsApp</a>
   </div>
 </section>
 
@@ -780,7 +966,7 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 </div>
 
 <!-- Contact Options Modal -->
-<div class="modal-overlay" id="contactModal">
+<div class="contact-modal-overlay" id="contactModal">
   <div class="contact-modal-content">
     <div class="contact-modal-header">
       <h3>Get In Touch</h3>
@@ -788,6 +974,13 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
       <button class="close-btn" id="closeContactModal">&times;</button>
     </div>
     <div class="contact-options">
+      <a href="mailto:hello@lankalux.com" class="contact-option" id="emailOption">
+        <div class="contact-option-icon">✉️</div>
+        <div class="contact-option-content">
+          <h4>Email</h4>
+          <p>Send us a message</p>
+        </div>
+      </a>
       <a href="https://wa.me/94763261788" class="contact-option" target="_blank">
         <div class="contact-option-icon">💬</div>
         <div class="contact-option-content">
@@ -795,13 +988,58 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
           <p>Chat with us instantly</p>
         </div>
       </a>
-      <a href="mailto:hello@lankalux.com" class="contact-option">
-        <div class="contact-option-icon">✉️</div>
-        <div class="contact-option-content">
-          <h4>Email</h4>
-          <p>Send us a message</p>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div class="booking-modal-overlay" id="bookingModal">
+  <div class="booking-modal-content">
+    <div class="booking-modal-header">
+      <h3>Get In Touch</h3>
+      <button class="close-btn" id="closeBookingModal">&times;</button>
+    </div>
+    <div class="booking-modal-body">
+      <form id="bookingForm">
+        <div class="booking-form-group">
+          <label for="bookingName">Name *</label>
+          <input type="text" id="bookingName" name="name" required>
         </div>
-      </a>
+        <div class="booking-form-group">
+          <label for="bookingEmail">Email *</label>
+          <input type="email" id="bookingEmail" name="email" required>
+        </div>
+        <div class="booking-form-group">
+          <label for="bookingDates">Travel Dates</label>
+          <input type="text" id="bookingDates" name="travelDates" placeholder="e.g., March 15-25, 2026 (optional)">
+        </div>
+        <div class="booking-form-group">
+          <label for="bookingMessage">Message *</label>
+          <textarea id="bookingMessage" name="message" placeholder="Tell us about your travel preferences, special requests, or any questions..." required></textarea>
+        </div>
+        <div class="booking-checkbox-group">
+          <input type="checkbox" id="needAirlineTickets" name="needAirlineTickets">
+          <label for="needAirlineTickets">Need airline tickets as well</label>
+        </div>
+        <div class="airline-fields" id="airlineFields">
+          <div class="booking-form-group">
+            <label for="airlineFrom">Flying From *</label>
+            <input type="text" id="airlineFrom" name="airlineFrom" placeholder="e.g., New York, London, Dubai">
+          </div>
+          <div class="booking-form-group">
+            <label for="airlineDates">Flight Dates *</label>
+            <input type="text" id="airlineDates" name="airlineDates" placeholder="e.g., March 14 (departure) - March 26 (return)">
+          </div>
+        </div>
+        <div class="booking-form-actions">
+          <button type="submit" class="booking-submit-btn">Send Inquiry</button>
+          <button type="button" class="booking-cancel-btn" id="cancelBookingBtn">Cancel</button>
+        </div>
+      </form>
+      <div style="margin-top:25px;padding-top:25px;border-top:1px solid #2a2a2a;text-align:center">
+        <p style="color:#d0d0d0;font-size:14px;margin-bottom:15px">Or contact us on WhatsApp:</p>
+        <a href="https://wa.me/94763261788" target="_blank" style="display:inline-block;padding:12px 24px;background:rgba(202,162,77,.1);color:#caa24d;text-decoration:none;border-radius:6px;border:1px solid #caa24d;transition:all .3s;font-weight:500">💬 Chat on WhatsApp</a>
+      </div>
     </div>
   </div>
 </div>
@@ -954,7 +1192,7 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') nextSlide();
 });
 
-// Contact Modal Functions
+// Contact Options Modal Functions
 function openContactModal() {
   document.getElementById('contactModal').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -965,10 +1203,33 @@ function closeContactModal() {
   document.body.style.overflow = '';
 }
 
+// Booking Modal Functions
+function openBookingModal() {
+  document.getElementById('bookingModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  closeContactModal(); // Close contact modal if open
+}
+
+function closeBookingModal() {
+  document.getElementById('bookingModal').classList.remove('active');
+  document.body.style.overflow = '';
+  document.getElementById('bookingForm').reset();
+  document.getElementById('airlineFields').classList.remove('active');
+}
+
 // Event listeners for contact modal
-document.getElementById('planJourneyBtn').addEventListener('click', openContactModal);
 document.getElementById('headerContactBtn').addEventListener('click', openContactModal);
 document.getElementById('closeContactModal').addEventListener('click', closeContactModal);
+
+// Event listeners for booking modal - direct opening
+document.getElementById('planJourneyBtn').addEventListener('click', openBookingModal);
+document.getElementById('sendEmailBtn').addEventListener('click', openBookingModal);
+
+// Email option opens booking modal
+document.getElementById('emailOption').addEventListener('click', function(e) {
+  e.preventDefault();
+  openBookingModal();
+});
 
 // Close contact modal when clicking overlay
 document.getElementById('contactModal').addEventListener('click', (e) => {
@@ -977,11 +1238,78 @@ document.getElementById('contactModal').addEventListener('click', (e) => {
   }
 });
 
-// Close contact modal with Escape key
+// Event listeners for booking modal
+document.getElementById('closeBookingModal').addEventListener('click', closeBookingModal);
+document.getElementById('cancelBookingBtn').addEventListener('click', closeBookingModal);
+
+// Close booking modal when clicking overlay
+document.getElementById('bookingModal').addEventListener('click', (e) => {
+  if (e.target.id === 'bookingModal') {
+    closeBookingModal();
+  }
+});
+
+// Toggle airline fields
+document.getElementById('needAirlineTickets').addEventListener('change', function() {
+  const airlineFields = document.getElementById('airlineFields');
+  if (this.checked) {
+    airlineFields.classList.add('active');
+    document.getElementById('airlineFrom').required = true;
+    document.getElementById('airlineDates').required = true;
+  } else {
+    airlineFields.classList.remove('active');
+    document.getElementById('airlineFrom').required = false;
+    document.getElementById('airlineDates').required = false;
+  }
+});
+
+// Form submission
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Get form field values
+  const bookingName = document.getElementById('bookingName').value;
+  const bookingEmail = document.getElementById('bookingEmail').value;
+  const bookingDates = document.getElementById('bookingDates').value;
+  const bookingMessage = document.getElementById('bookingMessage').value;
+  const needAirlineTickets = document.getElementById('needAirlineTickets').checked;
+  const airlineFrom = document.getElementById('airlineFrom').value || 'N/A';
+  const airlineDates = document.getElementById('airlineDates').value || 'N/A';
+  
+  // Prepare EmailJS template parameters
+  const templateParams = {
+    name: bookingName,
+    email: bookingEmail,
+    travelDates: bookingDates,
+    message: bookingMessage,
+    needAirlineTickets: needAirlineTickets ? 'Yes' : 'No',
+    airlineFrom: airlineFrom,
+    airlineDates: airlineDates
+  };
+  
+  // Send email via EmailJS
+  emailjs.send('service_361fvyt', 'template_zg4vazd', templateParams)
+    .then(function(response) {
+      // Success
+      alert('Thank you! Your inquiry has been sent successfully. We\'ll get back to you soon.');
+      closeBookingModal();
+    }, function(error) {
+      // Failure
+      console.error('EmailJS Error:', error);
+      alert('Sorry, there was an error sending your message. Please contact us via WhatsApp at +94 76 326 1788 or try again later.');
+    });
+});
+
+// Close modals with Escape key
 document.addEventListener('keydown', (e) => {
-  const contactModal = document.getElementById('contactModal');
-  if (contactModal.classList.contains('active') && e.key === 'Escape') {
-    closeContactModal();
+  if (e.key === 'Escape') {
+    const contactModal = document.getElementById('contactModal');
+    const bookingModal = document.getElementById('bookingModal');
+    if (bookingModal.classList.contains('active')) {
+      closeBookingModal();
+    } else if (contactModal.classList.contains('active')) {
+      closeContactModal();
+    }
   }
 });
 
@@ -1081,6 +1409,15 @@ reviewCarousel.addEventListener('mouseenter', () => {
 reviewCarousel.addEventListener('mouseleave', () => {
   reviewInterval = setInterval(nextReviewSlide, 5000);
 });
+</script>
+
+<!-- EmailJS CDN -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS
+  (function(){
+    emailjs.init("S2P86iCinDgGxoX5X");
+  })();
 </script>
 
 </body>
