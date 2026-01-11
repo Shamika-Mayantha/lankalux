@@ -978,7 +978,7 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
     <h1>Journeys, Crafted Around Sri Lanka</h1>
     <p>Bespoke travel experiences with private chauffeurs and handpicked stays.</p>
     <div class="hero-buttons">
-      <button class="btn" id="planJourneyBtn">Plan Your Journey</button>
+    <button class="btn" id="planJourneyBtn">Plan Your Journey</button>
       <a href="#journeys" class="btn-secondary">Explore Signature Journeys</a>
     </div>
   </div>
@@ -1033,22 +1033,22 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
     <h2>Journeys</h2>
     <p>Explore Sri Lanka through our signature journeys, thoughtfully paced itineraries crafted for a seamless travel experience.</p>
     <div class="journeys-grid">
-      <a href="/journeys/signature-journey/" class="journey-btn">
+      <a href="signature-journey.html" class="journey-btn">
         <span class="journey-btn-explore">Explore</span>
         <span class="journey-btn-text">Signature Sri Lanka Journey</span>
         <span class="journey-btn-icon"></span>
       </a>
-      <a href="/journeys/nature-wildlife-journey/" class="journey-btn">
+      <a href="nature-wildlife-journey.html" class="journey-btn">
         <span class="journey-btn-explore">Explore</span>
         <span class="journey-btn-text">Nature & Wildlife Discovery Journey</span>
         <span class="journey-btn-icon"></span>
       </a>
-      <a href="/journeys/hill-country-journey/" class="journey-btn">
+      <a href="hill-country-journey.html" class="journey-btn">
         <span class="journey-btn-explore">Explore</span>
         <span class="journey-btn-text">Hill Country & Scenic Rail Journey</span>
         <span class="journey-btn-icon"></span>
       </a>
-      <a href="/journeys/coastal-retreat-journey/" class="journey-btn">
+      <a href="coastal-retreat-journey.html" class="journey-btn">
         <span class="journey-btn-explore">Explore</span>
         <span class="journey-btn-text">Coastal Retreat Journey</span>
         <span class="journey-btn-icon"></span>
@@ -1578,7 +1578,7 @@ window.addEventListener("load", function() {
   if (!bookingForm) return;
   
   bookingForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+  e.preventDefault();
     
     const statusDiv = document.getElementById('formStatus');
     if (statusDiv) {
@@ -1623,7 +1623,7 @@ window.addEventListener("load", function() {
         }
         
         // Close booking modal and reset form
-        closeBookingModal();
+    closeBookingModal();
         bookingForm.reset();
         document.getElementById('airlineFields').classList.remove('active');
         document.getElementById('airlineFrom').required = false;
@@ -1734,7 +1734,7 @@ let heroInterval = setInterval(nextHeroSlide, 5500);
 
 // Review Carousel Auto-Rotation
 (function() {
-  let currentReviewSlide = 0;
+let currentReviewSlide = 0;
   let reviewInterval = null;
   let reviewSlides, reviewDotsContainer, reviewTrack;
   
@@ -1759,41 +1759,41 @@ let heroInterval = setInterval(nextHeroSlide, 5500);
     
     // Clear any existing dots
     reviewDotsContainer.innerHTML = '';
-    
-    // Create dots
-    reviewSlides.forEach((_, index) => {
-      const dot = document.createElement('button');
-      dot.className = 'review-dot' + (index === 0 ? ' active' : '');
+
+// Create dots
+reviewSlides.forEach((_, index) => {
+  const dot = document.createElement('button');
+  dot.className = 'review-dot' + (index === 0 ? ' active' : '');
       dot.setAttribute('type', 'button');
       dot.addEventListener('click', () => {
         goToReviewSlide(index);
         resetInterval();
       });
-      reviewDotsContainer.appendChild(dot);
-    });
-    
-    function goToReviewSlide(index) {
+  reviewDotsContainer.appendChild(dot);
+});
+
+function goToReviewSlide(index) {
       if (index < 0 || index >= reviewSlides.length) return;
-      currentReviewSlide = index;
-      reviewTrack.style.transform = `translateX(-${index * 100}%)`;
-      
-      // Update dots
-      const dots = document.querySelectorAll('.review-dot');
-      dots.forEach((dot, i) => {
+  currentReviewSlide = index;
+  reviewTrack.style.transform = `translateX(-${index * 100}%)`;
+  
+  // Update dots
+  const dots = document.querySelectorAll('.review-dot');
+  dots.forEach((dot, i) => {
         if (i === index) {
           dot.classList.add('active');
         } else {
           dot.classList.remove('active');
         }
-      });
-    }
-    
-    function nextReviewSlide() {
+  });
+}
+
+function nextReviewSlide() {
       if (!reviewSlides || reviewSlides.length === 0) return;
-      currentReviewSlide = (currentReviewSlide + 1) % reviewSlides.length;
-      goToReviewSlide(currentReviewSlide);
-    }
-    
+  currentReviewSlide = (currentReviewSlide + 1) % reviewSlides.length;
+  goToReviewSlide(currentReviewSlide);
+}
+
     function startInterval() {
       if (reviewInterval) clearInterval(reviewInterval);
       reviewInterval = setInterval(nextReviewSlide, 5000);
@@ -1808,18 +1808,18 @@ let heroInterval = setInterval(nextHeroSlide, 5500);
     
     // Start auto-rotation
     startInterval();
-    
-    // Pause on hover
-    const reviewCarousel = document.querySelector('.review-carousel-container');
+
+// Pause on hover
+const reviewCarousel = document.querySelector('.review-carousel-container');
     if (reviewCarousel) {
-      reviewCarousel.addEventListener('mouseenter', () => {
+reviewCarousel.addEventListener('mouseenter', () => {
         if (reviewInterval) {
-          clearInterval(reviewInterval);
+  clearInterval(reviewInterval);
           reviewInterval = null;
         }
-      });
-      
-      reviewCarousel.addEventListener('mouseleave', () => {
+});
+
+reviewCarousel.addEventListener('mouseleave', () => {
         startInterval();
       });
     }
