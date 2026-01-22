@@ -21,7 +21,8 @@ header{
 body.scrolled header{
   box-shadow:0 2px 10px rgba(0,0,0,.3)
 }
-.logo{font-family:'Playfair Display',serif;font-size:26px;letter-spacing:1px;color:#f5f5f5;text-decoration:none}
+.logo{font-family:'Playfair Display',serif;font-size:26px;letter-spacing:1px;color:#f5f5f5;text-decoration:none;display:flex;align-items:center}
+.logo img{height:40px;width:auto;display:block}
 nav a{margin-left:32px;color:#f5f5f5;text-decoration:none;font-size:14px;transition:color .3s}
 nav a:hover{color:#caa24d}
 nav a.cta,nav button.cta{
@@ -334,7 +335,7 @@ nav button.cta:hover{color:#d4b35f}
 footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 @media(max-width:900px){
   header{padding:18px 25px}
-  .logo{font-size:22px}
+  .logo img{height:35px}
   nav a{margin-left:20px;font-size:13px}
   .journey-hero{padding:50px 25px 35px;margin-top:65px}
   .journey-hero h1{font-size:32px;line-height:1.2;margin-bottom:18px}
@@ -353,7 +354,8 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 }
 @media(max-width:600px){
   header{padding:15px 20px;flex-wrap:wrap}
-  .logo{font-size:20px}
+  .logo{width:100%;margin-bottom:10px;justify-content:center}
+  .logo img{height:30px}
   nav{width:100%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   nav a{margin-left:0;font-size:12px;min-height:44px;display:flex;align-items:center;justify-content:center}
   nav button.cta{min-height:44px;padding:8px 12px}
@@ -555,7 +557,7 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 </head>
 <body>
 <header>
-  <a href="/" class="logo">LankaLux</a>
+  <a href="index.html" class="logo"><img src="lankalux-favicon.png" alt="LankaLux"></a>
   <nav>
     <a href="/#about">About</a>
     <a href="/#services">Services</a>
