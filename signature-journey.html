@@ -21,8 +21,38 @@ header{
 body.scrolled header{
   box-shadow:0 2px 10px rgba(0,0,0,.3)
 }
-.logo{font-family:'Playfair Display',serif;font-size:26px;letter-spacing:1px;color:#f5f5f5;text-decoration:none;display:flex;align-items:center}
-.logo img{height:40px;width:auto;display:block}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.logo-icon{
+  height:40px;
+  width:40px;
+  display:block;
+  border-radius:50%;
+  padding:3px;
+  background:radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.3) 100%);
+  box-shadow:inset 0 0 8px rgba(0,0,0,0.4), 0 0 12px rgba(0,0,0,0.3);
+  object-fit:contain;
+}
+
+.logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  letter-spacing:1px;
+  color:#f5f5f5;
+}
+
+.logo:hover .logo-text{
+  color:#f5f5f5;
+}
+
+.logo:hover .logo-icon{
+  border-color:rgba(255,255,255,0.25);
+}
 nav a{margin-left:32px;color:#f5f5f5;text-decoration:none;font-size:14px;transition:color .3s}
 nav a:hover{color:#caa24d}
 nav a.cta,nav button.cta{
@@ -550,7 +580,10 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 </head>
 <body>
 <header>
-  <a href="index.html" class="logo"><img src="lankalux-favicon.png" alt="LankaLux"></a>
+  <a href="index.html" class="logo">
+    <img src="lankalux-favicon.png" alt="LankaLux" class="logo-icon">
+    <span class="logo-text">LankaLux</span>
+  </a>
   <nav>
     <a href="/#about">About</a>
     <a href="/#services">Services</a>
