@@ -809,13 +809,26 @@ h2{
   width:100%;height:240px;overflow:hidden;
   position:relative
 }
-.vehicle-image img{
-  width:100%;height:100%;
-  object-fit:cover;display:block;
-  transition:transform .4s ease
+.vehicle-carousel-track{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%
 }
-.vehicle-card:hover .vehicle-image img{
-  transform:scale(1.05)
+.vehicle-carousel-slide{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  opacity:0;transition:opacity 1.2s ease-in-out;
+  will-change:opacity
+}
+.vehicle-carousel-slide.active{
+  opacity:1
+}
+.vehicle-carousel-slide img{
+  width:100%;height:100%;
+  object-fit:cover;display:block
+}
+.vehicle-card:hover .vehicle-carousel-slide img{
+  transform:scale(1.05);
+  transition:transform .4s ease
 }
 .vehicle-label{
   padding:8px 20px 0;font-size:11px;
@@ -1400,35 +1413,85 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
   <div class="fleet-grid">
     <div class="vehicle-card" data-vehicle="voxy">
       <div class="vehicle-image">
-        <img src="images/fleet/voxy1.jpg" alt="Toyota Voxy">
+        <div class="vehicle-carousel-track">
+          <div class="vehicle-carousel-slide active">
+            <img src="images/fleet/voxy1.jpg" alt="Toyota Voxy">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/voxy2.jpg" alt="Toyota Voxy">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/voxy3.jpg" alt="Toyota Voxy">
+          </div>
+        </div>
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Toyota Voxy</div>
     </div>
     <div class="vehicle-card" data-vehicle="kdh-flat">
       <div class="vehicle-image">
-        <img src="images/fleet/flatroof1.jpg" alt="Toyota KDH Flat Roof">
+        <div class="vehicle-carousel-track">
+          <div class="vehicle-carousel-slide active">
+            <img src="images/fleet/flatroof1.jpg" alt="Toyota KDH Flat Roof">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/flatroof2.jpg" alt="Toyota KDH Flat Roof">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/flatroof3.jpg" alt="Toyota KDH Flat Roof">
+          </div>
+        </div>
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Toyota KDH (Flat Roof)</div>
     </div>
     <div class="vehicle-card" data-vehicle="kdh-high">
       <div class="vehicle-image">
-        <img src="images/fleet/highroof1.jpg" alt="Toyota KDH High Roof">
+        <div class="vehicle-carousel-track">
+          <div class="vehicle-carousel-slide active">
+            <img src="images/fleet/highroof1.jpg" alt="Toyota KDH High Roof">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/highroof2.jpg" alt="Toyota KDH High Roof">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/highroof3.jpg" alt="Toyota KDH High Roof">
+          </div>
+        </div>
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Toyota KDH (High Roof)</div>
     </div>
     <div class="vehicle-card" data-vehicle="sedan">
       <div class="vehicle-image">
-        <img src="images/fleet/sedan1.jpg" alt="Sedan Comfort Class">
+        <div class="vehicle-carousel-track">
+          <div class="vehicle-carousel-slide active">
+            <img src="images/fleet/sedan1.jpg" alt="Sedan Comfort Class">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/sedan2.jpg" alt="Sedan Comfort Class">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/sedan3.jpg" alt="Sedan Comfort Class">
+          </div>
+        </div>
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Sedan (Comfort Class)</div>
     </div>
     <div class="vehicle-card" data-vehicle="party-bus">
       <div class="vehicle-image">
-        <img src="images/fleet/partybus1.jpg" alt="Party Bus">
+        <div class="vehicle-carousel-track">
+          <div class="vehicle-carousel-slide active">
+            <img src="images/fleet/partybus1.jpg" alt="Party Bus">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/partybus2.jpg" alt="Party Bus">
+          </div>
+          <div class="vehicle-carousel-slide">
+            <img src="images/fleet/partybus3.jpg" alt="Party Bus">
+          </div>
+        </div>
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Party Bus</div>
@@ -2580,6 +2643,73 @@ reviewCarousel.addEventListener('mouseleave', () => {
   } else {
     // DOM already loaded
     initReviewCarousel();
+  }
+})();
+
+// Vehicle Card Image Carousel Auto-Rotation
+(function() {
+  function initVehicleCarousels() {
+    const vehicleCarousels = document.querySelectorAll('.vehicle-carousel-track');
+    
+    vehicleCarousels.forEach((track) => {
+      const slides = track.querySelectorAll('.vehicle-carousel-slide');
+      if (slides.length === 0) return;
+      
+      let currentSlide = 0;
+      let carouselInterval = null;
+      let isPaused = false;
+      
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+      }
+      
+      function nextSlide() {
+        if (isPaused) return;
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }
+      
+      function startCarousel() {
+        if (carouselInterval) clearInterval(carouselInterval);
+        carouselInterval = setInterval(nextSlide, 3500);
+      }
+      
+      // Initialize first slide
+      showSlide(0);
+      
+      // Start auto-rotation
+      startCarousel();
+      
+      // Pause on hover
+      const vehicleCard = track.closest('.vehicle-card');
+      if (vehicleCard) {
+        vehicleCard.addEventListener('mouseenter', () => {
+          isPaused = true;
+          if (carouselInterval) {
+            clearInterval(carouselInterval);
+            carouselInterval = null;
+          }
+        });
+        
+        vehicleCard.addEventListener('mouseleave', () => {
+          isPaused = false;
+          startCarousel();
+        });
+      }
+    });
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVehicleCarousels);
+  } else {
+    initVehicleCarousels();
   }
 })();
 </script>
