@@ -512,6 +512,21 @@ h2{
 .booking-form-group textarea{
   min-height:120px;resize:vertical
 }
+.booking-form-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px
+}
+@media(max-width:520px){
+  .booking-form-row{grid-template-columns:1fr}
+}
+.booking-form-group input[type="date"]{
+  cursor:pointer;color-scheme:dark
+}
+.booking-form-group input[type="date"]::-webkit-calendar-picker-indicator{
+  cursor:pointer;opacity:0.7;filter:invert(1)
+}
+.booking-form-hint{
+  font-size:12px;color:#888;margin-top:4px;font-weight:400
+}
 .booking-checkbox-group{
   display:flex;align-items:center;gap:10px;margin-bottom:25px
 }
@@ -1948,8 +1963,17 @@ footer{
           <input type="email" id="bookingEmail" name="email" required>
         </div>
         <div class="booking-form-group">
-          <label for="bookingDates">Travel Dates</label>
-          <input type="text" id="bookingDates" name="travelDates" placeholder="e.g., March 15-25, 2026 (optional)">
+          <label>Travel Dates <span class="booking-form-hint" style="display:inline;margin-top:0">(optional)</span></label>
+          <div class="booking-form-row" style="margin-top:8px">
+            <div>
+              <label for="bookingTravelFrom" class="booking-form-hint" style="margin-bottom:4px;display:block">Arrival</label>
+              <input type="date" id="bookingTravelFrom" name="travelFrom" aria-label="Arrival date">
+            </div>
+            <div>
+              <label for="bookingTravelTo" class="booking-form-hint" style="margin-bottom:4px;display:block">Departure</label>
+              <input type="date" id="bookingTravelTo" name="travelTo" aria-label="Departure date">
+            </div>
+          </div>
         </div>
         <div class="booking-form-group">
           <label for="bookingMessage">Message *</label>
@@ -1965,8 +1989,17 @@ footer{
             <input type="text" id="airlineFrom" name="airlineFrom" placeholder="e.g., New York, London, Dubai">
           </div>
           <div class="booking-form-group">
-            <label for="airlineDates">Flight Dates *</label>
-            <input type="text" id="airlineDates" name="airlineDates" placeholder="e.g., March 14 (departure) - March 26 (return)">
+            <label>Flight Dates *</label>
+            <div class="booking-form-row" style="margin-top:8px">
+              <div>
+                <label for="airlineDateFrom" class="booking-form-hint" style="margin-bottom:4px;display:block">Outbound</label>
+                <input type="date" id="airlineDateFrom" name="airlineDateFrom" aria-label="Outbound flight date">
+              </div>
+              <div>
+                <label for="airlineDateTo" class="booking-form-hint" style="margin-bottom:4px;display:block">Return</label>
+                <input type="date" id="airlineDateTo" name="airlineDateTo" aria-label="Return flight date">
+              </div>
+            </div>
           </div>
         </div>
         <div id="formStatus" class="form-status"></div>
@@ -2032,8 +2065,17 @@ footer{
           <input type="email" id="vehicleReservationEmail" name="email" required>
         </div>
         <div class="booking-form-group">
-          <label for="vehicleReservationDates">Travel Dates</label>
-          <input type="text" id="vehicleReservationDates" name="travelDates" placeholder="e.g., March 15-25, 2026 (optional)">
+          <label>Travel Dates <span class="booking-form-hint" style="display:inline;margin-top:0">(optional)</span></label>
+          <div class="booking-form-row" style="margin-top:8px">
+            <div>
+              <label for="vehicleReservationFrom" class="booking-form-hint" style="margin-bottom:4px;display:block">Arrival</label>
+              <input type="date" id="vehicleReservationFrom" name="travelFrom" aria-label="Arrival date">
+            </div>
+            <div>
+              <label for="vehicleReservationTo" class="booking-form-hint" style="margin-bottom:4px;display:block">Departure</label>
+              <input type="date" id="vehicleReservationTo" name="travelTo" aria-label="Departure date">
+            </div>
+          </div>
         </div>
         <div class="booking-form-group">
           <label for="vehicleReservationMessage">Message *</label>
@@ -2060,6 +2102,47 @@ footer{
 </script>
 
 <script>
+// Format date range for display in emails (YYYY-MM-DD -> "15 Mar 2026" or "15 Mar – 25 Mar 2026")
+function formatDateRange(from, to) {
+  if (!from && !to) return 'Not specified';
+  var fmt = function(ymd) {
+    if (!ymd) return '';
+    var d = new Date(ymd + 'T12:00:00');
+    return isNaN(d.getTime()) ? ymd : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  var fromStr = fmt(from);
+  var toStr = fmt(to);
+  if (fromStr && toStr) return fromStr + ' – ' + toStr;
+  return fromStr || toStr;
+}
+// Set min date to today on all date inputs (call when modal opens)
+function initDateInputs() {
+  var today = new Date().toISOString().split('T')[0];
+  var ids = ['bookingTravelFrom', 'bookingTravelTo', 'airlineDateFrom', 'airlineDateTo', 'vehicleReservationFrom', 'vehicleReservationTo'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.setAttribute('min', today);
+  });
+}
+// One-time: link "from" date to "to" date min so departure can't be before arrival
+function setupDateRangeListeners() {
+  var today = new Date().toISOString().split('T')[0];
+  var pairs = [
+    ['bookingTravelFrom', 'bookingTravelTo'],
+    ['airlineDateFrom', 'airlineDateTo'],
+    ['vehicleReservationFrom', 'vehicleReservationTo']
+  ];
+  pairs.forEach(function(pair) {
+    var fromEl = document.getElementById(pair[0]);
+    var toEl = document.getElementById(pair[1]);
+    if (fromEl && toEl) {
+      fromEl.addEventListener('change', function() {
+        toEl.setAttribute('min', this.value || today);
+      });
+    }
+  });
+}
+
 // Vehicle data with images and descriptions
 const vehiclesData = {
   voxy: {
@@ -2378,7 +2461,7 @@ function prevVehicleSlide() {
 function openVehicleReservationModal(vehicleKey) {
   const vehicle = vehiclesData[vehicleKey];
   if (!vehicle) return;
-  
+  initDateInputs();
   document.getElementById('selectedVehicleName').textContent = vehicle.title;
   const messageField = document.getElementById('vehicleReservationMessage');
   messageField.value = `Hi LankaLux, I'd like to reserve the ${vehicle.title}. Please share availability and pricing.`;
@@ -2408,7 +2491,7 @@ function closeVehicleReservationModal() {
 // Booking Modal Functions
 function openBookingModal() {
   const bookingModal = document.getElementById('bookingModal');
-  // Use requestAnimationFrame for smoother animation
+  initDateInputs();
   requestAnimationFrame(function() {
     bookingModal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -2631,13 +2714,16 @@ document.getElementById('needAirlineTickets').addEventListener('change', functio
   if (this.checked) {
     airlineFields.classList.add('active');
     document.getElementById('airlineFrom').required = true;
-    document.getElementById('airlineDates').required = true;
+    document.getElementById('airlineDateFrom').required = true;
+    document.getElementById('airlineDateTo').required = true;
   } else {
     airlineFields.classList.remove('active');
     document.getElementById('airlineFrom').required = false;
-    document.getElementById('airlineDates').required = false;
+    document.getElementById('airlineDateFrom').required = false;
+    document.getElementById('airlineDateTo').required = false;
   }
 });
+setupDateRangeListeners();
 
 // Vehicle reservation form submission
 window.addEventListener("load", function() {
@@ -2654,7 +2740,7 @@ window.addEventListener("load", function() {
       
       const name = document.getElementById('vehicleReservationName').value.trim();
       const email = document.getElementById('vehicleReservationEmail').value.trim();
-      const dates = document.getElementById('vehicleReservationDates').value.trim() || 'Not specified';
+      const dates = formatDateRange(document.getElementById('vehicleReservationFrom').value, document.getElementById('vehicleReservationTo').value);
       const message = document.getElementById('vehicleReservationMessage').value.trim();
       const vehicleName = document.getElementById('selectedVehicleName').textContent;
       
@@ -2711,11 +2797,11 @@ window.addEventListener("load", function() {
     // Get form field values
     const bookingName = document.getElementById('bookingName').value.trim();
     const bookingEmail = document.getElementById('bookingEmail').value.trim();
-    const bookingDates = document.getElementById('bookingDates').value.trim() || 'Not specified';
+    const bookingDates = formatDateRange(document.getElementById('bookingTravelFrom').value, document.getElementById('bookingTravelTo').value);
     const bookingMessage = document.getElementById('bookingMessage').value.trim();
     const needAirlineTickets = document.getElementById('needAirlineTickets').checked;
     const airlineFrom = document.getElementById('airlineFrom').value.trim() || 'N/A';
-    const airlineDates = document.getElementById('airlineDates').value.trim() || 'N/A';
+    const airlineDates = needAirlineTickets ? formatDateRange(document.getElementById('airlineDateFrom').value, document.getElementById('airlineDateTo').value) : 'N/A';
     
     // Prepare EmailJS template parameters
     const templateParams = {
@@ -2745,11 +2831,12 @@ window.addEventListener("load", function() {
         }
         
         // Close booking modal and reset form
-    closeBookingModal();
+        closeBookingModal();
         bookingForm.reset();
         document.getElementById('airlineFields').classList.remove('active');
         document.getElementById('airlineFrom').required = false;
-        document.getElementById('airlineDates').required = false;
+        document.getElementById('airlineDateFrom').required = false;
+        document.getElementById('airlineDateTo').required = false;
         
         // Close success popup after 3 seconds
         setTimeout(function() {
