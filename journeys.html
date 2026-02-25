@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Explore LankaLux Sri Lanka journeys: Signature island tour, Nature &amp; Wildlife, Hill Country &amp; Scenic Rail, Coastal Retreat. Private chauffeur, handpicked stays. Plan your trip.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://lankalux.com/journeys.html">
+<meta property="og:url" content="https://lankalux.com/journeys">
 <meta property="og:title" content="Our Journeys | LankaLux">
 <meta property="og:description" content="Explore LankaLux Sri Lanka journeys: Signature island tour, Nature &amp; Wildlife, Hill Country &amp; Scenic Rail, Coastal Retreat. Private chauffeur, handpicked stays.">
 <meta property="og:locale" content="en_US">
@@ -34,6 +34,7 @@ nav a.cta,nav button.cta{color:#caa24d;background:none;border:none;cursor:pointe
 nav button.cta:hover{color:#d4b35f}
 
 .journeys-page-hero{
+  position:relative;
   min-height:55vh;display:flex;align-items:center;justify-content:center;text-align:center;
   padding:120px 40px 80px;
   background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.45)),url('images/homepage/homepage2.jpg') center/cover no-repeat
@@ -76,8 +77,16 @@ nav button.cta:hover{color:#d4b35f}
   display:flex;flex-direction:column;justify-content:flex-end
 }
 .journey-block-tag{
-  font-size:11px;text-transform:uppercase;letter-spacing:2px;
-  color:#caa24d;margin-bottom:12px;font-weight:500
+  display:inline-block;
+  font-size:12px;text-transform:uppercase;letter-spacing:3px;
+  color:#d4b35f;margin-bottom:14px;font-weight:700;
+  padding-left:16px;border-left:4px solid #caa24d;
+  line-height:1.4;
+  text-shadow:0 0 20px rgba(202,162,77,.15);
+}
+.journey-block:hover .journey-block-tag{
+  border-left-color:#d4b35f;
+  color:#e5c76a;
 }
 .journey-block h2{
   font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,42px);
@@ -97,16 +106,64 @@ nav button.cta:hover{color:#d4b35f}
 .journeys-footer-cta{
   text-align:center;padding:70px 40px 90px
 }
-.journeys-footer-cta p{font-size:16px;color:#b0b0b0;margin-bottom:20px}
-.journeys-footer-cta a{
+.journeys-footer-cta p{font-size:16px;color:#b0b0b0;margin-bottom:24px}
+.journeys-back-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:14px 28px;
+  background:transparent;
+  color:#caa24d;
+  text-decoration:none;
+  font-size:14px;font-weight:600;letter-spacing:1.5px;
+  border:2px solid #caa24d;
+  border-radius:8px;
+  transition:all .35s ease;
+}
+.journeys-back-btn:hover{
+  background:rgba(202,162,77,.12);
+  color:#d4b35f;
+  border-color:#d4b35f;
+  box-shadow:0 4px 20px rgba(202,162,77,.2);
+}
+.journeys-back-btn svg{
+  width:20px;height:20px;flex-shrink:0;
+  transition:transform .3s ease
+}
+.journeys-back-btn:hover svg{transform:translateX(-3px)}
+.journeys-footer-cta a.journeys-back-btn{
+  padding:14px 28px;
+  background:transparent;
+  color:#caa24d;
+  font-weight:600;
+  border:2px solid #caa24d;
+  border-radius:8px
+}
+.journeys-footer-cta a.journeys-back-btn:hover{
+  background:rgba(202,162,77,.12);
+  color:#d4b35f;
+  border-color:#d4b35f;
+  box-shadow:0 4px 20px rgba(202,162,77,.2)
+}
+.journeys-footer-cta a:not(.journeys-back-btn){
   display:inline-block;padding:14px 32px;
   background:#caa24d;color:#0f0f0f;
   text-decoration:none;font-weight:600;font-size:15px;letter-spacing:0.5px;
   border-radius:6px;transition:background .3s,transform .3s,box-shadow .3s
 }
-.journeys-footer-cta a:hover{
+.journeys-footer-cta a:not(.journeys-back-btn):hover{
   background:#d4b35f;transform:translateY(-2px);
   box-shadow:0 6px 20px rgba(202,162,77,.35)
+}
+
+.journeys-hero-back{
+  position:absolute;top:100px;left:70px;z-index:5
+}
+.journeys-hero-back .journeys-back-btn{font-size:13px;padding:12px 22px}
+@media(max-width:900px){
+  .journeys-hero-back{left:30px;top:90px}
+}
+@media(max-width:600px){
+  .journeys-hero-back{left:20px;top:80px}
+  .journeys-hero-back .journeys-back-btn{padding:10px 18px;font-size:12px}
 }
 
 @media(max-width:900px){
@@ -129,21 +186,25 @@ nav button.cta:hover{color:#d4b35f}
 </head>
 <body>
 <header>
-  <a href="index.html" class="logo">
+  <a href="/" class="logo">
     <img src="lankalux-favicon.png" alt="LankaLux" class="logo-icon">
     <span class="logo-text">LankaLux</span>
   </a>
   <nav>
-    <a href="index.html#about">About</a>
-    <a href="index.html#why">Services</a>
-    <a href="journeys.html">Journeys</a>
-    <a href="index.html#fleet">Our Fleet</a>
-    <a href="index.html#experiences">Highlights</a>
-    <a href="index.html" class="cta" id="headerContactBtn">Contact Us</a>
+    <a href="/#about">About</a>
+    <a href="/#why">Services</a>
+    <a href="/journeys">Journeys</a>
+    <a href="/#fleet">Our Fleet</a>
+    <a href="/#experiences">Highlights</a>
+    <a href="/" class="cta" id="headerContactBtn">Contact Us</a>
   </nav>
 </header>
 
 <section class="journeys-page-hero">
+  <a href="/" class="journeys-hero-back journeys-back-btn" aria-label="Back to home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to home
+  </a>
   <div>
     <h1>Our Journeys</h1>
     <p>Thoughtfully paced itineraries across Sri Lanka—culture, wildlife, hills and tea, and coastal retreats.</p>
@@ -154,7 +215,7 @@ nav button.cta:hover{color:#d4b35f}
   <p>Each journey is crafted for a seamless experience with private chauffeur, handpicked stays, and the flexibility to adapt to your pace. Choose a signature route or let us tailor one around you.</p>
 </section>
 
-<a href="signature-journey.html" class="journey-block">
+<a href="/signature-journey" class="journey-block">
   <div class="journey-block-bg" style="background-image:url('images/signaturejourney/sigjhp1.jpg')"></div>
   <div class="journey-block-overlay"></div>
   <div class="journey-block-inner">
@@ -165,7 +226,7 @@ nav button.cta:hover{color:#d4b35f}
   </div>
 </a>
 
-<a href="nature-wildlife-journey.html" class="journey-block">
+<a href="/nature-wildlife-journey" class="journey-block">
   <div class="journey-block-bg" style="background-image:url('images/naturewildlife/wildlifehp1.jpg')"></div>
   <div class="journey-block-overlay"></div>
   <div class="journey-block-inner">
@@ -176,7 +237,7 @@ nav button.cta:hover{color:#d4b35f}
   </div>
 </a>
 
-<a href="hill-country-journey.html" class="journey-block">
+<a href="/hill-country-journey" class="journey-block">
   <div class="journey-block-bg" style="background-image:url('images/hillcountry/hillcountryhp.jpg')"></div>
   <div class="journey-block-overlay"></div>
   <div class="journey-block-inner">
@@ -187,7 +248,7 @@ nav button.cta:hover{color:#d4b35f}
   </div>
 </a>
 
-<a href="coastal-retreat-journey.html" class="journey-block">
+<a href="/coastal-retreat-journey" class="journey-block">
   <div class="journey-block-bg" style="background-image:url('images/coastalretreat/coastalhp.jpg')"></div>
   <div class="journey-block-overlay"></div>
   <div class="journey-block-inner">
@@ -200,12 +261,15 @@ nav button.cta:hover{color:#d4b35f}
 
 <section class="journeys-footer-cta">
   <p>Ready to plan your trip? We’ll tailor an itinerary around you.</p>
-  <a href="index.html">Back to home</a>
+  <a href="/" class="journeys-back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to home
+  </a>
 </section>
 
 <script>
 document.getElementById('headerContactBtn').addEventListener('click', function() {
-  window.location.href = 'index.html';
+  window.location.href = '/';
 });
 </script>
 </body>
