@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+w<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,6 +8,12 @@
 <link rel="icon" href="/lankalux-favicon.ico" type="image/x-icon">
   
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Plan your Sri Lanka trip with LankaLux. Tailor-made journeys with private chauffeur, handpicked stays &amp; flexible itineraries. Culture, wildlife, hill country &amp; coast. Get in touch.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lankalux.com/">
+<meta property="og:title" content="LankaLux | Sri Lanka Journeys">
+<meta property="og:description" content="Plan your Sri Lanka trip with LankaLux. Tailor-made journeys with private chauffeur, handpicked stays &amp; flexible itineraries. Culture, wildlife, hills &amp; coast.">
+<meta property="og:locale" content="en_US">
 
 <script type="application/ld+json">
 {
@@ -1455,7 +1461,7 @@ footer{
   <nav>
     <a href="#about">About</a>
     <a href="#why">Services</a>
-    <a href="#journeys">Journeys</a>
+    <a href="journeys.html">Journeys</a>
     <a href="#fleet">Our Fleet</a>
     <a href="#experiences">Highlights</a>
     <button class="cta" id="headerContactBtn">Contact Us</button>
@@ -1477,7 +1483,7 @@ footer{
     <p>Bespoke travel experiences with private chauffeurs and handpicked stays.</p>
     <div class="hero-buttons">
     <button class="btn" id="planJourneyBtn">Plan Your Journey</button>
-      <a href="#journeys" class="btn-secondary">Explore Signature Journeys</a>
+      <a href="journeys.html" class="btn-secondary">Explore Signature Journeys</a>
     </div>
   </div>
 </section>
@@ -1977,6 +1983,10 @@ footer{
           <input type="email" id="bookingEmail" name="email" required>
         </div>
         <div class="booking-form-group">
+          <label for="bookingWhatsApp">WhatsApp number <span class="booking-form-hint" style="display:inline;margin-top:0">(optional)</span></label>
+          <input type="tel" id="bookingWhatsApp" name="whatsapp" placeholder="e.g. +94 77 123 4567" aria-label="WhatsApp number">
+        </div>
+        <div class="booking-form-group">
           <label>Travel Dates <span class="booking-form-hint" style="display:inline;margin-top:0">(optional)</span></label>
           <div class="booking-form-row" style="margin-top:8px">
             <div>
@@ -2159,6 +2169,7 @@ function sendToAdmin(payload, source) {
     submittedAt: new Date().toISOString(),
     name: payload.name,
     email: payload.email,
+    whatsapp: payload.whatsapp,
     travelDates: payload.travelDates,
     passengers: payload.passengers,
     kidsAges: payload.kidsAges,
@@ -2804,8 +2815,7 @@ var BOOKING_KIDS_AGE_OPTIONS = [
   { value: '', label: 'Select age…' },
   { value: 'under2', label: 'Under 2' },
   { value: '2-5', label: '2–5 years' },
-  { value: '6-11', label: '6–11 years' },
-  { value: '12-17', label: '12–17 years' }
+  { value: '6-11', label: '6–11 years' }
 ];
 function updateBookingKidsAges() {
   var n = parseInt(document.getElementById('bookingChildren').value, 10) || 0;
@@ -2916,6 +2926,7 @@ window.addEventListener("load", function() {
     // Get form field values
     const bookingName = document.getElementById('bookingName').value.trim();
     const bookingEmail = document.getElementById('bookingEmail').value.trim();
+    const bookingWhatsApp = document.getElementById('bookingWhatsApp').value.trim() || 'Not provided';
     const bookingDates = formatDateRange(document.getElementById('bookingTravelFrom').value, document.getElementById('bookingTravelTo').value);
     const adults = document.getElementById('bookingAdults').value;
     const childrenCount = parseInt(document.getElementById('bookingChildren').value, 10) || 0;
@@ -2938,6 +2949,7 @@ window.addEventListener("load", function() {
     const templateParams = {
       name: bookingName,
       email: bookingEmail,
+      whatsapp: bookingWhatsApp,
       travelDates: bookingDates,
       passengers: passengersSummary,
       kidsAges: kidsAges.length ? kidsAges.join(', ') : 'None',
