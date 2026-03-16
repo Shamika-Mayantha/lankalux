@@ -2895,6 +2895,16 @@ window.addEventListener("load", function() {
       };
       
       sendToAdmin(templateParams, 'vehicle-reservation');
+      // Autoreply to client (same template as hero form)
+      const autoreplyParams = {
+        to_email: email,
+        to_name: name,
+        name: name,
+        email: email
+      };
+      emailjs.send("service_2rzlol8", "template_tjc6y8z", autoreplyParams).catch(function(err) {
+        console.warn("Autoreply email failed:", err);
+      });
       emailjs.send("service_2rzlol8", "template_9n2ggh3", templateParams)
         .then(function(response) {
           const successPopup = document.getElementById('successPopup');
@@ -2976,7 +2986,18 @@ window.addEventListener("load", function() {
     
     console.log("Sending EmailJS request with params:", templateParams);
     
-    // Send email via EmailJS
+    // Autoreply to client (fire-and-forget; use template_tjc6y8z with client email/name)
+    const autoreplyParams = {
+      to_email: bookingEmail,
+      to_name: bookingName,
+      name: bookingName,
+      email: bookingEmail
+    };
+    emailjs.send("service_2rzlol8", "template_tjc6y8z", autoreplyParams).catch(function(err) {
+      console.warn("Autoreply email failed:", err);
+    });
+    
+    // Send email via EmailJS (to admin)
     emailjs.send("service_2rzlol8", "template_9n2ggh3", templateParams)
       .then(function(response) {
         // Success
