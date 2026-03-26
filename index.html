@@ -1672,26 +1672,46 @@ footer{
 .llx-chat-rating-wrap{
   align-self:stretch;
   margin-top:4px;
-  padding:12px 14px;border-radius:14px;
-  border:1px solid rgba(202,162,77,.3);
-  background:rgba(15,15,15,.85);
+  padding:14px 14px 12px;border-radius:14px;
+  border:1px solid rgba(202,162,77,.35);
+  background:rgba(15,15,15,.9);
   animation:llxMsgIn .22s ease
 }
 .llx-chat-rating-wrap p{
-  margin:0 0 10px;font-size:13px;color:#e9dfcf;line-height:1.55
+  margin:0 0 12px;font-size:13px;color:#e9dfcf;line-height:1.55
+}
+.llx-chat-rating-legend{
+  display:flex;justify-content:space-between;margin-top:8px;
+  font-size:11px;color:#9f9586;font-family:'Inter',sans-serif
 }
 .llx-chat-rating-scale{
-  display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between
+  display:flex;flex-wrap:nowrap;gap:6px;justify-content:stretch
 }
-.llx-chat-rating-scale button{
-  flex:1;min-width:42px;border:1px solid rgba(202,162,77,.35);
-  background:rgba(202,162,77,.1);color:#f2e7d1;
-  border-radius:10px;padding:10px 6px;font-size:15px;font-weight:600;
-  font-family:'Inter',sans-serif;cursor:pointer;
-  transition:background .2s ease,border-color .2s ease,color .2s ease
+.llx-chat-rating-scale .llx-chat-rating-btn{
+  flex:1;min-width:0;border:1px solid rgba(202,162,77,.4);
+  background:rgba(202,162,77,.08);color:#f2e7d1;
+  border-radius:12px;padding:10px 4px 8px;font-family:'Inter',sans-serif;
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  transition:background .2s ease,border-color .2s ease,color .2s ease,transform .12s ease;
+  -webkit-tap-highlight-color:transparent
 }
-.llx-chat-rating-scale button:hover{
-  background:rgba(202,162,77,.22);border-color:#caa24d;color:#fffaf0
+.llx-chat-rating-scale .llx-chat-rating-btn .llx-r-num{
+  font-size:17px;font-weight:700;line-height:1;color:#f7ebd2
+}
+.llx-chat-rating-scale .llx-chat-rating-btn .llx-r-lbl{
+  font-size:9px;font-weight:500;line-height:1.2;color:#c9bcaa;text-align:center;
+  max-width:100%;padding:0 1px
+}
+.llx-chat-rating-scale .llx-chat-rating-btn:hover{
+  background:rgba(202,162,77,.24);border-color:#caa24d;color:#fffaf0
+}
+.llx-chat-rating-scale .llx-chat-rating-btn:hover .llx-r-lbl{color:#f0e6d4}
+.llx-chat-rating-scale .llx-chat-rating-btn:active{
+  transform:scale(.97)
+}
+.llx-chat-rating-thanks{
+  margin:0 0 10px;font-size:13px;color:#d5b063;line-height:1.5
 }
 .llx-chat-suggest-wrap{
   align-self:flex-start;max-width:100%;
@@ -3683,7 +3703,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
   var STORE_KEY = 'llx_chat_state_v2';
-  var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false };
+  var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false, postRatingThanks: false };
   var VEHICLE_IMAGE_BASE = 'https://lankalux.com/images/fleet/';
   var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
   var fallbackVehicles = [
@@ -3703,6 +3723,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   if (!state.sessionId) state.sessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
   if (state.pendingAgentConnect === undefined) state.pendingAgentConnect = false;
   if (state.showEndRating === undefined) state.showEndRating = false;
+  if (state.postRatingThanks === undefined) state.postRatingThanks = false;
 
   var fab = document.getElementById('llxChatFab');
   var panel = document.getElementById('llxChatPanel');
@@ -3923,6 +3944,12 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (state.pendingAgentConnect && !(state.messages || []).length && !state.isTyping) {
       var connectWrap = document.createElement('div');
       connectWrap.className = 'llx-chat-agent-connect';
+      if (state.postRatingThanks) {
+        var thanksP = document.createElement('p');
+        thanksP.className = 'llx-chat-rating-thanks';
+        thanksP.textContent = 'Thank you for rating this chat — it helps us improve.';
+        connectWrap.appendChild(thanksP);
+      }
       var connectP = document.createElement('p');
       connectP.textContent = 'Your chat session has ended. To speak with a LankaLux agent on WhatsApp, tap below.';
       var connectBtn = document.createElement('button');
@@ -3984,22 +4011,37 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (state.showEndRating && !state.isTyping) {
       var rateWrap = document.createElement('div');
       rateWrap.className = 'llx-chat-rating-wrap';
+      rateWrap.setAttribute('role', 'group');
+      rateWrap.setAttribute('aria-label', 'Rate this chat from 1 to 5');
       var rateP = document.createElement('p');
-      rateP.textContent = 'Before you go, how would you rate this chat? (1 = poor, 5 = excellent)';
+      rateP.textContent = 'How would you rate this chat? Tap a score below.';
       var rateRow = document.createElement('div');
       rateRow.className = 'llx-chat-rating-scale';
-      for (var r = 1; r <= 5; r++) {
-        (function(n) {
+      var labels = ['Poor', 'Fair', 'Okay', 'Good', 'Excellent'];
+      for (var ri = 0; ri < 5; ri++) {
+        (function(n, lbl) {
           var b = document.createElement('button');
           b.type = 'button';
-          b.textContent = String(n);
-          b.setAttribute('aria-label', 'Rate chat ' + n + ' out of 5');
+          b.className = 'llx-chat-rating-btn';
+          b.setAttribute('aria-label', 'Rate chat ' + n + ' out of 5, ' + lbl);
+          var numEl = document.createElement('span');
+          numEl.className = 'llx-r-num';
+          numEl.textContent = String(n);
+          var lblEl = document.createElement('span');
+          lblEl.className = 'llx-r-lbl';
+          lblEl.textContent = lbl;
+          b.appendChild(numEl);
+          b.appendChild(lblEl);
           b.addEventListener('click', function() { submitChatRating(n); });
           rateRow.appendChild(b);
-        })(r);
+        })(ri + 1, labels[ri]);
       }
+      var leg = document.createElement('div');
+      leg.className = 'llx-chat-rating-legend';
+      leg.innerHTML = '<span>Poor</span><span>Excellent</span>';
       rateWrap.appendChild(rateP);
       rateWrap.appendChild(rateRow);
+      rateWrap.appendChild(leg);
       body.appendChild(rateWrap);
     }
     var hasUserMessage = (state.messages || []).some(function(m) {
@@ -4062,6 +4104,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       keepalive: true
     }).catch(function() {});
     state.showEndRating = false;
+    state.postRatingThanks = true;
     var newSessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
     state.messages = [];
     state.draft = {};
@@ -4077,6 +4120,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   function connectWithAgent() {
     openWhatsApp();
     state.pendingAgentConnect = false;
+    state.postRatingThanks = false;
     if (!(state.messages || []).length) {
       addMessage('assistant', 'Welcome to LankaLux Live Chat.\n\nMay I have your name first so I can address you properly?');
     }
@@ -4085,6 +4129,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   }
   function openPanel() {
     panel.classList.add('open');
+    if (!state.pendingAgentConnect && !state.showEndRating) state.postRatingThanks = false;
     if (!state.messages.length && !state.pendingAgentConnect) {
       addMessage('assistant', 'Welcome to LankaLux Live Chat.\n\nMay I have your name first so I can address you properly?');
     }
