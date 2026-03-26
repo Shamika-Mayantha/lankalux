@@ -1651,9 +1651,7 @@ footer{
 }
 .llx-chat-suggest-wrap{
   align-self:flex-start;max-width:100%;
-  background:rgba(202,162,77,.07);
-  border:1px solid rgba(202,162,77,.22);
-  border-radius:12px;padding:8px;
+  padding:0;
   display:flex;flex-wrap:wrap;gap:7px;
   animation:llxMsgIn .22s ease
 }
@@ -3674,7 +3672,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   function missingFields(d) {
     var m = [];
     if (!d.name) m.push('name');
-    if (!d.email) m.push('email');
+    if (!d.email && !d.whatsapp) m.push('email or WhatsApp');
     if (!d.startDate) m.push('start date');
     if (!d.endDate) m.push('end date');
     if (d.numberOfAdults == null) m.push('number of adults');
@@ -3710,6 +3708,13 @@ reviewCarousel.addEventListener('mouseleave', () => {
     }
     return '';
   }
+  function getLastAssistantMessageText() {
+    for (var i = (state.messages || []).length - 1; i >= 0; i--) {
+      var m = state.messages[i];
+      if (m && m.role === 'assistant' && m.kind === 'text' && m.content) return String(m.content).toLowerCase();
+    }
+    return '';
+  }
   function includesAny(text, terms) {
     return terms.some(function(t) { return text.indexOf(t) !== -1; });
   }
@@ -3733,6 +3738,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   function getDynamicSuggestions() {
     var d = state.draft || {};
     var lastUser = getLastUserMessageText();
+    var lastAssistant = getLastAssistantMessageText();
     var recentUsers = getRecentUserTexts();
     var historyBlob = recentUsers.join(' | ');
 
@@ -3745,8 +3751,21 @@ reviewCarousel.addEventListener('mouseleave', () => {
 
     var suggestions = [];
 
+    // First follow the assistant's most recent question so suggestions feel conversational.
+    if (includesAny(lastAssistant, ['name'])) suggestions.push('My name is ...');
+    if (includesAny(lastAssistant, ['email', 'whatsapp', 'contact'])) {
+      suggestions.push('My email is ...');
+      suggestions.push('My WhatsApp is ...');
+    }
+    if (includesAny(lastAssistant, ['date', 'travel dates', 'when'])) suggestions.push('Our travel dates are ...');
+    if (includesAny(lastAssistant, ['adult', 'passenger', 'group size'])) suggestions.push('We are 2 adults');
+    if (includesAny(lastAssistant, ['vehicle', 'fleet'])) suggestions.push('Show me your vehicle options');
+
     if (!d.name) suggestions.push('My name is ...');
-    if (!d.email && d.name) suggestions.push('My email is ...');
+    if (!d.email && !d.whatsapp && d.name) {
+      suggestions.push('My email is ...');
+      suggestions.push('My WhatsApp is ...');
+    }
     if ((!d.startDate || !d.endDate) && d.name) suggestions.push('Our travel dates are ...');
     if (d.numberOfAdults == null && d.name) suggestions.push('We are 2 adults');
 
@@ -3781,13 +3800,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       suggestions.push('I will send a request for a tailored itinerary');
     }
 
-    if (!suggestions.length) {
-      suggestions = [
-        'Show me your vehicle options',
-        'What services are included?',
-        'Do you arrange airport transfers?'
-      ];
-    }
+    if (!suggestions.length) suggestions = ['What services are included?', 'Show me your vehicle options', 'Do you arrange airport transfers?'];
 
     // Avoid showing chips that the guest already used recently.
     suggestions = suggestions.filter(function(s) {
@@ -3795,9 +3808,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       return historyBlob.indexOf(low) === -1;
     });
 
-    if (!suggestions.length) {
-      suggestions = ['Show me your vehicle options', 'Please connect me with an agent', 'How soon will your team contact us?'];
-    }
+    if (!suggestions.length) suggestions = ['Please connect me with an agent', 'Show me your vehicle options', 'How soon will your team contact us?'];
     return uniqueFirst(suggestions, 3);
   }
   function shouldShowVehicles(userText) {
