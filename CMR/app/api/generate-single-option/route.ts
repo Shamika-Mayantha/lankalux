@@ -1,0 +1,630 @@
+import { NextResponse } from 'next/server'
+import OpenAI from 'openai'
+import { createClient } from '@supabase/supabase-js'
+import { readFileSync } from 'fs'
+import { join } from 'path'
+
+function cleanGeneratedDayTitle(rawTitle: unknown, dayNumber: number, location?: string) {
+  const title = typeof rawTitle === 'string' ? rawTitle.trim() : ''
+  let cleaned = title
+    .replace(new RegExp(`^day\\s*${dayNumber}\\s*[-–:|]?\\s*`, 'i'), '')
+    .replace(/^[A-Za-z]+,\s+[A-Za-z]+\s+\d{1,2},\s+\d{4}\s*[-–:|]?\s*/i, '')
+    .replace(/^day\s*\d+\s*[-–:|]\s*/i, '')
+    .trim()
+  if (!cleaned || /^day\s*\d+$/i.test(cleaned)) {
+    cleaned = location?.trim() ? `Arrival in ${location.trim()}` : 'Journey Highlights'
+  }
+  return cleaned
+}
+
+function norm(text: unknown) {
+  return String(text || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function jaccard(a: Set<string>, b: Set<string>) {
+  if (a.size === 0 || b.size === 0) return 0
+  let inter = 0
+  for (const v of a) if (b.has(v)) inter++
+  const union = a.size + b.size - inter
+  return union > 0 ? inter / union : 0
+}
+
+function optionSignature(option: any) {
+  const titleTokens = new Set<string>(norm(option?.title).split(' ').filter((w) => w.length > 3))
+  const route: string[] = Array.isArray(option?.days) ? option.days.map((d: any) => norm(d?.location)).filter(Boolean) : []
+  const routeSet = new Set<string>(route)
+  const activityTokens = new Set<string>(
+    (Array.isArray(option?.days) ? option.days : [])
+      .flatMap((d: any) => (Array.isArray(d?.activities) ? d.activities : []))
+      .flatMap((a: any) => norm(a).split(' '))
+      .filter((w: string) => w.length > 4)
+  )
+  return { titleTokens, routeSet, activityTokens, routeSequence: route.join(' > ') }
+}
+
+function similarityScore(a: any, b: any) {
+  const sa = optionSignature(a)
+  const sb = optionSignature(b)
+  const title = jaccard(sa.titleTokens, sb.titleTokens)
+  const route = jaccard(sa.routeSet, sb.routeSet)
+  const acts = jaccard(sa.activityTokens, sb.activityTokens)
+  return (title * 0.35) + (route * 0.35) + (acts * 0.3)
+}
+
+export async function POST(request: Request) {
+  try {
+    // Parse request body
+    const body = await request.json()
+    const { id: requestId, optionIndex } = body
+
+    // Validate request ID and option index
+    if (!requestId || typeof requestId !== 'string') {
+      return NextResponse.json(
+        { success: false, error: 'Request ID is required' },
+        { status: 400 }
+      )
+    }
+
+    if (optionIndex === undefined || optionIndex === null || (optionIndex !== 0 && optionIndex !== 1 && optionIndex !== 2)) {
+      return NextResponse.json(
+        { success: false, error: 'Option index must be 0, 1, or 2' },
+        { status: 400 }
+      )
+    }
+
+    // Validate environment variables
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('Missing OPENAI_API_KEY')
+      return NextResponse.json({ error: 'Missing OpenAI key' }, { status: 500 })
+    }
+
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('Missing SUPABASE_SERVICE_ROLE_KEY')
+      return NextResponse.json(
+        { error: 'Missing Supabase service key' },
+        { status: 500 }
+      )
+    }
+
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      console.error('Missing SUPABASE_URL')
+      return NextResponse.json(
+        { error: 'Missing Supabase URL' },
+        { status: 500 }
+      )
+    }
+
+    // Initialize server-side Supabase client
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    )
+
+    // Initialize OpenAI client
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+
+    // Fetch request details from database
+    const { data, error: fetchError } = await supabase
+      .from('Client Requests')
+      .select('*')
+      .eq('id', requestId)
+      .single()
+
+    if (fetchError) {
+      console.error('Error fetching request:', fetchError)
+      return NextResponse.json(
+        { success: false, error: 'Failed to fetch request details' },
+        { status: 404 }
+      )
+    }
+
+    const requestData = data as any
+
+    if (!requestData) {
+      return NextResponse.json(
+        { success: false, error: 'Request not found' },
+        { status: 404 }
+      )
+    }
+
+    // Build prompt for OpenAI
+    const startDateFormatted = requestData.start_date 
+      ? new Date(requestData.start_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      : 'Not specified'
+    const endDateFormatted = requestData.end_date 
+      ? new Date(requestData.end_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      : 'Not specified'
+
+    // When dates exist, build per-day date labels so the AI can use them in titles (e.g. "Day 1 – Saturday, March 15")
+    let dayDateLabels: string[] = []
+    if (requestData.start_date && requestData.end_date) {
+      const start = new Date(requestData.start_date)
+      start.setHours(0, 0, 0, 0)
+      const end = new Date(requestData.end_date)
+      end.setHours(0, 0, 0, 0)
+      const daysDiff = Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1
+      for (let i = 0; i < daysDiff; i++) {
+        const d = new Date(start)
+        d.setDate(d.getDate() + i)
+        const weekday = d.toLocaleDateString('en-US', { weekday: 'long' })
+        const full = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+        dayDateLabels.push(`Day ${i + 1} – ${weekday}, ${full}`)
+      }
+    }
+    const hasDayDates = dayDateLabels.length > 0
+    const dayDatesBlock = hasDayDates
+      ? `\n**DATES FOR EACH DAY (do NOT include date/day number in title):**\n${dayDateLabels.map((l, i) => `${i + 1}. ${l}`).join('\n')}\n\nUse these dates only for planning sequence. Keep each day "title" clean and descriptive (example: "Arrival in Colombo"), without repeating "Day X" or full date in the title.`
+      : ''
+
+    let passengerInfo = 'Not specified'
+    if (requestData.number_of_adults || requestData.number_of_children) {
+      const adults = requestData.number_of_adults || 0
+      const children = requestData.number_of_children || 0
+      let childrenInfo = ''
+      
+      if (children > 0 && requestData.children_ages) {
+        try {
+          const ages = JSON.parse(requestData.children_ages)
+          if (Array.isArray(ages) && ages.length > 0) {
+            childrenInfo = ` (${children} child${children > 1 ? 'ren' : ''} aged ${ages.join(', ')} year${ages.length > 1 ? 's' : ''})`
+          } else if (children === 1) {
+            childrenInfo = ` (1 child)`
+          }
+        } catch {
+          if (children > 0) {
+            childrenInfo = ` (${children} child${children > 1 ? 'ren' : ''})`
+          }
+        }
+      } else if (children > 0) {
+        childrenInfo = ` (${children} child${children > 1 ? 'ren' : ''})`
+      }
+      
+      passengerInfo = `Adults: ${adults}${childrenInfo}`
+    }
+
+    // Calculate actual duration from dates (always recalculate from dates for accuracy)
+    let actualDuration = requestData.duration
+    if (requestData.start_date && requestData.end_date) {
+      const start = new Date(requestData.start_date)
+      const end = new Date(requestData.end_date)
+      // Set to start of day to avoid timezone issues
+      start.setHours(0, 0, 0, 0)
+      end.setHours(0, 0, 0, 0)
+      const diffTime = Math.abs(end.getTime() - start.getTime())
+      const daysDiff = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+      actualDuration = daysDiff + 1 // +1 to include both start and end days (inclusive)
+    }
+
+    // Get existing options to ensure uniqueness
+    let existingOptions: any[] = []
+    if (requestData.itineraryoptions) {
+      try {
+        const parsed = typeof requestData.itineraryoptions === 'string' 
+          ? JSON.parse(requestData.itineraryoptions) 
+          : requestData.itineraryoptions
+        if (parsed?.options && Array.isArray(parsed.options)) {
+          existingOptions = Array.isArray(parsed.options) ? parsed.options : []
+        }
+      } catch {}
+    }
+    const comparisonOptions = existingOptions.filter((opt: any, idx: number) => idx !== optionIndex && !!opt)
+
+    // Read photo mapping file with full details for unique assignment
+    let photoMappingInfo = ''
+    try {
+      const photoMappingPath = join(process.cwd(), 'public', 'images', 'photo-mapping.json')
+      const photoMappingContent = readFileSync(photoMappingPath, 'utf-8')
+      const photoMapping = JSON.parse(photoMappingContent)
+      
+      // Build comprehensive photo mapping info
+      photoMappingInfo = `\n═══════════════════════════════════════════════════════════════\nPHOTO MAPPING - CRITICAL RULES:\n═══════════════════════════════════════════════════════════════\n\n**MANDATORY: Each day MUST have a UNIQUE photo - NO REPEATS within this itinerary!**\n\n**PHOTO SELECTION PROCESS FOR EACH DAY:**\n1. Identify the day's MAIN HIGHLIGHT (the primary experience/attraction from the day title)\n2. Match the highlight to the most appropriate photo:\n   - If highlight is location-based → Use location primary or alternative image\n   - If highlight is activity-based → Use activity-specific image\n   - If highlight matches keywords → Use matching photo\n3. Track which photos you've already used - NEVER use the same photo twice\n4. If primary image is already used, use alternative_images from that location/activity\n\n**AVAILABLE LOCATION PHOTOS:**\n`
+      Object.entries(photoMapping.locations).forEach(([location, data]: [string, any]) => {
+        photoMappingInfo += `${location}:\n  Primary: ${data.primary_image}\n`
+        if (data.alternative_images && data.alternative_images.length > 0) {
+          photoMappingInfo += `  Alternatives: ${data.alternative_images.join(', ')}\n`
+        }
+      })
+      
+      photoMappingInfo += `\n**AVAILABLE ACTIVITY PHOTOS:**\n`
+      Object.entries(photoMapping.activities).forEach(([activity, data]: [string, any]) => {
+        photoMappingInfo += `${activity}: ${data.images.join(', ')}\n`
+      })
+      
+      photoMappingInfo += `\n**ALL AVAILABLE IMAGES (use different ones for each day):**\n${photoMapping.all_available_images?.join(', ') || 'See location and activity photos above'}\n\n**REMEMBER:**\n- Map photos to the day's HIGHLIGHT (main experience), not just location\n- Each day gets ONE unique photo - track your usage\n- Prefer activity-specific photos when the highlight is activity-based\n- Only use placeholder.jpg as absolute last resort\n\n═══════════════════════════════════════════════════════════════\n`
+    } catch (error) {
+      console.warn('Could not read photo mapping file:', error)
+    }
+
+    const existingTitles = comparisonOptions.filter((opt: any) => opt && opt.title).map((opt: any) => opt.title).join(', ')
+    
+    const prompt = `You are an experienced and passionate luxury travel consultant who creates personalized, memorable journeys through Sri Lanka. Generate ONE distinct, premium itinerary option for the following client:
+
+CLIENT INFORMATION:
+- Client Name: ${requestData.client_name || 'Not specified'}
+- Origin Country: ${requestData.origin_country || 'Not specified'}
+- Travel Start Date: ${startDateFormatted}
+- Travel End Date: ${endDateFormatted}
+${passengerInfo}
+${requestData.additional_preferences && requestData.additional_preferences.trim() ? `- **ADDITIONAL PREFERENCES (MANDATORY TO INCORPORATE): ${requestData.additional_preferences}**` : '- Additional Preferences: None provided'}
+${photoMappingInfo}
+
+${existingTitles ? `**CRITICAL UNIQUENESS REQUIREMENT: The following options have already been generated: ${existingTitles}. 
+
+You MUST create a COMPLETELY DIFFERENT itinerary that:
+- Has a different theme and focus (e.g., if others are "Cultural Heritage" and "Wildlife Safari", create something like "Beach & Wellness" or "Adventure & Nature")
+- Visits different locations or in a different order
+- Offers different types of experiences and activities
+- Has a unique title that clearly distinguishes it from: ${existingTitles}
+- Do NOT repeat similar activities, locations, or themes from the existing options**` : ''}
+
+CRITICAL REQUIREMENTS:
+- Generate ONE premium, bespoke, professionally curated itinerary option
+${requestData.additional_preferences && requestData.additional_preferences.trim() ? `- **INCORPORATING CLIENT PREFERENCES: The client has mentioned these highlights/preferences: "${requestData.additional_preferences}". These are important to the client, but they are highlights to incorporate into a well-rounded itinerary - NOT the entire focus. IMPORTANT: These preferences can be mixed in different places throughout the itinerary - they do NOT need to be visited in order or all together. Create a comprehensive itinerary that includes these preferences along with other diverse experiences, activities, and locations. The itinerary should be balanced and showcase the best of Sri Lanka while incorporating the client's specific interests. Plan your route based on geographic flow (no backtracking), and incorporate preferences wherever they naturally fit along that route.**` : ''}
+- **CALCULATE THE DURATION: Count the number of days from ${startDateFormatted} (Day 1 - START) to ${endDateFormatted} (LAST DAY - END), inclusive. The journey starts on ${startDateFormatted} and ends on ${endDateFormatted}. Calculate how many days this spans (including both start and end dates).**
+- **MANDATORY: The "days" array MUST contain exactly that many day objects - one day for each day from start date to end date, inclusive.**
+- Day 1 must correspond to ${startDateFormatted}
+- The last day must correspond to ${endDateFormatted}
+${hasDayDates ? `- **DATE IN TITLES: Travel dates are set. Each day's "title" MUST start with the date label for that day (e.g. "Day 1 – Saturday, March 15, 2025: Your theme here"). Use the exact date labels provided below so the itinerary shows the real date for each day.**` : ''}
+${dayDatesBlock}
+- **ROUTE PLANNING - CRITICAL RULES:**
+
+1. **NO BACKTRACKING - ABSOLUTELY CRITICAL:**
+   - **MANDATORY: The travel route MUST flow geographically in ONE direction only.**
+   - **STRICTLY FORBIDDEN: Do NOT move north → south → north again. Do NOT revisit locations or regions you've already left.**
+   - Each destination must follow a realistic driving path in a forward direction.
+   - Once you leave a region or location, you CANNOT return to it later in the itinerary.
+   - Plan your route carefully: Start → Location 1 → Location 2 → Location 3 → ... → End (all moving forward, never backward).
+   - If you find yourself planning to go back to a previous location, STOP and replan the route to flow in one direction only.
+
+2. **PROPER PACING.**
+   - No rushing through destinations.
+   - No more than 1 major location transfer per day.
+   - Include rest time between activities and travel.
+   - Avoid 1-night stays in far destinations unless it's an airport transit day.
+   - Safari destinations should not exceed 1 night unless absolutely necessary for the itinerary.
+
+3. **REALISTIC ROUTING (These are EXAMPLES only - plan the best route for the itinerary):**
+   - Example flows: Colombo → Sigiriya → Kandy → Nuwara Eliya → Ella → Yala → Galle → Airport
+   - OR: South Coast first → Hill Country → Cultural Triangle → Airport
+   - These are just examples - you should plan the route that makes the most geographic and logical sense for the specific duration and preferences provided.
+   - You can create different routes as long as they follow the no-backtracking rule and proper pacing.
+
+- Use ALL the information provided: travel dates, passenger info, and additional preferences
+- Plan locations naturally based on the route - use appropriate location names that fit the geographic flow
+- Activities must be an array of strings (include 4-6 main activities per day)
+- CRITICAL: Each activity MUST include a timestamp in the format "HH:MM - Activity description"
+- Each day MUST include:
+  * "image": MANDATORY - Select the most appropriate UNIQUE image path based on the day's MAIN HIGHLIGHT (the primary experience/attraction). Each day must have a DIFFERENT photo - NO REPEATS. Match the photo to what makes this day special (the highlight from the day title), not just the location.
+  * "what_to_expect": Write a warm, engaging paragraph (3-4 sentences)
+  * "optional_activities": An array of 2-4 optional activities
+- Keep tone warm, elegant, premium, and human
+- Make activities detailed, specific, and realistic
+${requestData.number_of_children && requestData.number_of_children > 0 ? `- IMPORTANT: Consider child-friendly activities for ${requestData.number_of_children} child${requestData.number_of_children > 1 ? 'ren' : ''}` : ''}
+
+Return ONLY valid JSON in this format. Calculate the number of days from ${startDateFormatted} to ${endDateFormatted} (inclusive) and create that many day objects.${hasDayDates ? ` For each day, use the exact date label in the "title" (e.g. "${dayDateLabels[0]}: Your theme").` : ''}
+{
+  "title": "Option title",
+  "summary": "Short elegant overview paragraph (3-4 lines)",
+  "total_kilometers": <number>,
+  "days": [
+    {
+      "day": 1,
+      "title": "${hasDayDates ? dayDateLabels[0] + ': Arrival in Colombo' : 'Day title for ' + startDateFormatted}",
+      "location": "Location name",
+      "image": "/images/location.jpg",
+      "activities": ["09:00 - Activity with timestamp"],
+      "what_to_expect": "Description paragraph",
+      "optional_activities": ["Optional activity"]
+    },
+    {
+      "day": 2,
+      "title": "${hasDayDates && dayDateLabels[1] ? dayDateLabels[1] + ': Day theme' : 'Day title'}",
+      "location": "Location name",
+      "image": "/images/location.jpg",
+      "activities": ["09:00 - Activity with timestamp"],
+      "what_to_expect": "Description paragraph",
+      "optional_activities": ["Optional activity"]
+    }
+    ... continue creating day objects until you reach the day corresponding to ${endDateFormatted}${hasDayDates ? ', each with title starting with that day\'s date label' : ''}
+  ],
+  "total_kilometers": <number>
+}
+
+**IMPORTANT: Calculate "total_kilometers" as follows:**
+1. The journey starts in Colombo and ends in Colombo.
+2. For transfer days (days with major location change/move to a different city):
+   - Calculate realistic ROAD distance between cities (NOT straight-line distance).
+   - Use actual driving distances (e.g., Colombo to Sigiriya ≈ 170km, Sigiriya to Kandy ≈ 100km, Kandy to Nuwara Eliya ≈ 80km, etc.)
+   - Sum all transfer distances throughout the itinerary.
+3. For non-transfer days (same city, no major move):
+   - Add only 90km per day (for local exploration within the city/area).
+4. Add the return journey from the last location back to Colombo (realistic road distance).
+5. Sum all values: (all transfer distances) + (90km × number of non-transfer days) + (return to Colombo distance) = total_kilometers
+6. Return the total as a number (e.g., 1250, not "1250 km")
+
+REMINDER: Count the days from ${startDateFormatted} to ${endDateFormatted} (inclusive). Create exactly that many day objects in the days array.`
+
+    // Generate single option with retry logic for correct day count
+    // Ensure we have the calculated duration (always use date-based calculation if dates exist)
+    const expectedDaysNum = actualDuration || requestData.duration || 6
+    let completion
+    let generatedContent = ''
+    const maxRetries = 5
+    let attempt = 0
+    let uniquenessRetryNote = ''
+    
+    while (attempt < maxRetries) {
+      try {
+        attempt++
+        // Calculate max_tokens based on duration (roughly 800 tokens per day)
+        const calculatedMaxTokens = Math.min(Math.max(expectedDaysNum * 800, 3000), 5000)
+        
+        // Make prompt even more explicit on retry
+        let currentPrompt = `${prompt}${uniquenessRetryNote}`
+        if (attempt > 1) {
+          currentPrompt = `${prompt}${uniquenessRetryNote}
+
+CRITICAL RETRY INSTRUCTION: You previously generated the wrong number of days. You MUST generate EXACTLY ${expectedDaysNum} days. Count each day object in the "days" array. The array must have ${expectedDaysNum} items, numbered from day 1 to day ${expectedDaysNum}. This is non-negotiable.`
+        }
+        
+        completion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `You are a luxury travel consultant. Create premium Sri Lanka itineraries. CRITICAL RULES: 
+1. Every day MUST include an "image" field.
+2. Calculate the number of days from the start date to the end date (inclusive) - count each day including both start and end dates.
+3. The "days" array MUST contain exactly that calculated number of day objects - one for each day from start to end date.
+4. Always respond with valid JSON only. Never use markdown. Return only the JSON object.
+5. Day 1 corresponds to the start date, and the last day corresponds to the end date.`,
+            },
+            {
+              role: 'user',
+              content: currentPrompt,
+            },
+          ],
+          temperature: attempt === 1 ? 0.9 : 0.7, // Lower temperature on retry for more consistency
+          max_tokens: calculatedMaxTokens,
+          response_format: { type: 'json_object' },
+        })
+
+        generatedContent = completion.choices[0]?.message?.content?.trim() || ''
+        
+        // Parse and check day count immediately
+        if (generatedContent) {
+          try {
+            let cleanedContent = generatedContent.trim()
+            cleanedContent = cleanedContent.replace(/^```(?:json|JSON)?\n?/gm, '').replace(/\n?```$/gm, '').trim()
+            const jsonMatch = cleanedContent.match(/\{[\s\S]*\}/)
+            if (jsonMatch) cleanedContent = jsonMatch[0]
+            
+            const openBraces = (cleanedContent.match(/\{/g) || []).length
+            const closeBraces = (cleanedContent.match(/\}/g) || []).length
+            if (openBraces > closeBraces) {
+              cleanedContent += '}'.repeat(openBraces - closeBraces)
+            }
+            
+            const testOption = JSON.parse(cleanedContent)
+            if (testOption.days && Array.isArray(testOption.days)) {
+              const actualDaysCount = testOption.days.length
+              if (actualDaysCount === expectedDaysNum) {
+                // Reject near-duplicate options and force retry with explicit guidance.
+                if (comparisonOptions.length > 0) {
+                  const scored = comparisonOptions
+                    .map((opt: any, idx: number) => ({ idx, score: similarityScore(testOption, opt), opt }))
+                    .sort((a: any, b: any) => b.score - a.score)
+                  const top = scored[0]
+                  if (top && top.score >= 0.55) {
+                    const sig = optionSignature(top.opt)
+                    uniquenessRetryNote = `\n\nCRITICAL UNIQUENESS RETRY: Your previous output was too similar to an existing option (similarity ${(top.score * 100).toFixed(0)}%). Regenerate a substantially different option.\n- Avoid this route pattern: ${sig.routeSequence || 'N/A'}\n- Avoid this existing title style: ${top.opt?.title || 'N/A'}\n- Use a different primary theme, different city sequence, and mostly different activities.\n`
+                    if (attempt < maxRetries) continue
+                  }
+                }
+                break
+              } else {
+                console.warn(`Attempt ${attempt}: Generated ${actualDaysCount} days, expected ${expectedDaysNum}. Retrying...`)
+                if (attempt === maxRetries) {
+                  // Last attempt failed, we'll validate again later but continue
+                  break
+                }
+                // Continue to retry
+                continue
+              }
+            }
+          } catch (parseTestError) {
+            // If we can't parse, continue to retry
+            if (attempt < maxRetries) {
+              continue
+            }
+          }
+        }
+        
+        // If we get here and it's the first attempt, break (success or will validate later)
+        if (attempt === 1) break
+        
+      } catch (apiError) {
+        console.error(`OpenAI API error on attempt ${attempt}:`, apiError)
+        if (attempt === maxRetries) {
+          return NextResponse.json(
+            { success: false, error: 'Failed to generate option after multiple attempts' },
+            { status: 500 }
+          )
+        }
+        // Continue to retry
+      }
+    }
+    
+    if (!generatedContent) {
+      return NextResponse.json(
+        { success: false, error: 'Failed to generate option' },
+        { status: 500 }
+      )
+    }
+
+    if (!generatedContent) {
+      return NextResponse.json(
+        { success: false, error: 'Failed to generate option' },
+        { status: 500 }
+      )
+    }
+
+    // Parse and validate the option (simplified for speed)
+    let cleanedContent = generatedContent.trim()
+    cleanedContent = cleanedContent.replace(/^```(?:json|JSON)?\n?/gm, '').replace(/\n?```$/gm, '').trim()
+    const jsonMatch = cleanedContent.match(/\{[\s\S]*\}/)
+    if (jsonMatch) cleanedContent = jsonMatch[0]
+    
+    // Quick fix for incomplete JSON (only if needed)
+    const openBraces = (cleanedContent.match(/\{/g) || []).length
+    const closeBraces = (cleanedContent.match(/\}/g) || []).length
+    if (openBraces > closeBraces) {
+      cleanedContent += '}'.repeat(openBraces - closeBraces)
+    }
+    
+    let newOption
+    try {
+      newOption = JSON.parse(cleanedContent)
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError)
+      return NextResponse.json(
+        { success: false, error: 'Failed to parse generated option' },
+        { status: 500 }
+      )
+    }
+    
+    // Validate option structure
+    if (!newOption.title || !newOption.summary || !Array.isArray(newOption.days)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid option format: missing required fields' },
+        { status: 500 }
+      )
+    }
+    
+    // Validate day count - recalculate from dates to ensure accuracy
+    let calculatedDuration = expectedDaysNum
+    if (requestData.start_date && requestData.end_date) {
+      const start = new Date(requestData.start_date)
+      const end = new Date(requestData.end_date)
+      // Set to start of day to avoid timezone issues
+      start.setHours(0, 0, 0, 0)
+      end.setHours(0, 0, 0, 0)
+      const diffTime = Math.abs(end.getTime() - start.getTime())
+      calculatedDuration = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1 // +1 to include both start and end days
+    }
+    
+    const actualDaysNum = newOption.days.length
+    
+    // Allow small tolerance (±1 day) in case of calculation differences, but log a warning
+    if (calculatedDuration !== null && Math.abs(actualDaysNum - calculatedDuration) > 1) {
+      // If difference is more than 1 day, return error
+      return NextResponse.json(
+        { success: false, error: `Invalid option format: expected ${calculatedDuration} days (from ${startDateFormatted} to ${endDateFormatted}) but got ${actualDaysNum} days. Please try generating again.` },
+        { status: 500 }
+      )
+    } else if (calculatedDuration !== null && actualDaysNum !== calculatedDuration) {
+      // If difference is exactly 1 day, try to fix it automatically
+      console.warn(`Day count mismatch: expected ${calculatedDuration}, got ${actualDaysNum}. Attempting to fix...`)
+      
+      if (actualDaysNum < calculatedDuration) {
+        // Add missing days at the end
+        const lastDay = newOption.days[newOption.days.length - 1]
+        const missingDays = calculatedDuration - actualDaysNum
+        for (let i = 1; i <= missingDays; i++) {
+          newOption.days.push({
+            ...lastDay,
+            day: actualDaysNum + i,
+            title: `Day ${actualDaysNum + i}`,
+            activities: lastDay.activities || [],
+            optional_activities: lastDay.optional_activities || []
+          })
+        }
+        console.log(`Added ${missingDays} missing day(s)`)
+      } else if (actualDaysNum > calculatedDuration) {
+        // Remove extra days
+        newOption.days = newOption.days.slice(0, calculatedDuration)
+        console.log(`Removed ${actualDaysNum - calculatedDuration} extra day(s)`)
+      }
+    }
+    
+    // When travel dates exist, add "date" to each day and ensure title starts with the date label (e.g. "Day 1 – Saturday, March 15, 2025: ...")
+    if (hasDayDates && dayDateLabels.length > 0 && newOption.days && Array.isArray(newOption.days)) {
+      const start = new Date(requestData.start_date)
+      start.setHours(0, 0, 0, 0)
+      for (let i = 0; i < newOption.days.length; i++) {
+        const day = newOption.days[i]
+        const d = new Date(start)
+        d.setDate(d.getDate() + i)
+        day.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+        day.title = cleanGeneratedDayTitle(day.title, i + 1, day.location)
+      }
+    }
+
+    // Ensure every day has an image (using actual file names that exist)
+    const locationImageMap: Record<string, string> = {
+      "Colombo": "/images/arrivalincolombo.jpg",
+      "Sigiriya": "/images/sigirya.jpg",
+      "Ella": "/images/damrotea.jpg",
+      "Yala": "/images/leopard.jpg",
+      "Galle": "/images/galle.jpg",
+      "Kandy": "/images/kandy.jpg",
+      "Nuwara Eliya": "/images/damrotea.jpg"
+    }
+    
+    for (const day of newOption.days) {
+      if (!day.image || typeof day.image !== 'string') {
+        day.image = locationImageMap[day.location] || "/images/placeholder.jpg"
+      }
+    }
+    
+    // Update or add the option to the existing options array
+    const updatedOptions = [...existingOptions]
+    updatedOptions[optionIndex] = newOption
+    
+    // Ensure array has 3 slots
+    while (updatedOptions.length < 3) {
+      updatedOptions.push(null)
+    }
+    
+    // Save to database
+    const itineraryOptions = { options: updatedOptions }
+    const itineraryOptionsString = JSON.stringify(itineraryOptions)
+    
+    const { error: updateError } = await supabase
+      .from('Client Requests')
+      .update({ 
+        itineraryoptions: itineraryOptionsString,
+        selected_option: null, // Clear selection when regenerating
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', requestId)
+
+    if (updateError) {
+      console.error('Error updating itineraryoptions:', updateError)
+      return NextResponse.json(
+        { success: false, error: 'Failed to save option' },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({ 
+      success: true,
+      option: newOption,
+      optionIndex: optionIndex
+    })
+  } catch (error) {
+    console.error('Unexpected error generating option:', error)
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred',
+      },
+      { status: 500 }
+    )
+  }
+}

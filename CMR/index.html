@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login | LankaLux</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+
+.login-container{
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  padding:60px 50px;
+  border-left:4px solid #caa24d;
+  border-radius:6px;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  max-width:450px;
+  width:100%;
+}
+
+.login-container h1{
+  font-family:'Playfair Display',serif;
+  font-size:38px;
+  margin-bottom:10px;
+  color:#f5f5f5;
+  text-align:center;
+}
+
+.login-container .subtitle{
+  text-align:center;
+  color:#d0d0d0;
+  font-size:15px;
+  margin-bottom:40px;
+}
+
+.form-group{
+  margin-bottom:25px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:8px;
+  color:#f5f5f5;
+  font-size:14px;
+  font-weight:400;
+}
+
+.form-group input{
+  width:100%;
+  padding:14px 18px;
+  background:#161616;
+  border:1px solid #2a2a2a;
+  border-radius:6px;
+  color:#f5f5f5;
+  font-family:inherit;
+  font-size:15px;
+  transition:all .3s;
+}
+
+.form-group input:focus{
+  outline:none;
+  border-color:#caa24d;
+  background:#1a1a1a;
+}
+
+.error-message{
+  background:rgba(220,53,69,.1);
+  border:1px solid rgba(220,53,69,.3);
+  color:#e85d75;
+  padding:12px 18px;
+  border-radius:6px;
+  margin-bottom:20px;
+  font-size:14px;
+  display:none;
+}
+
+.error-message.show{
+  display:block;
+}
+
+.btn{
+  display:inline-block;
+  padding:14px 34px;
+  background:#caa24d;
+  color:#0f0f0f;
+  text-decoration:none;
+  font-weight:500;
+  letter-spacing:1px;
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:15px;
+  width:100%;
+  border-radius:6px;
+  transition:all .3s ease;
+}
+
+.btn:hover{
+  background:#d4b35f;
+  transform:translateY(-2px);
+}
+
+.btn:active{
+  transform:translateY(0);
+}
+
+.loading{
+  opacity:0.6;
+  pointer-events:none;
+}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <h1>LankaLux Admin</h1>
+  <p class="subtitle">Sign in to access the admin panel</p>
+  
+  <div id="errorMessage" class="error-message"></div>
+  
+  <div id="login-container">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" autocomplete="email">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" autocomplete="current-password">
+    </div>
+    
+    <button type="button" id="loginBtn" class="btn">Login</button>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://evmsntnprujqfejkmipq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_UwIwSJNQdfb4y6ow8Ft_Gg_KPvkMkJV";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  const loginBtn = document.getElementById("loginBtn");
+
+  loginBtn.addEventListener("click", async function() {
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    window.location.href = "dashboard.html";
+  });
+
+});
+</script>
+</body>
+</html>

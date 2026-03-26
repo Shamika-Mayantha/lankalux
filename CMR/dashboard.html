@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard | LankaLux Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7}
+
+header{
+  position:fixed;top:0;width:100%;
+  background:rgba(15,15,15,.85);
+  backdrop-filter:blur(6px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 70px;z-index:1000;
+  border-bottom:1px solid rgba(202,162,77,.2);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  letter-spacing:1px;
+  color:#f5f5f5;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 28px;
+  background:#caa24d;
+  color:#0f0f0f;
+  text-decoration:none;
+  font-weight:500;
+  letter-spacing:1px;
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:14px;
+  border-radius:6px;
+  transition:all .3s ease;
+}
+
+.btn:hover{
+  background:#d4b35f;
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  background:transparent;
+  color:#caa24d;
+  border:2px solid #caa24d;
+}
+
+.btn-secondary:hover{
+  background:rgba(202,162,77,.1);
+  color:#d4b35f;
+  border-color:#d4b35f;
+}
+
+.container{
+  max-width:1400px;
+  margin:0 auto;
+  padding:120px 70px 60px;
+}
+
+.page-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+.page-header h1{
+  font-family:'Playfair Display',serif;
+  font-size:38px;
+  color:#f5f5f5;
+}
+
+.leads-table-container{
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  border-left:4px solid #caa24d;
+  border-radius:6px;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;
+}
+
+.leads-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.leads-table thead{
+  background:#161616;
+}
+
+.leads-table th{
+  padding:18px 24px;
+  text-align:left;
+  font-family:'Playfair Display',serif;
+  font-size:16px;
+  color:#caa24d;
+  font-weight:600;
+  border-bottom:2px solid #2a2a2a;
+}
+
+.leads-table td{
+  padding:18px 24px;
+  border-bottom:1px solid #2a2a2a;
+  color:#d0d0d0;
+  font-size:14px;
+}
+
+.leads-table tbody tr{
+  cursor:pointer;
+  transition:background .3s;
+}
+
+.leads-table tbody tr:hover{
+  background:rgba(202,162,77,.05);
+}
+
+.leads-table tbody tr:last-child td{
+  border-bottom:none;
+}
+
+.status-badge{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.status-new{
+  background:rgba(202,162,77,.2);
+  color:#caa24d;
+}
+
+.status-pending{
+  background:rgba(255,193,7,.2);
+  color:#ffc107;
+}
+
+.status-sent{
+  background:rgba(40,167,69,.2);
+  color:#28a745;
+}
+
+.status-completed{
+  background:rgba(108,117,125,.2);
+  color:#6c757d;
+}
+
+.loading{
+  text-align:center;
+  padding:60px 20px;
+  color:#d0d0d0;
+}
+
+.empty-state{
+  text-align:center;
+  padding:60px 20px;
+  color:#d0d0d0;
+}
+
+.empty-state p{
+  margin-top:15px;
+  font-size:16px;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <span class="logo-text">LankaLux Admin</span>
+  </div>
+  <div class="header-actions">
+    <a href="new.html" class="btn">New Request</a>
+    <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Leads Dashboard</h1>
+  </div>
+  
+  <div class="leads-table-container">
+    <div id="loadingState" class="loading">Loading leads...</div>
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <p>No leads found.</p>
+      <a href="new.html" class="btn" style="margin-top:20px;display:inline-block;">Create First Lead</a>
+    </div>
+    <table id="leadsTable" class="leads-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Travel Dates</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody id="leadsTableBody">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// Initialize Supabase
+const SUPABASE_URL = 'https://evmsntnprujqfejkmipq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_UwIwSJNQdfb4y6ow8Ft_Gg_KPvkMkJV';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Check authentication and redirect if not logged in
+async function checkAuth() {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = 'index.html';
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Auth check error:', error);
+    window.location.href = 'index.html';
+    return false;
+  }
+}
+
+// Load leads from Supabase
+async function loadLeads() {
+  try {
+    const { data, error } = await supabase
+      .from('leads')
+      .select('id, name, email, travel_dates, status, created_at')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error loading leads:', error);
+      document.getElementById('loadingState').textContent = 'Error loading leads. Please refresh.';
+      return;
+    }
+    
+    document.getElementById('loadingState').style.display = 'none';
+    
+    if (!data || data.length === 0) {
+      document.getElementById('emptyState').style.display = 'block';
+      return;
+    }
+    
+    document.getElementById('leadsTable').style.display = 'table';
+    const tbody = document.getElementById('leadsTableBody');
+    tbody.innerHTML = '';
+    
+    data.forEach(lead => {
+      const row = document.createElement('tr');
+      row.onclick = () => {
+        window.location.href = `request.html?id=${lead.id}`;
+      };
+      
+      const statusClass = `status-${lead.status || 'new'}`;
+      const statusText = (lead.status || 'new').charAt(0).toUpperCase() + (lead.status || 'new').slice(1);
+      
+      const createdDate = lead.created_at ? new Date(lead.created_at).toLocaleDateString() : 'N/A';
+      const travelDates = lead.travel_dates || 'Not specified';
+      
+      row.innerHTML = `
+        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+        <td>${lead.name || 'N/A'}</td>
+        <td>${lead.email || 'N/A'}</td>
+        <td>${travelDates}</td>
+        <td>${createdDate}</td>
+      `;
+      
+      tbody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById('loadingState').textContent = 'Error loading leads. Please refresh.';
+  }
+}
+
+// Handle logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  try {
+    await supabase.auth.signOut();
+    window.location.href = 'index.html';
+  } catch (error) {
+    console.error('Logout error:', error);
+    // Still redirect even if error
+    window.location.href = 'index.html';
+  }
+});
+
+// Initialize page
+(async () => {
+  const isAuthenticated = await checkAuth();
+  if (isAuthenticated) {
+    await loadLeads();
+  }
+})();
+</script>
+</body>
+</html>

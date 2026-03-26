@@ -1669,6 +1669,30 @@ footer{
 .llx-chat-agent-connect .llx-chat-agent-btn:hover{
   background:#d5b063;border-color:#d5b063
 }
+.llx-chat-rating-wrap{
+  align-self:stretch;
+  margin-top:4px;
+  padding:12px 14px;border-radius:14px;
+  border:1px solid rgba(202,162,77,.3);
+  background:rgba(15,15,15,.85);
+  animation:llxMsgIn .22s ease
+}
+.llx-chat-rating-wrap p{
+  margin:0 0 10px;font-size:13px;color:#e9dfcf;line-height:1.55
+}
+.llx-chat-rating-scale{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between
+}
+.llx-chat-rating-scale button{
+  flex:1;min-width:42px;border:1px solid rgba(202,162,77,.35);
+  background:rgba(202,162,77,.1);color:#f2e7d1;
+  border-radius:10px;padding:10px 6px;font-size:15px;font-weight:600;
+  font-family:'Inter',sans-serif;cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,color .2s ease
+}
+.llx-chat-rating-scale button:hover{
+  background:rgba(202,162,77,.22);border-color:#caa24d;color:#fffaf0
+}
 .llx-chat-suggest-wrap{
   align-self:flex-start;max-width:100%;
   padding:0;
@@ -3659,7 +3683,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
   var STORE_KEY = 'llx_chat_state_v2';
-  var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false };
+  var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false };
   var VEHICLE_IMAGE_BASE = 'https://lankalux.com/images/fleet/';
   var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
   var fallbackVehicles = [
@@ -3678,6 +3702,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   } catch (e) {}
   if (!state.sessionId) state.sessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
   if (state.pendingAgentConnect === undefined) state.pendingAgentConnect = false;
+  if (state.showEndRating === undefined) state.showEndRating = false;
 
   var fab = document.getElementById('llxChatFab');
   var panel = document.getElementById('llxChatPanel');
@@ -3702,6 +3727,20 @@ reviewCarousel.addEventListener('mouseleave', () => {
     return m;
   }
   function addMessage(role, content) { state.messages.push({ role: role, content: content, kind: 'text' }); }
+  function applyChatControlsLock() {
+    var lock = !!state.showEndRating;
+    input.disabled = lock;
+    send.disabled = lock;
+    waBtn.disabled = lock;
+    endChatBtn.disabled = lock;
+    if (lock) {
+      sendRequestBtn.disabled = true;
+    } else if (state.requestId) {
+      sendRequestBtn.disabled = true;
+    } else {
+      sendRequestBtn.disabled = missingFields(state.draft || {}).length > 0;
+    }
+  }
   function addVehiclesMessage() { state.messages.push({ role: 'assistant', content: '', kind: 'vehicles' }); state.vehicleShownAt = Date.now(); }
   async function persistChat(eventType, extras) {
     try {
@@ -3834,6 +3873,11 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (!suggestions.length) suggestions = ['Please connect me with an agent', 'Show me your vehicle options', 'How soon will your team contact us?'];
     return uniqueFirst(suggestions, 3);
   }
+  function openEndChatRating() {
+    if (state.showEndRating) return;
+    state.showEndRating = true;
+    render();
+  }
   function shouldShowVehicles(userText) {
     var t = String(userText || '').toLowerCase();
     if (!t) return false;
@@ -3937,11 +3981,38 @@ reviewCarousel.addEventListener('mouseleave', () => {
       typing.innerHTML = '<span></span><span></span><span></span>';
       body.appendChild(typing);
     }
+    if (state.showEndRating && !state.isTyping) {
+      var rateWrap = document.createElement('div');
+      rateWrap.className = 'llx-chat-rating-wrap';
+      var rateP = document.createElement('p');
+      rateP.textContent = 'Before you go, how would you rate this chat? (1 = poor, 5 = excellent)';
+      var rateRow = document.createElement('div');
+      rateRow.className = 'llx-chat-rating-scale';
+      for (var r = 1; r <= 5; r++) {
+        (function(n) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = String(n);
+          b.setAttribute('aria-label', 'Rate chat ' + n + ' out of 5');
+          b.addEventListener('click', function() { submitChatRating(n); });
+          rateRow.appendChild(b);
+        })(r);
+      }
+      rateWrap.appendChild(rateP);
+      rateWrap.appendChild(rateRow);
+      body.appendChild(rateWrap);
+    }
     var hasUserMessage = (state.messages || []).some(function(m) {
       return m && m.role === 'user' && m.kind === 'text' && m.content;
     });
-    if (!state.isTyping && !state.requestId && hasUserMessage && !state.pendingAgentConnect) {
+    if (!state.isTyping && !state.requestId && hasUserMessage && !state.pendingAgentConnect && !state.showEndRating) {
       var suggestions = getDynamicSuggestions();
+      var d = state.draft || {};
+      if (!d.email && !d.whatsapp) {
+        suggestions = ['End chat'].concat(suggestions || []).filter(function(s, i, a) {
+          return s !== 'End chat' || a.indexOf('End chat') === i;
+        }).slice(0, 3);
+      }
       if (suggestions && suggestions.length) {
         var suggestWrap = document.createElement('div');
         suggestWrap.className = 'llx-chat-suggest-wrap';
@@ -3950,7 +4021,10 @@ reviewCarousel.addEventListener('mouseleave', () => {
           chip.type = 'button';
           chip.className = 'llx-chat-chip';
           chip.textContent = text;
-          chip.addEventListener('click', function() { submitMessage(text); });
+          chip.addEventListener('click', function() {
+            if (text === 'End chat') openEndChatRating();
+            else submitMessage(text);
+          });
           suggestWrap.appendChild(chip);
         });
         body.appendChild(suggestWrap);
@@ -3964,6 +4038,40 @@ reviewCarousel.addEventListener('mouseleave', () => {
       sendRequestBtn.textContent = 'Send request';
       sendRequestBtn.disabled = missingFields(state.draft || {}).length > 0;
     }
+    applyChatControlsLock();
+    saveState();
+  }
+  function submitChatRating(score) {
+    if (!state.showEndRating) return;
+    var sid = state.sessionId;
+    var msgs = (state.messages || []).slice(-80);
+    fetch(CHATS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: sid,
+        eventType: 'chat_rated',
+        chatRating: score,
+        draft: state.draft || {},
+        requestId: state.requestId || null,
+        selectedVehicle: state.selectedVehicle || null,
+        messages: msgs,
+        pageUrl: window.location.href,
+        userAgent: navigator.userAgent
+      }),
+      keepalive: true
+    }).catch(function() {});
+    state.showEndRating = false;
+    var newSessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    state.messages = [];
+    state.draft = {};
+    state.requestId = null;
+    state.isTyping = false;
+    state.vehicleShownAt = 0;
+    state.selectedVehicle = null;
+    state.sessionId = newSessionId;
+    state.pendingAgentConnect = true;
+    render();
     saveState();
   }
   function connectWithAgent() {
@@ -3995,6 +4103,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (typeof data.reply === 'string' && data.reply.trim()) addMessage('assistant', data.reply.trim());
   }
   async function submitMessage(preFilledText) {
+    if (state.showEndRating) return;
     if (state.pendingAgentConnect) state.pendingAgentConnect = false;
     var text = String(preFilledText || input.value || '').trim();
     if (!text) return;
@@ -4110,22 +4219,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   input.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitMessage(); });
   sendRequestBtn.addEventListener('click', sendRequest);
   waBtn.addEventListener('click', openWhatsApp);
-  endChatBtn.addEventListener('click', function() {
-    var sessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
-    state = {
-      messages: [],
-      draft: {},
-      requestId: null,
-      isTyping: false,
-      vehicleShownAt: 0,
-      selectedVehicle: null,
-      sessionId: sessionId,
-      pendingAgentConnect: true
-    };
-    panel.classList.remove('open');
-    render();
-    persistChat('chat_ended');
-  });
+  endChatBtn.addEventListener('click', openEndChatRating);
   render();
 })();
 </script>

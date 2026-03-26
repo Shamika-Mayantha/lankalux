@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Request Details | LankaLux Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7}
+
+header{
+  position:fixed;top:0;width:100%;
+  background:rgba(15,15,15,.85);
+  backdrop-filter:blur(6px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 70px;z-index:1000;
+  border-bottom:1px solid rgba(202,162,77,.2);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+
+.logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  letter-spacing:1px;
+  color:#f5f5f5;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 28px;
+  background:#caa24d;
+  color:#0f0f0f;
+  text-decoration:none;
+  font-weight:500;
+  letter-spacing:1px;
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:14px;
+  border-radius:6px;
+  transition:all .3s ease;
+}
+
+.btn:hover{
+  background:#d4b35f;
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  background:transparent;
+  color:#caa24d;
+  border:2px solid #caa24d;
+}
+
+.btn-secondary:hover{
+  background:rgba(202,162,77,.1);
+  color:#d4b35f;
+  border-color:#d4b35f;
+}
+
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:120px 70px 60px;
+}
+
+.page-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+.page-header h1{
+  font-family:'Playfair Display',serif;
+  font-size:38px;
+  color:#f5f5f5;
+}
+
+.client-details-card{
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  padding:40px;
+  border-left:4px solid #caa24d;
+  border-radius:6px;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  margin-bottom:40px;
+}
+
+.client-details-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+  gap:30px;
+  margin-top:30px;
+}
+
+.detail-item{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.detail-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#caa24d;
+  font-weight:500;
+}
+
+.detail-value{
+  font-size:16px;
+  color:#f5f5f5;
+}
+
+.detail-value.empty{
+  color:#888;
+  font-style:italic;
+}
+
+.itineraries-section{
+  background:linear-gradient(145deg, #1a1a1a, #141414);
+  padding:40px;
+  border-left:4px solid #caa24d;
+  border-radius:6px;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  margin-bottom:40px;
+}
+
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  color:#f5f5f5;
+  margin-bottom:30px;
+}
+
+.itinerary-group{
+  margin-bottom:35px;
+}
+
+.itinerary-group label{
+  display:block;
+  margin-bottom:12px;
+  color:#caa24d;
+  font-size:14px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.itinerary-group textarea{
+  width:100%;
+  min-height:200px;
+  padding:18px;
+  background:#161616;
+  border:1px solid #2a2a2a;
+  border-radius:6px;
+  color:#f5f5f5;
+  font-family:inherit;
+  font-size:15px;
+  line-height:1.7;
+  resize:vertical;
+  transition:all .3s;
+}
+
+.itinerary-group textarea:focus{
+  outline:none;
+  border-color:#caa24d;
+  background:#1a1a1a;
+}
+
+.action-buttons{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
+
+.error-message{
+  background:rgba(220,53,69,.1);
+  border:1px solid rgba(220,53,69,.3);
+  color:#e85d75;
+  padding:12px 18px;
+  border-radius:6px;
+  margin-bottom:20px;
+  font-size:14px;
+  display:none;
+}
+
+.error-message.show{
+  display:block;
+}
+
+.success-message{
+  background:rgba(40,167,69,.1);
+  border:1px solid rgba(40,167,69,.3);
+  color:#28a745;
+  padding:12px 18px;
+  border-radius:6px;
+  margin-bottom:20px;
+  font-size:14px;
+  display:none;
+}
+
+.success-message.show{
+  display:block;
+}
+
+.loading{
+  text-align:center;
+  padding:60px 20px;
+  color:#d0d0d0;
+}
+
+.status-badge{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  margin-left:15px;
+}
+
+.status-new{
+  background:rgba(202,162,77,.2);
+  color:#caa24d;
+}
+
+.status-pending{
+  background:rgba(255,193,7,.2);
+  color:#ffc107;
+}
+
+.status-sent{
+  background:rgba(40,167,69,.2);
+  color:#28a745;
+}
+
+.status-completed{
+  background:rgba(108,117,125,.2);
+  color:#6c757d;
+}
+
+.loading-state{
+  opacity:0.6;
+  pointer-events:none;
+}
+
+@media (max-width:768px){
+  .container{
+    padding:120px 30px 60px;
+  }
+  
+  .client-details-card,
+  .itineraries-section{
+    padding:30px;
+  }
+  
+  .action-buttons{
+    flex-direction:column;
+  }
+  
+  .action-buttons .btn{
+    width:100%;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <span class="logo-text">LankaLux Admin</span>
+  </div>
+  <div class="header-actions">
+    <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Request Details<span id="statusBadge" class="status-badge"></span></h1>
+  </div>
+  
+  <div id="loadingState" class="loading">Loading request details...</div>
+  
+  <div id="contentArea" style="display:none;">
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+    
+    <!-- Client Details Card -->
+    <div class="client-details-card">
+      <h2 class="section-title">Client Information</h2>
+      <div class="client-details-grid" id="clientDetailsGrid">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+    
+    <!-- Itineraries Section -->
+    <div class="itineraries-section">
+      <h2 class="section-title">Itinerary Options</h2>
+      
+      <div class="itinerary-group">
+        <label for="itinerary_option_1">Itinerary Option 1</label>
+        <textarea id="itinerary_option_1" name="itinerary_option_1" placeholder="Enter itinerary details..."></textarea>
+      </div>
+      
+      <div class="itinerary-group">
+        <label for="itinerary_option_2">Itinerary Option 2</label>
+        <textarea id="itinerary_option_2" name="itinerary_option_2" placeholder="Enter itinerary details..."></textarea>
+      </div>
+      
+      <div class="itinerary-group">
+        <label for="itinerary_option_3">Itinerary Option 3</label>
+        <textarea id="itinerary_option_3" name="itinerary_option_3" placeholder="Enter itinerary details..."></textarea>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn" id="generateBtn">Generate Itineraries</button>
+        <button class="btn btn-secondary" id="saveBtn">Save Edits</button>
+        <button class="btn btn-secondary" id="sendBtn">Send to Client</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Initialize Supabase
+const SUPABASE_URL = 'https://evmsntnprujqfejkmipq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_UwIwSJNQdfb4y6ow8Ft_Gg_KPvkMkJV';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentLeadId = null;
+let currentLeadData = null;
+
+// Get lead ID from URL
+function getLeadId() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('id');
+}
+
+// Check authentication and redirect if not logged in
+async function checkAuth() {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = 'index.html';
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Auth check error:', error);
+    window.location.href = 'index.html';
+    return false;
+  }
+}
+
+// Show error message
+function showError(message) {
+  const errorEl = document.getElementById('errorMessage');
+  errorEl.textContent = message;
+  errorEl.classList.add('show');
+  setTimeout(() => {
+    errorEl.classList.remove('show');
+  }, 5000);
+}
+
+// Show success message
+function showSuccess(message) {
+  const successEl = document.getElementById('successMessage');
+  successEl.textContent = message;
+  successEl.classList.add('show');
+  setTimeout(() => {
+    successEl.classList.remove('show');
+  }, 3000);
+}
+
+// Load lead data from Supabase
+async function loadLead() {
+  const leadId = getLeadId();
+  if (!leadId) {
+    showError('Invalid request ID.');
+    return;
+  }
+  
+  currentLeadId = leadId;
+  
+  try {
+    const { data, error } = await supabase
+      .from('leads')
+      .select('*')
+      .eq('id', leadId)
+      .single();
+    
+    if (error) {
+      console.error('Error loading lead:', error);
+      showError('Failed to load request details.');
+      return;
+    }
+    
+    if (!data) {
+      showError('Request not found.');
+      return;
+    }
+    
+    currentLeadData = data;
+    displayLeadData(data);
+    
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('contentArea').style.display = 'block';
+  } catch (error) {
+    console.error('Error:', error);
+    showError('An unexpected error occurred.');
+  }
+}
+
+// Display lead data in the UI
+function displayLeadData(lead) {
+  // Update status badge
+  const statusBadge = document.getElementById('statusBadge');
+  const status = lead.status || 'new';
+  const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+  statusBadge.textContent = statusText;
+  statusBadge.className = `status-badge status-${status}`;
+  
+  // Populate client details
+  const detailsGrid = document.getElementById('clientDetailsGrid');
+  detailsGrid.innerHTML = '';
+  
+  const details = [
+    { label: 'Name', value: lead.name },
+    { label: 'Email', value: lead.email },
+    { label: 'WhatsApp', value: lead.whatsapp },
+    { label: 'Travel Dates', value: lead.travel_dates },
+    { label: 'Duration', value: lead.duration ? `${lead.duration} days` : null },
+    { label: 'Flying From', value: lead.flying_from },
+    { label: 'Created', value: lead.created_at ? new Date(lead.created_at).toLocaleString() : null }
+  ];
+  
+  details.forEach(detail => {
+    if (detail.value) {
+      const item = document.createElement('div');
+      item.className = 'detail-item';
+      item.innerHTML = `
+        <span class="detail-label">${detail.label}</span>
+        <span class="detail-value">${detail.value}</span>
+      `;
+      detailsGrid.appendChild(item);
+    }
+  });
+  
+  // Add details field if present
+  if (lead.details) {
+    const item = document.createElement('div');
+    item.className = 'detail-item';
+    item.style.gridColumn = '1 / -1';
+    item.innerHTML = `
+      <span class="detail-label">Additional Details</span>
+      <span class="detail-value">${lead.details}</span>
+    `;
+    detailsGrid.appendChild(item);
+  }
+  
+  // Populate itinerary fields
+  document.getElementById('itinerary_option_1').value = lead.itinerary_option_1 || '';
+  document.getElementById('itinerary_option_2').value = lead.itinerary_option_2 || '';
+  document.getElementById('itinerary_option_3').value = lead.itinerary_option_3 || '';
+}
+
+// Save edits to Supabase
+async function saveEdits() {
+  if (!currentLeadId) {
+    showError('Invalid request ID.');
+    return;
+  }
+  
+  const updates = {
+    itinerary_option_1: document.getElementById('itinerary_option_1').value.trim() || null,
+    itinerary_option_2: document.getElementById('itinerary_option_2').value.trim() || null,
+    itinerary_option_3: document.getElementById('itinerary_option_3').value.trim() || null
+  };
+  
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.textContent = 'Saving...';
+  saveBtn.classList.add('loading-state');
+  
+  try {
+    const { error } = await supabase
+      .from('leads')
+      .update(updates)
+      .eq('id', currentLeadId);
+    
+    if (error) {
+      console.error('Error saving:', error);
+      showError('Failed to save edits. Please try again.');
+      saveBtn.textContent = 'Save Edits';
+      saveBtn.classList.remove('loading-state');
+      return;
+    }
+    
+    showSuccess('Edits saved successfully!');
+    saveBtn.textContent = 'Save Edits';
+    saveBtn.classList.remove('loading-state');
+    
+    // Update current data
+    currentLeadData = { ...currentLeadData, ...updates };
+  } catch (error) {
+    console.error('Error:', error);
+    showError('An unexpected error occurred.');
+    saveBtn.textContent = 'Save Edits';
+    saveBtn.classList.remove('loading-state');
+  }
+}
+
+// Generate Itineraries (placeholder)
+function generateItineraries() {
+  // TODO: Implement AI itinerary generation
+  showError('AI itinerary generation is not yet implemented.');
+}
+
+// Send to Client (placeholder)
+async function sendToClient() {
+  // TODO: Implement email sending functionality
+  showError('Send to client functionality is not yet implemented.');
+}
+
+// Event listeners
+document.getElementById('saveBtn').addEventListener('click', saveEdits);
+document.getElementById('generateBtn').addEventListener('click', generateItineraries);
+document.getElementById('sendBtn').addEventListener('click', sendToClient);
+
+// Initialize page
+(async () => {
+  const isAuthenticated = await checkAuth();
+  if (isAuthenticated) {
+    await loadLead();
+  }
+})();
+</script>
+</body>
+</html>
