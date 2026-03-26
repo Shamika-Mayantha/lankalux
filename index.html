@@ -1460,6 +1460,238 @@ footer{
   .promo-modal-body p{font-size:14px;line-height:1.6}
   .promo-btn-primary,.promo-btn-secondary{padding:12px 24px;font-size:14px;margin-left:0}
 }
+/* AI Chat Widget */
+.llx-chat-fab{
+  position:fixed!important;bottom:30px!important;right:30px!important;z-index:2100;
+  width:60px;height:60px;border-radius:999px;
+  border:2px solid #caa24d;
+  background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+  color:#caa24d;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 20px rgba(202,162,77,.3);
+  transition:all .3s ease;
+  display:flex;align-items:center;justify-content:center
+}
+.llx-chat-fab svg{
+  width:30px;height:30px;display:block;
+  filter:drop-shadow(0 0 2px rgba(202,162,77,.5));
+  transition:all .3s ease
+}
+.llx-chat-fab:hover{
+  transform:perspective(700px) translateY(-4px) scale(1.08) rotateX(7deg);
+  box-shadow:0 10px 34px rgba(202,162,77,.5);
+  border-color:#d4b35f
+}
+.llx-chat-fab:hover svg{
+  filter:drop-shadow(0 0 5px rgba(202,162,77,.85))
+}
+.llx-chat-fab:active{
+  transform:scale(1.03)
+}
+.llx-chat-fab-tooltip{
+  position:absolute;right:74px;top:50%;transform:translateY(-50%);
+  background:rgba(15,15,15,.95);color:#f5f5f5;
+  padding:10px 16px;border-radius:6px;
+  font-size:13px;white-space:nowrap;
+  border:1px solid rgba(202,162,77,.3);
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transition:opacity .3s ease
+}
+.llx-chat-fab-tooltip::after{
+  content:'';position:absolute;left:100%;top:50%;transform:translateY(-50%);
+  border:6px solid transparent;border-left-color:rgba(15,15,15,.95)
+}
+.llx-chat-fab:hover .llx-chat-fab-tooltip{
+  opacity:1
+}
+.llx-chat-panel{
+  position:fixed;right:30px;bottom:170px;z-index:2100;
+  width:min(420px,calc(100vw - 36px));
+  height:min(620px,calc(100vh - 110px));
+  display:flex;flex-direction:column;overflow:hidden;
+  border:1px solid #2a2a2a;border-radius:14px;
+  background:rgba(15,15,15,.97);
+  box-shadow:0 22px 56px rgba(0,0,0,.6);
+  opacity:0;transform:translateY(14px) scale(.98);
+  pointer-events:none;transition:opacity .25s ease, transform .28s ease
+}
+.llx-chat-panel.open{
+  opacity:1;transform:translateY(0) scale(1);pointer-events:auto
+}
+.llx-chat-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 15px;border-bottom:1px solid #262626
+}
+.llx-chat-head strong{
+  font-family:'Playfair Display',serif;font-size:18px;color:#f5f0e3;
+  letter-spacing:.25px;font-weight:600
+}
+.llx-chat-head small{
+  display:block;color:#bfb5a4;font-size:12px;
+  letter-spacing:.35px;text-transform:uppercase;margin-top:2px
+}
+.llx-chat-close{
+  width:34px;height:34px;border-radius:10px;border:1px solid #2a2a2a;
+  background:transparent;color:#e5dccb;cursor:pointer;
+  transition:all .25s ease
+}
+.llx-chat-close:hover{
+  border-color:rgba(202,162,77,.45);color:#d9bb76;background:rgba(202,162,77,.08)
+}
+.llx-chat-body{
+  flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px
+}
+.llx-chat-msg{
+  max-width:86%;padding:11px 13px;border-radius:14px;
+  font-size:13.5px;line-height:1.55;white-space:pre-wrap;
+  animation:llxMsgIn .22s ease
+}
+.llx-chat-msg.user{
+  align-self:flex-end;background:linear-gradient(135deg,#1a1a1a,#202020);
+  border:1px solid #2a2a2a;color:#f5f3ee
+}
+.llx-chat-msg.assistant{
+  align-self:flex-start;background:linear-gradient(135deg,rgba(202,162,77,.11),rgba(202,162,77,.05));
+  border:1px solid rgba(202,162,77,.27);color:#f4eee0
+}
+.llx-chat-vehicle-wrap{
+  align-self:flex-start;max-width:100%;
+  background:rgba(202,162,77,.08);
+  border:1px solid rgba(202,162,77,.24);
+  border-radius:14px;padding:10px;
+  animation:llxMsgIn .22s ease
+}
+.llx-chat-vehicle-title{
+  font-family:'Playfair Display',serif;
+  font-size:15px;color:#f0dfb7;margin:0 0 8px
+}
+.llx-chat-vehicle-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px
+}
+.llx-chat-vehicle-card{
+  border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;background:#141414;
+  cursor:pointer;transition:border-color .2s ease,transform .2s ease
+}
+.llx-chat-vehicle-card:hover{
+  border-color:rgba(202,162,77,.42);transform:translateY(-1px)
+}
+.llx-chat-vehicle-card img{
+  width:100%;height:82px;object-fit:cover;display:block
+}
+.llx-chat-vehicle-card span{
+  display:block;padding:7px 8px;font-size:11px;color:#e8dfcf
+}
+.llx-chat-typing{
+  align-self:flex-start;
+  background:rgba(202,162,77,.08);
+  border:1px solid rgba(202,162,77,.25);
+  border-radius:12px;
+  padding:10px 12px;
+  display:flex;gap:6px;align-items:center;
+  animation:llxMsgIn .22s ease
+}
+.llx-chat-typing span{
+  width:6px;height:6px;border-radius:50%;
+  background:#d4b35f;opacity:.55;
+  animation:llxTyping 1s infinite ease-in-out
+}
+.llx-chat-typing span:nth-child(2){animation-delay:.15s}
+.llx-chat-typing span:nth-child(3){animation-delay:.3s}
+.llx-chat-fab::after{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid rgba(202,162,77,.28);
+  transform:scale(.9);opacity:0;pointer-events:none
+}
+.llx-chat-fab:hover::after{
+  animation:llxPulse .9s ease forwards
+}
+.llx-chat-foot{
+  border-top:1px solid #262626;padding:12px;
+  display:flex;flex-direction:column;gap:10px;background:#121212
+}
+.llx-chat-draft{
+  font-size:12px;color:#d9d1c2;line-height:1.5;
+  padding:11px;border:1px solid #262626;border-radius:12px;background:#0f0f0f
+}
+.llx-chat-actions{display:flex;gap:8px;flex-wrap:wrap}
+.llx-chat-btn{
+  border:1px solid #2a2a2a;background:transparent;color:#ece2d1;
+  border-radius:11px;padding:9px 12px;font-size:14px;font-weight:500;cursor:pointer;
+  font-family:'Playfair Display',serif;letter-spacing:.2px;line-height:1.2;
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+  text-rendering:auto;text-shadow:none
+}
+.llx-chat-btn:hover{
+  border-color:rgba(202,162,77,.32);color:#f2e7d1;background:rgba(202,162,77,.06);
+  transform:none
+}
+.llx-chat-btn.primary{
+  background:#caa24d;
+  border:1px solid #caa24d;
+  color:#111;
+  font-family:'Playfair Display',serif;
+  font-size:14px;
+  letter-spacing:.2px;
+  box-shadow:none
+}
+.llx-chat-btn.primary:hover{
+  background:#d5b063;
+  border-color:#d5b063;
+  color:#101010;transform:none
+}
+.llx-chat-btn:disabled{opacity:.5;cursor:not-allowed}
+.llx-chat-row{display:flex;gap:8px}
+.llx-chat-input{
+  flex:1;border:1px solid #2a2a2a;border-radius:10px;background:#0e0e0e;color:#f5f5f5;
+  padding:10px 11px;font-size:13px;font-family:'Inter',sans-serif
+}
+.llx-chat-input::placeholder{color:#9f9586}
+.llx-chat-note{
+  font-size:11px;color:#a79f92;
+  letter-spacing:.25px
+}
+.llx-chat-suggest-wrap{
+  align-self:flex-start;max-width:100%;
+  background:rgba(202,162,77,.07);
+  border:1px solid rgba(202,162,77,.22);
+  border-radius:12px;padding:8px;
+  display:flex;flex-wrap:wrap;gap:7px;
+  animation:llxMsgIn .22s ease
+}
+.llx-chat-chip{
+  border:1px solid rgba(202,162,77,.3);
+  background:rgba(202,162,77,.08);
+  color:#e9dfcd;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:12px;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+  white-space:nowrap
+}
+.llx-chat-chip:hover{
+  background:rgba(202,162,77,.14);
+  border-color:rgba(202,162,77,.5);
+  color:#f7ebd2
+}
+@keyframes llxMsgIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes llxTyping{
+  0%,80%,100%{transform:translateY(0);opacity:.4}
+  40%{transform:translateY(-3px);opacity:1}
+}
+@keyframes llxPulse{
+  from{transform:scale(.92);opacity:.5}
+  to{transform:scale(1.18);opacity:0}
+}
+@media(max-width:768px){
+  .llx-chat-fab{width:55px;height:55px;bottom:20px!important;right:20px!important}
+  .llx-chat-panel{right:10px;bottom:160px;width:min(420px,calc(100vw - 20px))}
+  .llx-chat-fab-tooltip{display:none}
+  .llx-chat-vehicle-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 
@@ -1907,27 +2139,7 @@ footer{
   </a>
 </div>
 
-<!-- Floating WhatsApp Button -->
-<button class="whatsapp-float-btn" id="whatsappFloatBtn" aria-label="Send WhatsApp message">
-  <span class="whatsapp-float-btn-tooltip">Send a message instantly</span>
-</button>
 
-<!-- WhatsApp Message Popup -->
-<div class="whatsapp-message-popup" id="whatsappMessagePopup">
-  <div class="whatsapp-message-popup-header">
-    <h4>Send a Quick Message</h4>
-    <button class="whatsapp-message-popup-close" id="closeWhatsAppPopup">&times;</button>
-  </div>
-  <textarea 
-    id="whatsappMessage" 
-    class="whatsapp-message-input" 
-    placeholder="Type your message here..."></textarea>
-  <p class="whatsapp-message-hint">Your message will open in WhatsApp, ready to send</p>
-  <button type="button" class="whatsapp-send-btn" id="sendWhatsAppBtn">
-    <span>💬</span>
-    <span>Send via WhatsApp</span>
-  </button>
-</div>
 
 <!-- Modal Popup -->
 <div class="modal-overlay" id="highlightModal">
@@ -2657,94 +2869,7 @@ document.getElementById('contactModal').addEventListener('click', (e) => {
   }
 });
 
-// Floating WhatsApp Button Functionality
-window.addEventListener("load", function() {
-  const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
-  const whatsappMessagePopup = document.getElementById('whatsappMessagePopup');
-  const closeWhatsAppPopup = document.getElementById('closeWhatsAppPopup');
-  const whatsappMessageInput = document.getElementById('whatsappMessage');
-  const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
-  
-  // Open WhatsApp popup
-  if (whatsappFloatBtn && whatsappMessagePopup) {
-    whatsappFloatBtn.addEventListener('click', function() {
-      whatsappMessagePopup.classList.add('active');
-      if (whatsappMessageInput) {
-        setTimeout(() => whatsappMessageInput.focus(), 100);
-      }
-    });
-  }
-  
-  // Close WhatsApp popup
-  if (closeWhatsAppPopup && whatsappMessagePopup) {
-    closeWhatsAppPopup.addEventListener('click', function() {
-      whatsappMessagePopup.classList.remove('active');
-      if (whatsappMessageInput) {
-        whatsappMessageInput.value = '';
-      }
-    });
-  }
-  
-  // Close popup when clicking outside
-  if (whatsappMessagePopup) {
-    whatsappMessagePopup.addEventListener('click', function(e) {
-      if (e.target === whatsappMessagePopup) {
-        whatsappMessagePopup.classList.remove('active');
-        if (whatsappMessageInput) {
-          whatsappMessageInput.value = '';
-        }
-      }
-    });
-  }
-  
-  // Send WhatsApp message
-  if (sendWhatsAppBtn && whatsappMessageInput) {
-    sendWhatsAppBtn.addEventListener('click', function() {
-      const message = whatsappMessageInput.value.trim();
-      
-      if (!message) {
-        // Show subtle hint
-        whatsappMessageInput.style.borderColor = '#caa24d';
-        whatsappMessageInput.focus();
-        setTimeout(() => {
-          whatsappMessageInput.style.borderColor = '#2a2a2a';
-        }, 2000);
-        return;
-      }
-      
-      // URL encode the message
-      const encodedMessage = encodeURIComponent(message);
-      
-      // Open WhatsApp with pre-filled message
-      const whatsappUrl = `https://wa.me/94763261788?text=${encodedMessage}`;
-      window.open(whatsappUrl, '_blank');
-      
-      // Close popup and clear message
-      if (whatsappMessagePopup) {
-        whatsappMessagePopup.classList.remove('active');
-      }
-      whatsappMessageInput.value = '';
-    });
-    
-    // Allow Enter key to send (Shift+Enter for new line)
-    whatsappMessageInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendWhatsAppBtn.click();
-      }
-    });
-  }
-  
-  // Close popup with Escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && whatsappMessagePopup && whatsappMessagePopup.classList.contains('active')) {
-      whatsappMessagePopup.classList.remove('active');
-      if (whatsappMessageInput) {
-        whatsappMessageInput.value = '';
-      }
-    }
-  });
-});
+
 
 // Populate vehicle card labels with microLabels
 document.querySelectorAll('.vehicle-card').forEach(card => {
@@ -3473,6 +3598,464 @@ reviewCarousel.addEventListener('mouseleave', () => {
       closePromoModal();
     }
   });
+})();
+</script>
+
+<!-- AI Chat Widget -->
+<button id="llxChatFab" class="llx-chat-fab" type="button" aria-label="Open chat">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 13a8 8 0 1 1 16 0"></path>
+    <rect x="2.5" y="12.5" width="4" height="6.5" rx="1.5"></rect>
+    <rect x="17.5" y="12.5" width="4" height="6.5" rx="1.5"></rect>
+    <path d="M8 21h8"></path>
+    <path d="M12 17v4"></path>
+  </svg>
+  <span class="llx-chat-fab-tooltip">Chat with Us</span>
+</button>
+<div id="llxChatPanel" class="llx-chat-panel" aria-live="polite">
+  <div class="llx-chat-head">
+    <div><strong>LankaLux Live Chat</strong><small>Warm, tailored guidance</small></div>
+    <button id="llxChatClose" class="llx-chat-close" type="button" aria-label="Close chat">✕</button>
+  </div>
+  <div id="llxChatBody" class="llx-chat-body"></div>
+  <div class="llx-chat-foot">
+    <div class="llx-chat-actions">
+      <button id="llxSendRequest" class="llx-chat-btn primary" type="button" disabled>Send request</button>
+      <button id="llxWhatsApp" class="llx-chat-btn" type="button">WhatsApp</button>
+      <button id="llxResetChat" class="llx-chat-btn" type="button">Reset</button>
+    </div>
+    <div class="llx-chat-row">
+      <input id="llxChatInput" class="llx-chat-input" type="text" placeholder="Type your message...">
+      <button id="llxChatSend" class="llx-chat-btn" type="button">Send</button>
+    </div>
+    <div class="llx-chat-note">For full personalized itineraries, our team prepares them directly after you tap "Send request".</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var CHAT_URL = 'https://admin.lankalux.com/api/chat';
+  var REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
+  var CHATS_URL = 'https://admin.lankalux.com/api/chats';
+  var WHATSAPP_NUMBER = '94763261788';
+  var STORE_KEY = 'llx_chat_state_v2';
+  var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null };
+  var VEHICLE_IMAGE_BASE = 'https://lankalux.com/images/fleet/';
+  var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
+  var fallbackVehicles = [
+    { name: 'Toyota Voxy', image: 'voxy1.jpg' },
+    { name: 'Sedan', image: 'sedan1.jpg' },
+    { name: 'Safari Jeep', image: 'safarijeep.jpg' },
+    { name: 'Party Bus', image: 'partybus1.jpg' }
+  ];
+
+  try {
+    var existing = localStorage.getItem(STORE_KEY);
+    if (existing) {
+      var parsed = JSON.parse(existing);
+      if (parsed && typeof parsed === 'object') state = parsed;
+    }
+  } catch (e) {}
+  if (!state.sessionId) state.sessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+
+  var fab = document.getElementById('llxChatFab');
+  var panel = document.getElementById('llxChatPanel');
+  var closeBtn = document.getElementById('llxChatClose');
+  var body = document.getElementById('llxChatBody');
+  var input = document.getElementById('llxChatInput');
+  var send = document.getElementById('llxChatSend');
+  var sendRequestBtn = document.getElementById('llxSendRequest');
+  var resetBtn = document.getElementById('llxResetChat');
+  var waBtn = document.getElementById('llxWhatsApp');
+
+  function saveState() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function missingFields(d) {
+    var m = [];
+    if (!d.name) m.push('name');
+    if (!d.email) m.push('email');
+    if (!d.startDate) m.push('start date');
+    if (!d.endDate) m.push('end date');
+    if (d.numberOfAdults == null) m.push('number of adults');
+    return m;
+  }
+  function addMessage(role, content) { state.messages.push({ role: role, content: content, kind: 'text' }); }
+  function addVehiclesMessage() { state.messages.push({ role: 'assistant', content: '', kind: 'vehicles' }); state.vehicleShownAt = Date.now(); }
+  async function persistChat(eventType, extras) {
+    try {
+      var payload = {
+        sessionId: state.sessionId,
+        eventType: eventType || 'message',
+        draft: state.draft || {},
+        requestId: state.requestId || null,
+        selectedVehicle: state.selectedVehicle || null,
+        messages: (state.messages || []).slice(-80),
+        handoffRequested: !!(extras && extras.handoffRequested),
+        pageUrl: window.location.href,
+        userAgent: navigator.userAgent
+      };
+      fetch(CHATS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(function() {});
+    } catch (e) {}
+  }
+  function getLastUserMessageText() {
+    for (var i = (state.messages || []).length - 1; i >= 0; i--) {
+      var m = state.messages[i];
+      if (m && m.role === 'user' && m.kind === 'text' && m.content) return String(m.content).toLowerCase();
+    }
+    return '';
+  }
+  function includesAny(text, terms) {
+    return terms.some(function(t) { return text.indexOf(t) !== -1; });
+  }
+  function getRecentUserTexts() {
+    return (state.messages || [])
+      .filter(function(m) { return m && m.role === 'user' && m.kind === 'text' && m.content; })
+      .slice(-6)
+      .map(function(m) { return String(m.content).toLowerCase(); });
+  }
+  function uniqueFirst(arr, max) {
+    var out = [];
+    var seen = {};
+    arr.forEach(function(x) {
+      var k = String(x || '').trim();
+      if (!k || seen[k]) return;
+      seen[k] = true;
+      out.push(k);
+    });
+    return out.slice(0, max || 3);
+  }
+  function getDynamicSuggestions() {
+    var d = state.draft || {};
+    var lastUser = getLastUserMessageText();
+    var recentUsers = getRecentUserTexts();
+    var historyBlob = recentUsers.join(' | ');
+
+    var intentVehicles = includesAny(lastUser, ['vehicle', 'fleet', 'car', 'van', 'jeep', 'transport', 'transfer']);
+    var intentPrice = includesAny(lastUser, ['price', 'cost', 'rate', 'budget', 'package']);
+    var intentFamily = includesAny(lastUser, ['child', 'children', 'kid', 'family']);
+    var intentDates = includesAny(lastUser, ['date', 'when', 'month', 'season', 'june', 'july', 'august', 'december']);
+    var intentAirport = includesAny(lastUser, ['airport', 'pickup', 'drop', 'transfer']);
+    var intentItinerary = includesAny(lastUser, ['itinerary', 'day by day', 'plan']);
+
+    var suggestions = [];
+
+    if (!d.name) suggestions.push('My name is ...');
+    if (!d.email && d.name) suggestions.push('My email is ...');
+    if ((!d.startDate || !d.endDate) && d.name) suggestions.push('Our travel dates are ...');
+    if (d.numberOfAdults == null && d.name) suggestions.push('We are 2 adults');
+
+    if (state.selectedVehicle) {
+      suggestions.push('Yes, reserve this vehicle');
+      suggestions.push('Can this vehicle fit our group and luggage?');
+      suggestions.push('What is included with this vehicle?');
+    } else if (intentVehicles) {
+      suggestions.push('Which vehicle suits our group size best?');
+      suggestions.push('Do your rates include chauffeur and fuel?');
+      suggestions.push('Show me all vehicle options');
+    }
+
+    if (intentPrice) {
+      suggestions.push('What affects the final price most?');
+      suggestions.push('Can you suggest options for our budget?');
+    }
+    if (intentFamily) {
+      suggestions.push('We are travelling with children');
+      suggestions.push('Can you suggest family-friendly options?');
+    }
+    if (intentDates) {
+      suggestions.push('What is the best month for our trip style?');
+      suggestions.push('How many days do you recommend?');
+    }
+    if (intentAirport) {
+      suggestions.push('Yes, we need airport pickup');
+      suggestions.push('Can you arrange all transfers?');
+    }
+    if (intentItinerary) {
+      suggestions.push('Please connect me with an agent');
+      suggestions.push('I will send a request for a tailored itinerary');
+    }
+
+    if (!suggestions.length) {
+      suggestions = [
+        'Show me your vehicle options',
+        'What services are included?',
+        'Do you arrange airport transfers?'
+      ];
+    }
+
+    // Avoid showing chips that the guest already used recently.
+    suggestions = suggestions.filter(function(s) {
+      var low = s.toLowerCase();
+      return historyBlob.indexOf(low) === -1;
+    });
+
+    if (!suggestions.length) {
+      suggestions = ['Show me your vehicle options', 'Please connect me with an agent', 'How soon will your team contact us?'];
+    }
+    return uniqueFirst(suggestions, 3);
+  }
+  function shouldShowVehicles(userText) {
+    var t = String(userText || '').toLowerCase();
+    if (!t) return false;
+    var matches = VEHICLE_KEYWORDS.some(function(k) { return t.indexOf(k) !== -1; });
+    if (!matches) return false;
+    var coolDownMs = 120000; // avoid showing cards repeatedly in short bursts
+    return !state.vehicleShownAt || (Date.now() - state.vehicleShownAt > coolDownMs);
+  }
+  function getChatVehicles() {
+    try {
+      if (typeof vehiclesData !== 'undefined' && vehiclesData && typeof vehiclesData === 'object') {
+        var allVehicles = Object.keys(vehiclesData).map(function(key) { return vehiclesData[key]; });
+        return allVehicles
+          .map(function(v) {
+            var firstImage = (Array.isArray(v.images) && v.images.length ? String(v.images[0]).trim() : '').trim();
+            if (!firstImage) return null;
+            var image = /^https?:\/\//i.test(firstImage)
+              ? firstImage
+              : (/^images\//i.test(firstImage) ? ('https://lankalux.com/' + firstImage) : (VEHICLE_IMAGE_BASE + firstImage));
+            return { name: v.name || 'Vehicle', image: image };
+          })
+          .filter(function(v) { return !!v; });
+      }
+    } catch (e) {}
+    return fallbackVehicles.map(function(v) { return { name: v.name, image: VEHICLE_IMAGE_BASE + v.image }; });
+  }
+  function onVehicleCardClick(vehicleName) {
+    var name = String(vehicleName || '').trim();
+    if (!name) return;
+    state.selectedVehicle = name;
+    state.draft = state.draft || {};
+    if (!state.draft.message || String(state.draft.message).indexOf(name) === -1) {
+      var base = state.draft.message ? String(state.draft.message).trim() + '\n' : '';
+      state.draft.message = base + 'Interested vehicle: ' + name;
+    }
+    addMessage('user', 'I am interested in ' + name + '.');
+    addMessage('assistant', 'Excellent choice. Would you like me to prepare a reservation request for ' + name + '? You can tap "Send request" or tell me your preferred dates and passenger count.');
+    render();
+    persistChat('vehicle_selected');
+  }
+  function render() {
+    body.innerHTML = '';
+    (state.messages || []).forEach(function(m) {
+      if (m.kind === 'vehicles') {
+        var wrap = document.createElement('div');
+        wrap.className = 'llx-chat-vehicle-wrap';
+        var title = document.createElement('p');
+        title.className = 'llx-chat-vehicle-title';
+        title.textContent = 'Our vehicle options';
+        wrap.appendChild(title);
+        var grid = document.createElement('div');
+        grid.className = 'llx-chat-vehicle-grid';
+        getChatVehicles().forEach(function(v) {
+          var card = document.createElement('div');
+          card.className = 'llx-chat-vehicle-card';
+          card.setAttribute('role', 'button');
+          card.setAttribute('tabindex', '0');
+          var img = document.createElement('img');
+          img.loading = 'lazy';
+          img.alt = v.name;
+          img.src = v.image;
+          var label = document.createElement('span');
+          label.textContent = v.name;
+          card.addEventListener('click', function() { onVehicleCardClick(v.name); });
+          card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onVehicleCardClick(v.name);
+            }
+          });
+          card.appendChild(img);
+          card.appendChild(label);
+          grid.appendChild(card);
+        });
+        wrap.appendChild(grid);
+        body.appendChild(wrap);
+      } else {
+        var el = document.createElement('div');
+        el.className = 'llx-chat-msg ' + m.role;
+        el.textContent = m.content;
+        body.appendChild(el);
+      }
+    });
+    if (state.isTyping) {
+      var typing = document.createElement('div');
+      typing.className = 'llx-chat-typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      body.appendChild(typing);
+    }
+    if (!state.isTyping && !state.requestId) {
+      var suggestions = getDynamicSuggestions();
+      if (suggestions && suggestions.length) {
+        var suggestWrap = document.createElement('div');
+        suggestWrap.className = 'llx-chat-suggest-wrap';
+        suggestions.forEach(function(text) {
+          var chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'llx-chat-chip';
+          chip.textContent = text;
+          chip.addEventListener('click', function() { submitMessage(text); });
+          suggestWrap.appendChild(chip);
+        });
+        body.appendChild(suggestWrap);
+      }
+    }
+    body.scrollTop = body.scrollHeight;
+    if (state.requestId) {
+      sendRequestBtn.textContent = 'Saved: ' + state.requestId;
+      sendRequestBtn.disabled = true;
+    } else {
+      sendRequestBtn.textContent = 'Send request';
+      sendRequestBtn.disabled = missingFields(state.draft || {}).length > 0;
+    }
+    saveState();
+  }
+  function openPanel() {
+    panel.classList.add('open');
+    if (!state.messages.length) {
+      addMessage('assistant', 'Welcome to LankaLux Live Chat.\n\nMay I have your name first so I can address you properly?');
+    }
+    render();
+    setTimeout(function() { input.focus(); }, 50);
+  }
+  async function callChat() {
+    var res = await fetch(CHAT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: state.messages, draft: state.draft || {} })
+    });
+    var data = await res.json().catch(function() { return null; });
+    if (!res.ok || !data || !data.success) throw new Error((data && data.error) || 'Chat unavailable');
+    if (data.draft) state.draft = data.draft;
+    if (typeof data.reply === 'string' && data.reply.trim()) addMessage('assistant', data.reply.trim());
+  }
+  async function submitMessage(preFilledText) {
+    var text = String(preFilledText || input.value || '').trim();
+    if (!text) return;
+    if (!preFilledText) input.value = '';
+    var askVehicles = shouldShowVehicles(text);
+    addMessage('user', text);
+    render();
+    try {
+      state.isTyping = true;
+      render();
+      await callChat();
+      if (askVehicles) addVehiclesMessage();
+    } catch (e) {
+      addMessage('assistant', 'Sorry — I could not reply right now. You can tap WhatsApp and we will assist immediately.');
+    } finally {
+      state.isTyping = false;
+    }
+    render();
+    persistChat('message');
+  }
+  function formatTravelDatesDisplay(d) {
+    if (!d.startDate && !d.endDate) return 'Not specified';
+    function fmt(iso) {
+      if (!iso) return '';
+      var dt = new Date(iso + 'T12:00:00');
+      return isNaN(dt.getTime()) ? iso : dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    var a = fmt(d.startDate), b = fmt(d.endDate);
+    return (a && b) ? (a + ' – ' + b) : (a || b || 'Not specified');
+  }
+  function passengersDisplay(d) {
+    var a = d.numberOfAdults != null ? String(d.numberOfAdults) : '0';
+    var c = d.numberOfChildren != null ? parseInt(String(d.numberOfChildren), 10) : 0;
+    var s = a + ' adult' + (a === '1' ? '' : 's');
+    if (c > 0) s += ', ' + c + ' child' + (c === 1 ? '' : 'ren');
+    return s;
+  }
+  async function sendRequest() {
+    var miss = missingFields(state.draft || {});
+    if (miss.length) {
+      addMessage('assistant', 'Before I submit your request, I just need: ' + miss.join(', ') + '.');
+      render();
+      return;
+    }
+    var d = state.draft || {};
+    var payload = {
+      name: d.name || null,
+      email: d.email || null,
+      whatsapp: d.whatsapp || null,
+      startDate: d.startDate || null,
+      endDate: d.endDate || null,
+      numberOfAdults: d.numberOfAdults != null ? d.numberOfAdults : null,
+      numberOfChildren: d.numberOfChildren != null ? d.numberOfChildren : null,
+      childrenAgesValues: Array.isArray(d.childrenAgesValues) && d.childrenAgesValues.length ? d.childrenAgesValues : null,
+      travelDates: formatTravelDatesDisplay(d),
+      passengers: passengersDisplay(d),
+      kidsAges: Array.isArray(d.childrenAgesValues) && d.childrenAgesValues.length ? d.childrenAgesValues.join(', ') : 'None',
+      message: d.message || '',
+      needAirlineTickets: !!d.needAirlineTickets,
+      airlineFrom: d.airlineFrom || '',
+      airlineDates: d.airlineDates || ''
+    };
+    try {
+      var res = await fetch(REQUESTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      var data = await res.json().catch(function() { return null; });
+      if (!res.ok || !data || !data.success) throw new Error((data && data.error) || 'Request failed');
+      state.requestId = data.requestId;
+      addMessage('assistant', 'Perfect — your request is saved as ' + data.requestId + '. Our team will be in touch shortly.');
+    } catch (e) {
+      addMessage('assistant', 'I could not submit right now. Please tap WhatsApp and we will take care of it immediately.');
+    }
+    render();
+    persistChat('request_submitted');
+  }
+  function openWhatsApp() {
+    var d = state.draft || {};
+    var transcript = (state.messages || [])
+      .filter(function(m) { return m && m.kind === 'text' && m.content; })
+      .slice(-30)
+      .map(function(m) {
+        var who = m.role === 'assistant' ? 'LankaLux Live Chat' : 'Guest';
+        return who + ': ' + String(m.content).replace(/\n+/g, ' ').trim();
+      })
+      .filter(Boolean)
+      .join('\n');
+    var lines = [
+      'LankaLux chat handover',
+      d.name ? ('Name: ' + d.name) : null,
+      d.email ? ('Email: ' + d.email) : null,
+      d.whatsapp ? ('WhatsApp: ' + d.whatsapp) : null,
+      (d.startDate && d.endDate) ? ('Dates: ' + d.startDate + ' -> ' + d.endDate) : null,
+      d.numberOfAdults != null ? ('Adults: ' + d.numberOfAdults) : null,
+      d.numberOfChildren != null ? ('Children: ' + d.numberOfChildren) : null,
+      state.requestId ? ('Request ID: ' + state.requestId) : null,
+      transcript ? '\nChat transcript:\n' + transcript : null,
+      '\nPlease continue this conversation directly with the guest.'
+    ].filter(Boolean);
+    // Keep under very large payload sizes for WhatsApp URL handoff.
+    var composed = lines.join('\n');
+    if (composed.length > 3500) composed = composed.slice(0, 3500) + '\n...[truncated]';
+    var text = encodeURIComponent(composed);
+    persistChat('whatsapp_handoff', { handoffRequested: true });
+    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text, '_blank');
+  }
+
+  fab.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', function() { panel.classList.remove('open'); });
+  send.addEventListener('click', submitMessage);
+  input.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitMessage(); });
+  sendRequestBtn.addEventListener('click', sendRequest);
+  waBtn.addEventListener('click', openWhatsApp);
+  resetBtn.addEventListener('click', function() {
+    var sessionId = 'llx-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: sessionId };
+    render();
+    persistChat('chat_reset');
+  });
+  render();
 })();
 </script>
 
