@@ -1462,7 +1462,7 @@ footer{
 }
 /* AI Chat Widget */
 .llx-chat-fab{
-  position:fixed!important;bottom:30px!important;right:30px!important;z-index:2100;
+  position:fixed!important;bottom:30px!important;right:30px!important;z-index:5000;
   width:60px;height:60px;border-radius:999px;
   border:2px solid #caa24d;
   background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
@@ -1506,7 +1506,7 @@ footer{
 }
 .llx-chat-panel{
   position:fixed;top:max(10px,env(safe-area-inset-top,0px));right:30px;
-  bottom:calc(170px + env(safe-area-inset-bottom,0px));z-index:2100;
+  bottom:calc(170px + env(safe-area-inset-bottom,0px));z-index:5000;
   width:min(420px,calc(100vw - 36px));
   max-height:620px;
   height:auto;
@@ -1752,7 +1752,7 @@ footer{
   from{transform:scale(.92);opacity:.5}
   to{transform:scale(1.18);opacity:0}
 }
-@media(max-width:768px){
+@media(max-width:1024px), (pointer:coarse){
   .llx-chat-fab{width:55px;height:55px;bottom:max(20px,env(safe-area-inset-bottom,0px))!important;right:max(20px,env(safe-area-inset-right,0px))!important}
   /* Full-screen chat on phone — positioned/sized by JS from visualViewport when open */
   .llx-chat-panel{
@@ -1771,6 +1771,9 @@ footer{
 }
 .llx-chat-fab.llx-chat-fab--hidden{
   opacity:0;pointer-events:none;transform:scale(.9)
+}
+body.llx-chat-open{
+  overflow:hidden;
 }
 </style>
 </head>
@@ -3769,11 +3772,12 @@ reviewCarousel.addEventListener('mouseleave', () => {
   }
   function addMessage(role, content) { state.messages.push({ role: role, content: content, kind: 'text' }); }
   function isMobileViewport() {
-    return window.matchMedia('(max-width: 768px)').matches;
+    return window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches;
   }
   function resetKeyboardLayout() {
     panel.classList.remove('llx-chat-panel--keyboard-open');
     fab.classList.remove('llx-chat-fab--hidden');
+    document.body.classList.remove('llx-chat-open');
     panel.style.top = '';
     panel.style.bottom = '';
     panel.style.left = '';
@@ -3788,6 +3792,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       resetKeyboardLayout();
       return;
     }
+    document.body.classList.add('llx-chat-open');
     var vv = window.visualViewport;
     panel.classList.add('llx-chat-panel--keyboard-open');
     fab.classList.add('llx-chat-fab--hidden');
@@ -4211,6 +4216,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   }
   function openPanel() {
     panel.classList.add('open');
+    if (isMobileViewport()) document.body.classList.add('llx-chat-open');
     if (!state.pendingAgentConnect && !state.showEndRating) state.postRatingThanks = false;
     if (!state.messages.length && !state.pendingAgentConnect) {
       addMessage('assistant', WELCOME_MESSAGE);
@@ -4369,6 +4375,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
   fab.addEventListener('click', openPanel);
   closeBtn.addEventListener('click', function() {
     panel.classList.remove('open');
+    document.body.classList.remove('llx-chat-open');
     resetKeyboardLayout();
   });
   send.addEventListener('click', function() { submitMessage(); });
