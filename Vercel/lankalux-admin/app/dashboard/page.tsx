@@ -81,7 +81,8 @@ export default function DashboardPage() {
       const { count, error } = await supabase
         .from('website_chat_sessions')
         .select('*', { count: 'exact', head: true })
-        .eq('is_read', false)
+        // Treat null like unread, since older/new rows may not set is_read explicitly.
+        .or('is_read.is.false,is_read.is.null')
       if (error) {
         console.error('Error fetching unread chats count:', error)
         return
@@ -99,6 +100,15 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchUnreadChats()
   }, [fetchUnreadChats])
+
+  // Keep unread chat dot fresh while dashboard stays open.
+  useEffect(() => {
+    if (loading) return
+    const interval = window.setInterval(() => {
+      fetchUnreadChats()
+    }, 12000)
+    return () => window.clearInterval(interval)
+  }, [loading, fetchUnreadChats])
 
   // Refresh requests when page becomes visible (user navigates back)
   useEffect(() => {
