@@ -1763,6 +1763,12 @@ footer{
   .llx-chat-fab-tooltip{display:none}
   .llx-chat-vehicle-grid{grid-template-columns:1fr}
 }
+.llx-chat-panel.llx-chat-panel--keyboard-open{
+  transition:opacity .2s ease,transform .2s ease;
+}
+.llx-chat-fab.llx-chat-fab--hidden{
+  opacity:0;pointer-events:none;transform:scale(.9)
+}
 </style>
 </head>
 
@@ -3743,13 +3749,13 @@ reviewCarousel.addEventListener('mouseleave', () => {
   var sendRequestBtn = document.getElementById('llxSendRequest');
   var endChatBtn = document.getElementById('llxEndChat');
   var waBtn = document.getElementById('llxWhatsApp');
+  var keyboardTick = 0;
 
   function saveState() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
   }
   function missingFields(d) {
     var m = [];
-    if (!d.name) m.push('name');
     if (!d.email && !d.whatsapp) m.push('email or WhatsApp');
     if (!d.startDate) m.push('start date');
     if (!d.endDate) m.push('end date');
@@ -3757,6 +3763,45 @@ reviewCarousel.addEventListener('mouseleave', () => {
     return m;
   }
   function addMessage(role, content) { state.messages.push({ role: role, content: content, kind: 'text' }); }
+  function isMobileViewport() {
+    return window.matchMedia('(max-width: 768px)').matches;
+  }
+  function resetKeyboardLayout() {
+    panel.classList.remove('llx-chat-panel--keyboard-open');
+    fab.classList.remove('llx-chat-fab--hidden');
+    panel.style.top = '';
+    panel.style.bottom = '';
+    panel.style.maxHeight = '';
+  }
+  function applyKeyboardAwareLayout() {
+    if (!panel.classList.contains('open') || !isMobileViewport()) {
+      resetKeyboardLayout();
+      return;
+    }
+    var vv = window.visualViewport;
+    if (!vv) {
+      resetKeyboardLayout();
+      return;
+    }
+    var keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    var keyboardOpen = keyboardHeight > 90;
+    if (!keyboardOpen) {
+      resetKeyboardLayout();
+      return;
+    }
+    panel.classList.add('llx-chat-panel--keyboard-open');
+    fab.classList.add('llx-chat-fab--hidden');
+    var top = Math.max(8, vv.offsetTop + 8);
+    var bottom = Math.max(8, keyboardHeight + 8);
+    panel.style.top = top + 'px';
+    panel.style.bottom = bottom + 'px';
+    panel.style.maxHeight = 'none';
+    body.scrollTop = body.scrollHeight;
+  }
+  function scheduleKeyboardLayout() {
+    clearTimeout(keyboardTick);
+    keyboardTick = setTimeout(applyKeyboardAwareLayout, 40);
+  }
   function applyChatControlsLock() {
     var lock = !!state.showEndRating;
     input.disabled = lock;
@@ -3915,6 +3960,16 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (!matches) return false;
     var coolDownMs = 120000; // avoid showing cards repeatedly in short bursts
     return !state.vehicleShownAt || (Date.now() - state.vehicleShownAt > coolDownMs);
+  }
+  function wantsAgentHandoff(text) {
+    var t = String(text || '').toLowerCase();
+    if (!t) return false;
+    return t.indexOf('connect me with an agent') !== -1
+      || t.indexOf('connect to agent') !== -1
+      || t.indexOf('talk to agent') !== -1
+      || t.indexOf('speak to agent') !== -1
+      || t.indexOf('human agent') !== -1
+      || t.indexOf('whatsapp agent') !== -1;
   }
   function getChatVehicles() {
     try {
@@ -4131,7 +4186,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
     state.pendingAgentConnect = false;
     state.postRatingThanks = false;
     if (!(state.messages || []).length) {
-      addMessage('assistant', 'Welcome to LankaLux Live Chat.\n\nMay I have your name first so I can address you properly?');
+      addMessage('assistant', 'Welcome — I\'m glad you\'re here.\n\nTell me what you\'re curious about, or ask anything about travelling in Sri Lanka.');
     }
     render();
     persistChat('agent_connect_whatsapp');
@@ -4140,10 +4195,20 @@ reviewCarousel.addEventListener('mouseleave', () => {
     panel.classList.add('open');
     if (!state.pendingAgentConnect && !state.showEndRating) state.postRatingThanks = false;
     if (!state.messages.length && !state.pendingAgentConnect) {
-      addMessage('assistant', 'Welcome to LankaLux Live Chat.\n\nMay I have your name first so I can address you properly?');
+      addMessage('assistant', 'Welcome — I\'m glad you\'re here.\n\nTell me what you\'re curious about, or ask anything about travelling in Sri Lanka.');
     }
     render();
+    scheduleKeyboardLayout();
     setTimeout(function() { input.focus(); }, 50);
+  }
+  function typingDelayMs(replyText) {
+    var t = String(replyText || '');
+    var base = 650 + Math.min(2800, t.length * 32);
+    var jitter = 180 + Math.floor(Math.random() * 520);
+    return Math.min(4800, base + jitter);
+  }
+  function sleep(ms) {
+    return new Promise(function(resolve) { setTimeout(resolve, ms); });
   }
   async function callChat() {
     var res = await fetch(CHAT_URL, {
@@ -4154,7 +4219,11 @@ reviewCarousel.addEventListener('mouseleave', () => {
     var data = await res.json().catch(function() { return null; });
     if (!res.ok || !data || !data.success) throw new Error((data && data.error) || 'Chat unavailable');
     if (data.draft) state.draft = data.draft;
-    if (typeof data.reply === 'string' && data.reply.trim()) addMessage('assistant', data.reply.trim());
+    var reply = typeof data.reply === 'string' ? data.reply.trim() : '';
+    if (!reply) return null;
+    await sleep(typingDelayMs(reply));
+    addMessage('assistant', reply);
+    return reply;
   }
   async function submitMessage(preFilledText) {
     if (state.showEndRating) return;
@@ -4163,6 +4232,13 @@ reviewCarousel.addEventListener('mouseleave', () => {
     var text = String(pre || input.value || '').trim();
     if (!text) return;
     if (!pre) input.value = '';
+    if (wantsAgentHandoff(text)) {
+      addMessage('user', text);
+      addMessage('assistant', 'Absolutely — I will connect you with our LankaLux team on WhatsApp now.');
+      render();
+      openWhatsApp();
+      return;
+    }
     var askVehicles = shouldShowVehicles(text);
     addMessage('user', text);
     render();
@@ -4172,6 +4248,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       await callChat();
       if (askVehicles) addVehiclesMessage();
     } catch (e) {
+      await sleep(380 + Math.floor(Math.random() * 220));
       addMessage('assistant', 'Sorry — I could not reply right now. You can tap WhatsApp and we will assist immediately.');
     } finally {
       state.isTyping = false;
@@ -4265,13 +4342,34 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (composed.length > 3500) composed = composed.slice(0, 3500) + '\n...[truncated]';
     var text = encodeURIComponent(composed);
     persistChat('whatsapp_handoff', { handoffRequested: true });
-    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text, '_blank');
+    var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text;
+    var win = window.open(waUrl, '_blank');
+    // Mobile browsers can block popups; fallback to same-tab redirect.
+    if (!win) window.location.href = waUrl;
   }
 
   fab.addEventListener('click', openPanel);
-  closeBtn.addEventListener('click', function() { panel.classList.remove('open'); });
+  closeBtn.addEventListener('click', function() {
+    panel.classList.remove('open');
+    resetKeyboardLayout();
+  });
   send.addEventListener('click', function() { submitMessage(); });
   input.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitMessage(); });
+  input.addEventListener('focus', function() {
+    scheduleKeyboardLayout();
+    setTimeout(function() {
+      try { input.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
+      body.scrollTop = body.scrollHeight;
+    }, 80);
+  });
+  input.addEventListener('blur', function() {
+    setTimeout(scheduleKeyboardLayout, 120);
+  });
+  window.addEventListener('resize', scheduleKeyboardLayout);
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', scheduleKeyboardLayout);
+    window.visualViewport.addEventListener('scroll', scheduleKeyboardLayout);
+  }
   sendRequestBtn.addEventListener('click', sendRequest);
   waBtn.addEventListener('click', openWhatsApp);
   endChatBtn.addEventListener('click', openEndChatRating);

@@ -57,7 +57,7 @@ export async function POST(request: Request) {
 
     const { data: existing } = await supabase
       .from('website_chat_sessions')
-      .select('is_read, chat_rating, chat_rated_at')
+      .select('chat_rating, chat_rated_at')
       .eq('session_id', sessionId)
       .maybeSingle()
 
@@ -75,8 +75,6 @@ export async function POST(request: Request) {
       draft_json: draft,
       last_event: eventType,
       handoff_requested: !!body?.handoffRequested,
-      // Preserve agent read state; new rows stay unread.
-      is_read: existing && typeof existing.is_read === 'boolean' ? existing.is_read : false,
       page_url: safeText(body?.pageUrl) || null,
       user_agent: safeText(body?.userAgent) || null,
       updated_at: new Date().toISOString(),
