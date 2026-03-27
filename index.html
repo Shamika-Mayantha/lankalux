@@ -1505,10 +1505,12 @@ footer{
   opacity:1
 }
 .llx-chat-panel{
-  position:fixed;right:30px;bottom:170px;z-index:2100;
+  position:fixed;top:max(10px,env(safe-area-inset-top,0px));right:30px;
+  bottom:calc(170px + env(safe-area-inset-bottom,0px));z-index:2100;
   width:min(420px,calc(100vw - 36px));
-  height:min(620px,calc(100vh - 110px));
-  display:flex;flex-direction:column;overflow:hidden;
+  max-height:620px;
+  height:auto;
+  display:flex;flex-direction:column;overflow:hidden;min-height:0;
   border:1px solid #2a2a2a;border-radius:14px;
   background:rgba(15,15,15,.97);
   box-shadow:0 22px 56px rgba(0,0,0,.6);
@@ -1539,7 +1541,8 @@ footer{
   border-color:rgba(202,162,77,.45);color:#d9bb76;background:rgba(202,162,77,.08)
 }
 .llx-chat-body{
-  flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px
+  flex:1;min-height:0;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px;
+  -webkit-overflow-scrolling:touch
 }
 .llx-chat-msg{
   max-width:86%;padding:11px 13px;border-radius:14px;
@@ -1749,8 +1752,14 @@ footer{
   to{transform:scale(1.18);opacity:0}
 }
 @media(max-width:768px){
-  .llx-chat-fab{width:55px;height:55px;bottom:20px!important;right:20px!important}
-  .llx-chat-panel{right:10px;bottom:160px;width:min(420px,calc(100vw - 20px))}
+  .llx-chat-fab{width:55px;height:55px;bottom:max(20px,env(safe-area-inset-bottom,0px))!important;right:max(20px,env(safe-area-inset-right,0px))!important}
+  .llx-chat-panel{
+    top:max(8px,env(safe-area-inset-top,0px));
+    right:max(10px,env(safe-area-inset-right,0px));
+    bottom:calc(160px + env(safe-area-inset-bottom,0px));
+    width:min(420px,calc(100vw - 20px));
+    max-height:620px
+  }
   .llx-chat-fab-tooltip{display:none}
   .llx-chat-vehicle-grid{grid-template-columns:1fr}
 }
@@ -4150,9 +4159,10 @@ reviewCarousel.addEventListener('mouseleave', () => {
   async function submitMessage(preFilledText) {
     if (state.showEndRating) return;
     if (state.pendingAgentConnect) state.pendingAgentConnect = false;
-    var text = String(preFilledText || input.value || '').trim();
+    var pre = typeof preFilledText === 'string' ? preFilledText : '';
+    var text = String(pre || input.value || '').trim();
     if (!text) return;
-    if (!preFilledText) input.value = '';
+    if (!pre) input.value = '';
     var askVehicles = shouldShowVehicles(text);
     addMessage('user', text);
     render();
@@ -4260,7 +4270,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
 
   fab.addEventListener('click', openPanel);
   closeBtn.addEventListener('click', function() { panel.classList.remove('open'); });
-  send.addEventListener('click', submitMessage);
+  send.addEventListener('click', function() { submitMessage(); });
   input.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitMessage(); });
   sendRequestBtn.addEventListener('click', sendRequest);
   waBtn.addEventListener('click', openWhatsApp);
