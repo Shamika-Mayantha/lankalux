@@ -1510,6 +1510,7 @@ footer{
   width:min(420px,calc(100vw - 36px));
   max-height:620px;
   height:auto;
+  left:auto;
   display:flex;flex-direction:column;overflow:hidden;min-height:0;
   border:1px solid #2a2a2a;border-radius:14px;
   background:rgba(15,15,15,.97);
@@ -1753,12 +1754,14 @@ footer{
 }
 @media(max-width:768px){
   .llx-chat-fab{width:55px;height:55px;bottom:max(20px,env(safe-area-inset-bottom,0px))!important;right:max(20px,env(safe-area-inset-right,0px))!important}
+  /* Full-screen chat on phone — positioned/sized by JS from visualViewport when open */
   .llx-chat-panel{
-    top:max(8px,env(safe-area-inset-top,0px));
-    right:max(10px,env(safe-area-inset-right,0px));
-    bottom:calc(160px + env(safe-area-inset-bottom,0px));
-    width:min(420px,calc(100vw - 20px));
-    max-height:620px
+    top:0;left:0;right:0;bottom:0;
+    width:100%;
+    max-height:none;
+    height:100dvh;
+    border-radius:0;
+    padding-bottom:env(safe-area-inset-bottom,0px)
   }
   .llx-chat-fab-tooltip{display:none}
   .llx-chat-vehicle-grid{grid-template-columns:1fr}
@@ -3718,6 +3721,8 @@ reviewCarousel.addEventListener('mouseleave', () => {
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
   var STORE_KEY = 'llx_chat_state_v2';
+  var WELCOME_MESSAGE =
+    'Hi, welcome to LankaLux.\n\nWhat should I call you? Then tell me what you are planning (or just ask a question).';
   var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false, postRatingThanks: false };
   var VEHICLE_IMAGE_BASE = 'https://lankalux.com/images/fleet/';
   var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
@@ -3771,32 +3776,45 @@ reviewCarousel.addEventListener('mouseleave', () => {
     fab.classList.remove('llx-chat-fab--hidden');
     panel.style.top = '';
     panel.style.bottom = '';
+    panel.style.left = '';
+    panel.style.right = '';
+    panel.style.width = '';
+    panel.style.height = '';
     panel.style.maxHeight = '';
   }
+  /** On mobile, pin the panel to window.visualViewport so the keyboard does not crop the composer. */
   function applyKeyboardAwareLayout() {
     if (!panel.classList.contains('open') || !isMobileViewport()) {
       resetKeyboardLayout();
       return;
     }
     var vv = window.visualViewport;
-    if (!vv) {
-      resetKeyboardLayout();
-      return;
-    }
-    var keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-    var keyboardOpen = keyboardHeight > 90;
-    if (!keyboardOpen) {
-      resetKeyboardLayout();
-      return;
-    }
     panel.classList.add('llx-chat-panel--keyboard-open');
     fab.classList.add('llx-chat-fab--hidden');
-    var top = Math.max(8, vv.offsetTop + 8);
-    var bottom = Math.max(8, keyboardHeight + 8);
-    panel.style.top = top + 'px';
-    panel.style.bottom = bottom + 'px';
+    if (!vv) {
+      panel.style.top = '0';
+      panel.style.left = '0';
+      panel.style.right = '0';
+      panel.style.width = '100%';
+      panel.style.bottom = 'auto';
+      panel.style.height = '100dvh';
+      panel.style.maxHeight = 'none';
+      return;
+    }
+    panel.style.top = vv.offsetTop + 'px';
+    panel.style.left = '0';
+    panel.style.right = '0';
+    panel.style.width = '100%';
+    panel.style.bottom = 'auto';
+    panel.style.height = vv.height + 'px';
     panel.style.maxHeight = 'none';
-    body.scrollTop = body.scrollHeight;
+  }
+  function focusInputNoScroll() {
+    try {
+      if (typeof input.focus === 'function') input.focus({ preventScroll: true });
+    } catch (e) {
+      input.focus();
+    }
   }
   function scheduleKeyboardLayout() {
     clearTimeout(keyboardTick);
@@ -4011,7 +4029,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       if (state.postRatingThanks) {
         var thanksP = document.createElement('p');
         thanksP.className = 'llx-chat-rating-thanks';
-        thanksP.textContent = 'Thank you for rating this chat — it helps us improve.';
+        thanksP.textContent = 'Thank you for rating this chat. It helps us improve.';
         connectWrap.appendChild(thanksP);
       }
       var connectP = document.createElement('p');
@@ -4186,7 +4204,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
     state.pendingAgentConnect = false;
     state.postRatingThanks = false;
     if (!(state.messages || []).length) {
-      addMessage('assistant', 'Welcome — I\'m glad you\'re here.\n\nTell me what you\'re curious about, or ask anything about travelling in Sri Lanka.');
+      addMessage('assistant', WELCOME_MESSAGE);
     }
     render();
     persistChat('agent_connect_whatsapp');
@@ -4195,11 +4213,11 @@ reviewCarousel.addEventListener('mouseleave', () => {
     panel.classList.add('open');
     if (!state.pendingAgentConnect && !state.showEndRating) state.postRatingThanks = false;
     if (!state.messages.length && !state.pendingAgentConnect) {
-      addMessage('assistant', 'Welcome — I\'m glad you\'re here.\n\nTell me what you\'re curious about, or ask anything about travelling in Sri Lanka.');
+      addMessage('assistant', WELCOME_MESSAGE);
     }
     render();
     scheduleKeyboardLayout();
-    setTimeout(function() { input.focus(); }, 50);
+    setTimeout(focusInputNoScroll, 50);
   }
   function typingDelayMs(replyText) {
     var t = String(replyText || '');
@@ -4234,7 +4252,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (!pre) input.value = '';
     if (wantsAgentHandoff(text)) {
       addMessage('user', text);
-      addMessage('assistant', 'Absolutely — I will connect you with our LankaLux team on WhatsApp now.');
+      addMessage('assistant', 'Sure. I will connect you with our LankaLux team on WhatsApp now.');
       render();
       openWhatsApp();
       return;
@@ -4249,7 +4267,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       if (askVehicles) addVehiclesMessage();
     } catch (e) {
       await sleep(380 + Math.floor(Math.random() * 220));
-      addMessage('assistant', 'Sorry — I could not reply right now. You can tap WhatsApp and we will assist immediately.');
+      addMessage('assistant', 'Sorry, I could not reply right now. You can tap WhatsApp and we will assist immediately.');
     } finally {
       state.isTyping = false;
     }
@@ -4307,7 +4325,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       var data = await res.json().catch(function() { return null; });
       if (!res.ok || !data || !data.success) throw new Error((data && data.error) || 'Request failed');
       state.requestId = data.requestId;
-      addMessage('assistant', 'Perfect — your request is saved as ' + data.requestId + '. Our team will be in touch shortly.');
+      addMessage('assistant', 'Perfect. Your request is saved as ' + data.requestId + '. Our team will be in touch shortly.');
     } catch (e) {
       addMessage('assistant', 'I could not submit right now. Please tap WhatsApp and we will take care of it immediately.');
     }
@@ -4358,7 +4376,6 @@ reviewCarousel.addEventListener('mouseleave', () => {
   input.addEventListener('focus', function() {
     scheduleKeyboardLayout();
     setTimeout(function() {
-      try { input.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
       body.scrollTop = body.scrollHeight;
     }, 80);
   });
