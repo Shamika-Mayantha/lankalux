@@ -1505,21 +1505,25 @@ footer{
   opacity:1
 }
 .llx-chat-panel{
-  position:fixed;top:max(10px,env(safe-area-inset-top,0px));right:30px;
-  bottom:calc(170px + env(safe-area-inset-bottom,0px));z-index:5000;
-  width:min(420px,calc(100vw - 36px));
-  max-height:620px;
-  height:auto;
-  left:auto;
+  position:fixed!important;
+  bottom:calc(104px + env(safe-area-inset-bottom,0px))!important;
+  right:max(24px,env(safe-area-inset-right,0px))!important;
+  top:auto!important;
+  left:auto!important;
+  z-index:5000;
+  width:min(420px,calc(100vw - 40px));
+  height:min(580px,calc(100dvh - 140px));
+  max-height:min(580px,calc(100dvh - 140px));
   display:flex;flex-direction:column;overflow:hidden;min-height:0;
-  border:1px solid #2a2a2a;border-radius:14px;
+  border:1px solid #2a2a2a;border-radius:18px;
   background:rgba(15,15,15,.97);
-  box-shadow:0 22px 56px rgba(0,0,0,.6);
-  opacity:0;transform:translateY(14px) scale(.98);
-  pointer-events:none;transition:opacity .25s ease, transform .28s ease
+  box-shadow:0 24px 64px rgba(0,0,0,.55);
+  opacity:0;transform:translateY(18px) scale(.96);
+  pointer-events:none;transition:opacity .38s ease, transform .4s cubic-bezier(.22,1,.36,1), box-shadow .35s ease
 }
 .llx-chat-panel.open{
-  opacity:1;transform:translateY(0) scale(1);pointer-events:auto
+  opacity:1;transform:translateY(0) scale(1);pointer-events:auto;
+  box-shadow:0 28px 72px rgba(0,0,0,.58)
 }
 .llx-chat-head{
   display:flex;justify-content:space-between;align-items:center;
@@ -1542,13 +1546,13 @@ footer{
   border-color:rgba(202,162,77,.45);color:#d9bb76;background:rgba(202,162,77,.08)
 }
 .llx-chat-body{
-  flex:1;min-height:0;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px;
+  flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:16px 16px 18px;display:flex;flex-direction:column;gap:18px;
   -webkit-overflow-scrolling:touch
 }
 .llx-chat-msg{
-  max-width:86%;padding:11px 13px;border-radius:14px;
-  font-size:13.5px;line-height:1.55;white-space:pre-wrap;
-  animation:llxMsgIn .22s ease
+  max-width:88%;padding:12px 15px;border-radius:16px;
+  font-size:14px;line-height:1.55;white-space:pre-wrap;
+  animation:llxMsgIn .28s cubic-bezier(.22,1,.36,1)
 }
 .llx-chat-msg.user{
   align-self:flex-end;background:linear-gradient(135deg,#1a1a1a,#202020);
@@ -1610,8 +1614,8 @@ footer{
   animation:llxPulse .9s ease forwards
 }
 .llx-chat-foot{
-  border-top:1px solid #262626;padding:12px;
-  display:flex;flex-direction:column;gap:10px;background:#121212
+  border-top:1px solid #262626;padding:14px 14px 16px;
+  display:flex;flex-direction:column;gap:12px;background:#121212;flex-shrink:0
 }
 .llx-chat-draft{
   font-size:12px;color:#d9d1c2;line-height:1.5;
@@ -1646,8 +1650,8 @@ footer{
 .llx-chat-btn:disabled{opacity:.5;cursor:not-allowed}
 .llx-chat-row{display:flex;gap:8px}
 .llx-chat-input{
-  flex:1;border:1px solid #2a2a2a;border-radius:10px;background:#0e0e0e;color:#f5f5f5;
-  padding:10px 11px;font-size:13px;font-family:'Inter',sans-serif
+  flex:1;border:1px solid #2a2a2a;border-radius:12px;background:#0e0e0e;color:#f5f5f5;
+  padding:11px 12px;font-size:14px;font-family:'Inter',sans-serif;line-height:1.4
 }
 .llx-chat-input::placeholder{color:#9f9586}
 .llx-chat-note{
@@ -1754,12 +1758,13 @@ footer{
 }
 @media(max-width:1024px), (pointer:coarse){
   .llx-chat-fab{width:55px;height:55px;bottom:max(20px,env(safe-area-inset-bottom,0px))!important;right:max(20px,env(safe-area-inset-right,0px))!important}
-  /* Full-screen chat on phone — positioned/sized by JS from visualViewport when open */
+  /* Full-screen chat on phone — height from visualViewport via JS when keyboard open */
   .llx-chat-panel{
-    top:0;left:0;right:0;bottom:0;
-    width:100%;
-    max-height:none;
-    height:100dvh;
+    top:0!important;left:0!important;right:0!important;bottom:0!important;
+    width:100%!important;
+    max-height:none!important;
+    height:100dvh!important;
+    min-height:0!important;
     border-radius:0;
     padding-bottom:env(safe-area-inset-bottom,0px)
   }
@@ -3699,7 +3704,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
 </button>
 <div id="llxChatPanel" class="llx-chat-panel" aria-live="polite">
   <div class="llx-chat-head">
-    <div><strong>LankaLux Live Chat</strong><small>Warm, tailored guidance</small></div>
+    <div><strong>LankaLux AI</strong><small>Premium travel assistant</small></div>
     <button id="llxChatClose" class="llx-chat-close" type="button" aria-label="Close chat">✕</button>
   </div>
   <div id="llxChatBody" class="llx-chat-body"></div>
@@ -3713,7 +3718,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       <input id="llxChatInput" class="llx-chat-input" type="text" placeholder="Type your message...">
       <button id="llxChatSend" class="llx-chat-btn" type="button">Send</button>
     </div>
-    <div class="llx-chat-note">For full personalized itineraries, our team prepares them directly after you tap "Send request".</div>
+    <div class="llx-chat-note">Send request when you are ready and our team will shape your itinerary with you.</div>
   </div>
 </div>
 
@@ -3723,9 +3728,9 @@ reviewCarousel.addEventListener('mouseleave', () => {
   var REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
-  var STORE_KEY = 'llx_chat_state_v2';
+  var STORE_KEY = 'llx_chat_state_v3';
   var WELCOME_MESSAGE =
-    'Hi, welcome to LankaLux.\n\nWhat should I call you? Then tell me what you are planning (or just ask a question).';
+    "Hi, I'm your LankaLux assistant. I'll help you plan your Sri Lanka journey. What's your name?";
   var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false, postRatingThanks: false };
   var VEHICLE_IMAGE_BASE = 'https://lankalux.com/images/fleet/';
   var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
@@ -3801,9 +3806,12 @@ reviewCarousel.addEventListener('mouseleave', () => {
       panel.style.left = '0';
       panel.style.right = '0';
       panel.style.width = '100%';
-      panel.style.bottom = 'auto';
+      panel.style.bottom = '0';
       panel.style.height = '100dvh';
       panel.style.maxHeight = 'none';
+      requestAnimationFrame(function() {
+        body.scrollTop = body.scrollHeight;
+      });
       return;
     }
     panel.style.top = vv.offsetTop + 'px';
@@ -3813,6 +3821,9 @@ reviewCarousel.addEventListener('mouseleave', () => {
     panel.style.bottom = 'auto';
     panel.style.height = vv.height + 'px';
     panel.style.maxHeight = 'none';
+    requestAnimationFrame(function() {
+      body.scrollTop = body.scrollHeight;
+    });
   }
   function focusInputNoScroll() {
     try {
@@ -3919,6 +3930,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
     }
     if (includesAny(lastAssistant, ['date', 'travel dates', 'when'])) suggestions.push('Our travel dates are ...');
     if (includesAny(lastAssistant, ['adult', 'passenger', 'group size'])) suggestions.push('We are 2 adults');
+    if (includesAny(lastAssistant, ['how many days', 'days are you', 'thinking of'])) suggestions.push('About 7 days');
     if (includesAny(lastAssistant, ['vehicle', 'fleet'])) suggestions.push('Show me your vehicle options');
 
     if (!d.name) suggestions.push('My name is ...');
@@ -3992,7 +4004,9 @@ reviewCarousel.addEventListener('mouseleave', () => {
       || t.indexOf('talk to agent') !== -1
       || t.indexOf('speak to agent') !== -1
       || t.indexOf('human agent') !== -1
-      || t.indexOf('whatsapp agent') !== -1;
+      || t.indexOf('whatsapp agent') !== -1
+      || t.indexOf('message you on whatsapp') !== -1
+      || t.indexOf('continue on whatsapp') !== -1;
   }
   function getChatVehicles() {
     try {
@@ -4022,7 +4036,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
       state.draft.message = base + 'Interested vehicle: ' + name;
     }
     addMessage('user', 'I am interested in ' + name + '.');
-    addMessage('assistant', 'Excellent choice. Would you like me to prepare a reservation request for ' + name + '? You can tap "Send request" or tell me your preferred dates and passenger count.');
+    addMessage('assistant', 'Great choice. When you have dates and group size, mention them here or tap Send request.');
     render();
     persistChat('vehicle_selected');
   }
@@ -4038,7 +4052,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
         connectWrap.appendChild(thanksP);
       }
       var connectP = document.createElement('p');
-      connectP.textContent = 'Your chat session has ended. To speak with a LankaLux agent on WhatsApp, tap below.';
+      connectP.textContent = 'This chat is closed. Continue on WhatsApp with our team when you are ready.';
       var connectBtn = document.createElement('button');
       connectBtn.type = 'button';
       connectBtn.className = 'llx-chat-agent-btn';
@@ -4234,6 +4248,21 @@ reviewCarousel.addEventListener('mouseleave', () => {
   function sleep(ms) {
     return new Promise(function(resolve) { setTimeout(resolve, ms); });
   }
+  function buildPlanWhatsAppUrl() {
+    var d = state.draft || {};
+    var name = (d.name || '').trim() || 'Guest';
+    var parts = [];
+    if (d.tripDays != null && d.tripDays !== '') {
+      var n = parseInt(String(d.tripDays), 10);
+      if (!isNaN(n) && n > 0) parts.push(n + '-day trip');
+    }
+    if (d.startDate && d.endDate) parts.push(d.startDate + ' to ' + d.endDate);
+    var pref = (d.message || '').trim();
+    if (pref) parts.push(pref.slice(0, 140));
+    var details = parts.length ? parts.join(', ') : 'a private chauffeur tour with LankaLux';
+    var body = "Hi LankaLux, I'd like to plan my Sri Lanka trip. My name is " + name + " and I'm looking for " + details + ".";
+    return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(body);
+  }
   async function callChat() {
     var res = await fetch(CHAT_URL, {
       method: 'POST',
@@ -4244,10 +4273,19 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (!res.ok || !data || !data.success) throw new Error((data && data.error) || 'Chat unavailable');
     if (data.draft) state.draft = data.draft;
     var reply = typeof data.reply === 'string' ? data.reply.trim() : '';
-    if (!reply) return null;
-    await sleep(typingDelayMs(reply));
-    addMessage('assistant', reply);
-    return reply;
+    var doWa = !!data.openWhatsApp;
+    if (!reply && !doWa) return null;
+    if (reply) await sleep(typingDelayMs(reply));
+    if (reply) addMessage('assistant', reply);
+    if (doWa) {
+      setTimeout(function() {
+        var url = buildPlanWhatsAppUrl();
+        var win = window.open(url, '_blank');
+        if (!win) window.location.href = url;
+        persistChat('whatsapp_redirect', { handoffRequested: true });
+      }, 420);
+    }
+    return reply || (doWa ? 'whatsapp' : null);
   }
   async function submitMessage(preFilledText) {
     if (state.showEndRating) return;
@@ -4258,7 +4296,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
     if (!pre) input.value = '';
     if (wantsAgentHandoff(text)) {
       addMessage('user', text);
-      addMessage('assistant', 'Sure. I will connect you with our LankaLux team on WhatsApp now.');
+      addMessage('assistant', 'Opening WhatsApp for you now.');
       render();
       openWhatsApp();
       return;
@@ -4339,36 +4377,9 @@ reviewCarousel.addEventListener('mouseleave', () => {
     persistChat('request_submitted');
   }
   function openWhatsApp() {
-    var d = state.draft || {};
-    var transcript = (state.messages || [])
-      .filter(function(m) { return m && m.kind === 'text' && m.content; })
-      .slice(-30)
-      .map(function(m) {
-        var who = m.role === 'assistant' ? 'LankaLux Live Chat' : 'Guest';
-        return who + ': ' + String(m.content).replace(/\n+/g, ' ').trim();
-      })
-      .filter(Boolean)
-      .join('\n');
-    var lines = [
-      'LankaLux chat handover',
-      d.name ? ('Name: ' + d.name) : null,
-      d.email ? ('Email: ' + d.email) : null,
-      d.whatsapp ? ('WhatsApp: ' + d.whatsapp) : null,
-      (d.startDate && d.endDate) ? ('Dates: ' + d.startDate + ' -> ' + d.endDate) : null,
-      d.numberOfAdults != null ? ('Adults: ' + d.numberOfAdults) : null,
-      d.numberOfChildren != null ? ('Children: ' + d.numberOfChildren) : null,
-      state.requestId ? ('Request ID: ' + state.requestId) : null,
-      transcript ? '\nChat transcript:\n' + transcript : null,
-      '\nPlease continue this conversation directly with the guest.'
-    ].filter(Boolean);
-    // Keep under very large payload sizes for WhatsApp URL handoff.
-    var composed = lines.join('\n');
-    if (composed.length > 3500) composed = composed.slice(0, 3500) + '\n...[truncated]';
-    var text = encodeURIComponent(composed);
     persistChat('whatsapp_handoff', { handoffRequested: true });
-    var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text;
+    var waUrl = buildPlanWhatsAppUrl();
     var win = window.open(waUrl, '_blank');
-    // Mobile browsers can block popups; fallback to same-tab redirect.
     if (!win) window.location.href = waUrl;
   }
 
