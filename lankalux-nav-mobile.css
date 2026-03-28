@@ -1,0 +1,97 @@
+/**
+ * LankaLux — mobile header: one row, logo fixed, nav scrolls horizontally.
+ * Load after page-specific <style> so these rules win on small screens.
+ */
+@media (max-width: 768px) {
+  body > header {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+    justify-content: space-between !important;
+  }
+
+  body > header .logo {
+    width: auto !important;
+    max-width: 42%;
+    margin-bottom: 0 !important;
+    flex-shrink: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  body > header .logo-text {
+    font-size: clamp(18px, 4.5vw, 22px) !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  body > header .logo-icon,
+  body > header .logo img {
+    height: 32px !important;
+    width: 32px !important;
+  }
+
+  body > header nav {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    padding: 4px 0;
+  }
+
+  body > header nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  body > header nav a,
+  body > header nav a.cta,
+  body > header nav button.cta {
+    margin-left: 0 !important;
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    min-width: unset !important;
+    text-align: center;
+    font-size: 12px !important;
+  }
+
+  body > header nav button.cta {
+    padding: 6px 10px !important;
+    min-height: 40px;
+  }
+
+  /* Journey detail: back link sits below fixed header without overlapping */
+  body > a.back-btn {
+    margin-top: 72px !important;
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+    margin-bottom: 12px !important;
+    width: auto !important;
+    max-width: calc(100% - 32px);
+    display: inline-block;
+    box-sizing: border-box;
+  }
+
+  .journey-hero {
+    margin-top: 12px !important;
+    padding-top: 20px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .journeys-page-hero {
+    padding-top: 88px !important;
+  }
+
+  .journeys-hero-back {
+    left: 14px !important;
+    top: 72px !important;
+  }
+}
