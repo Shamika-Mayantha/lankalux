@@ -3,15 +3,15 @@
   if (window.__LLX_CHAT_INIT__) return;
   window.__LLX_CHAT_INIT__ = true;
   if (!document.getElementById('llxChatFab')) {
-    document.body.insertAdjacentHTML('beforeend', "<button id=\"llxChatFab\" class=\"llx-chat-fab\" type=\"button\" aria-label=\"Open chat\">\r\n  <svg viewBox=\"0 0 64 64\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\r\n    <circle cx=\"32\" cy=\"24\" r=\"10\" fill=\"currentColor\" opacity=\".18\"></circle>\r\n    <path d=\"M14 24a18 18 0 0 1 36 0\"></path>\r\n    <rect x=\"10\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <rect x=\"48\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <path d=\"M23 38c2 4 16 4 18 0\"></path>\r\n    <path d=\"M32 36v8\"></path>\r\n    <path d=\"M20 56c0-8 5-12 12-12s12 4 12 12\"></path>\r\n  </svg>\r\n  <span class=\"llx-chat-fab-tooltip\">Need help planning your Trip?</span>\r\n</button>\r\n<div id=\"llxChatPanel\" class=\"llx-chat-panel\" aria-live=\"polite\">\r\n  <div class=\"llx-chat-head\">\r\n    <div><strong>LankaLux AI</strong><small>Premium travel assistant</small></div>\r\n    <button id=\"llxChatClose\" class=\"llx-chat-close\" type=\"button\" aria-label=\"Close chat\">✕</button>\r\n  </div>\r\n  <div id=\"llxChatBody\" class=\"llx-chat-body\"></div>\r\n  <div class=\"llx-chat-foot\">\r\n    <div class=\"llx-chat-actions\">\r\n      <button id=\"llxSendRequest\" class=\"llx-chat-btn primary\" type=\"button\" disabled>Send request</button>\r\n      <button id=\"llxWhatsApp\" class=\"llx-chat-btn\" type=\"button\">WhatsApp</button>\r\n      <button id=\"llxEndChat\" class=\"llx-chat-btn\" type=\"button\">End chat</button>\r\n    </div>\r\n    <div class=\"llx-chat-row\">\r\n      <input id=\"llxChatInput\" class=\"llx-chat-input\" type=\"text\" placeholder=\"Type your message...\">\r\n      <button id=\"llxChatSend\" class=\"llx-chat-btn\" type=\"button\">Send</button>\r\n    </div>\r\n    <div class=\"llx-chat-note\">Send request when you are ready and our team will shape your itinerary with you.</div>\r\n  </div>\r\n</div>");
+    document.body.insertAdjacentHTML('beforeend', "<button id=\"llxChatFab\" class=\"llx-chat-fab\" type=\"button\" aria-label=\"Open chat\">\r\n  <svg viewBox=\"0 0 64 64\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\r\n    <circle cx=\"32\" cy=\"24\" r=\"10\" fill=\"currentColor\" opacity=\".18\"></circle>\r\n    <path d=\"M14 24a18 18 0 0 1 36 0\"></path>\r\n    <rect x=\"10\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <rect x=\"48\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <path d=\"M23 38c2 4 16 4 18 0\"></path>\r\n    <path d=\"M32 36v8\"></path>\r\n    <path d=\"M20 56c0-8 5-12 12-12s12 4 12 12\"></path>\r\n  </svg>\r\n  <span class=\"llx-chat-fab-tooltip\">Stuck choosing between leopards and coconuts?</span>\r\n</button>\r\n<div id=\"llxChatPanel\" class=\"llx-chat-panel\" aria-live=\"polite\">\r\n  <div class=\"llx-chat-head\">\r\n    <div><strong>LankaLux AI</strong><small>Sri Lanka, with a wink</small></div>\r\n    <button id=\"llxChatClose\" class=\"llx-chat-close\" type=\"button\" aria-label=\"Close chat\">✕</button>\r\n  </div>\r\n  <div id=\"llxChatBody\" class=\"llx-chat-body\"></div>\r\n  <div class=\"llx-chat-foot\">\r\n    <div class=\"llx-chat-actions\">\r\n      <button id=\"llxSendRequest\" class=\"llx-chat-btn primary\" type=\"button\" disabled>Send request</button>\r\n      <button id=\"llxWhatsApp\" class=\"llx-chat-btn\" type=\"button\">WhatsApp</button>\r\n      <button id=\"llxEndChat\" class=\"llx-chat-btn\" type=\"button\">End chat</button>\r\n    </div>\r\n    <div class=\"llx-chat-row\">\r\n      <input id=\"llxChatInput\" class=\"llx-chat-input\" type=\"text\" placeholder=\"Type your message...\">\r\n      <button id=\"llxChatSend\" class=\"llx-chat-btn\" type=\"button\">Send</button>\r\n    </div>\r\n    <div class=\"llx-chat-note\">Send request when you are ready and our team will shape your itinerary with you.</div>\r\n  </div>\r\n</div>");
   }
   var CHAT_URL = 'https://admin.lankalux.com/api/chat';
   var REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
-  var STORE_KEY = 'llx_chat_state_v3';
+  var STORE_KEY = 'llx_chat_state_v4';
   var WELCOME_MESSAGE =
-    "Hi, I'm your LankaLux assistant. I'll help you plan your Sri Lanka journey. What's your name?";
+    "Hey. You've found LankaLux: private Sri Lanka journeys, no group-tour whistle. Beaches, wildlife, tea trains, or a bit of everything?";
   var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false, postRatingThanks: false };
   var VEHICLE_IMAGE_BASE = 'https://lankalux.com/images/fleet/';
   var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
@@ -213,7 +213,7 @@
       state.draft.message = base + 'Interested vehicle: ' + name;
     }
     addMessage('user', 'I am interested in ' + name + '.');
-    addMessage('assistant', 'Great choice. When you have dates and group size, mention them here or tap Send request.');
+    addMessage('assistant', 'Solid pick. That one treats the hills like a polite suggestion. Dates and group size whenever you have them, or tap Send request.');
     render();
     persistChat('vehicle_selected');
   }
@@ -445,7 +445,7 @@
     if (!pre) input.value = '';
     if (wantsAgentHandoff(text)) {
       addMessage('user', text);
-      addMessage('assistant', 'Opening WhatsApp for you now.');
+      addMessage('assistant', 'Handing you to WhatsApp. A human on our side is even better at this.');
       render();
       openWhatsApp();
       return;
@@ -460,7 +460,7 @@
       if (askVehicles) addVehiclesMessage();
     } catch (e) {
       await sleep(380 + Math.floor(Math.random() * 220));
-      addMessage('assistant', 'Sorry, I could not reply right now. You can tap WhatsApp and we will assist immediately.');
+      addMessage('assistant', 'The line went quiet for a second. Try again, or tap WhatsApp and a human will jump in.');
     } finally {
       state.isTyping = false;
     }
@@ -487,7 +487,7 @@
   async function sendRequest() {
     var miss = missingFields(state.draft || {});
     if (miss.length) {
-      addMessage('assistant', 'Before I submit your request, I just need: ' + miss.join(', ') + '.');
+      addMessage('assistant', 'Almost there. I still need ' + miss.join(', ') + ' before I can send this to the team.');
       render();
       return;
     }

@@ -27,7 +27,7 @@ type DraftLead = {
   tripDays?: number | null
 }
 
-const MAX_REPLY_CHARS = 420
+const MAX_REPLY_CHARS = 480
 
 function jsonResponse(body: unknown, status = 200) {
   const res = NextResponse.json(body, { status })
@@ -92,7 +92,7 @@ function wantsToEndChatWithoutContact(text: string) {
   const t = (text || '').toLowerCase().trim()
   if (!t) return false
   if (/\bend\s*chat\b/.test(t)) return true
-  return /\b(end|stop|quit|leave|bye|goodbye|no thanks|not now|skip|cancel|never mind|nevermind)\b/.test(t)
+  return /^(bye|goodbye|see you|see ya|that's all|thats all|i'm good|im good)[\s.!,]*$/i.test(t)
 }
 
 function userAgreesToWhatsApp(text: string) {
@@ -104,21 +104,21 @@ function userAgreesToWhatsApp(text: string) {
 }
 
 function askNameReply(): string {
-  return 'What should I call you?'
+  return 'What should I call you, so I stop saying hey there in my head?'
 }
 
 function askContactReply(seed: number): string {
   const options = [
-    'Thanks. What email should we use to follow up?',
-    'Lovely. What is the best email to reach you on?',
-    'Great. Could you share an email for our team to reply to?',
+    'If you drop an email, our humans can send a proper plan instead of me guessing in a chat bubble.',
+    'Got a good email for follow up? I am charming, but I cannot book hotels from here.',
+    'Share an email or WhatsApp and the team can take it from cocktail napkin to real itinerary.',
   ]
   return options[Math.abs(seed) % options.length]
 }
 
 function planningOpeningReply(name: string): string {
   const n = (name || '').trim().split(/\s+/)[0] || 'there'
-  return `Hi ${n}, I can help you plan your Sri Lanka trip. How many days are you thinking of?`
+  return `Hi ${n}. Roughly how many days do you have? Sri Lanka is small until you try to see all of it.`
 }
 
 const NAME_GREETING_WORDS = new Set([
@@ -134,6 +134,29 @@ const NAME_GREETING_WORDS = new Set([
   'sure',
   'please',
   'help',
+  'wildlife',
+  'beach',
+  'beaches',
+  'safari',
+  'hills',
+  'hill',
+  'tea',
+  'train',
+  'trains',
+  'culture',
+  'coast',
+  'coastal',
+  'yala',
+  'ella',
+  'kandy',
+  'galle',
+  'sigiriya',
+  'trip',
+  'tour',
+  'tours',
+  'jeep',
+  'info',
+  'information',
 ])
 
 function extractNameFromMessage(text: string): string | null {
@@ -268,7 +291,6 @@ export async function POST(req: Request) {
 
     const mustAskFields: (keyof DraftLead)[] = ['startDate', 'endDate', 'numberOfAdults']
     const lastUserMessage = [...messages].reverse().find((m) => m.role === 'user')?.content || ''
-    const lastAssistantMessage = [...messages].reverse().find((m) => m.role === 'assistant')?.content || ''
 
     const inferredEmail = extractEmail(lastUserMessage)
     const inferredWhatsApp = extractWhatsApp(lastUserMessage)
@@ -282,9 +304,6 @@ export async function POST(req: Request) {
     if (inferredDays && !draft.tripDays) draft = { ...draft, tripDays: inferredDays }
 
     const userTurns = countUserMessages(messages)
-    const lastAssistantNorm = normalizeForCompare(lastAssistantMessage)
-    const tripStarted = draft.tripPlanningStarted === true
-
     const missingBase = mustAskFields.filter(
       (k) => (draft as any)[k] == null || String((draft as any)[k]).trim() === ''
     )
@@ -295,7 +314,7 @@ export async function POST(req: Request) {
         {
           success: true,
           reply: sanitizeReply(
-            'Understood. Whenever you are ready, tap End chat below. You can open this assistant again anytime.'
+            'No stress. Tap End chat when you like. I will be here later, slightly less caffeinated, still good with maps.'
           ),
           draft,
           missingFields: missing,
@@ -306,100 +325,68 @@ export async function POST(req: Request) {
       )
     }
 
-    if (!draft.name && userTurns >= 1) {
-      let reply = askNameReply()
-      if (normalizeForCompare(reply) === lastAssistantNorm) reply = 'How would you like me to address you?'
-      const missing = missingBase.concat(!draft.email && !draft.whatsapp ? (['email_or_whatsapp'] as any) : [])
-      return jsonResponse(
-        { success: true, reply, draft, missingFields: missing, suggestSendRequest: false, openWhatsApp: false },
-        200
-      )
+    if (userTurns >= 1 && draft.tripPlanningStarted !== true) {
+      draft = { ...draft, tripPlanningStarted: true }
     }
 
-    if (!draft.email && !draft.whatsapp && userTurns >= 1) {
-      let reply = askContactReply(userTurns + lastUserMessage.length)
-      if (normalizeForCompare(reply) === lastAssistantNorm) reply = askContactReply(userTurns + 9)
-      const missing = missingBase.concat(['email_or_whatsapp'] as any)
-      return jsonResponse(
-        { success: true, reply, draft, missingFields: missing, suggestSendRequest: false, openWhatsApp: false },
-        200
-      )
-    }
+    const system = `You are LankaLux AI, a travel companion for private Sri Lanka journeys.
 
-    if (draft.name && (draft.email || draft.whatsapp) && !tripStarted) {
-      let reply = planningOpeningReply(draft.name || '')
-      if (normalizeForCompare(reply) === lastAssistantNorm) {
-        reply = `Hi ${(draft.name || '').trim().split(/\s+/)[0] || 'there'}, to get started, how many days do you have in Sri Lanka?`
-      }
-      const nextDraft = { ...draft, tripPlanningStarted: true }
-      const missing = missingBase.concat(!nextDraft.email && !nextDraft.whatsapp ? (['email_or_whatsapp'] as any) : [])
-      return jsonResponse(
-        {
-          success: true,
-          reply,
-          draft: nextDraft,
-          missingFields: missing,
-          suggestSendRequest: false,
-          openWhatsApp: false,
-        },
-        200
-      )
-    }
+You help guests explore ideas and, when they are ready, book with LankaLux. You are not a form. You are the person who actually likes planning trips.
 
-    const system = `You are LankaLux AI, a premium travel assistant for Sri Lanka.
+PERSONALITY:
 
-Your role is to help users plan their trip and guide them toward booking with LankaLux.
+* Warm, flexible, lightly humorous. Think a well travelled host who has heard every "is Sri Lanka safe?" question and still answers kindly.
+* Dry wit is welcome. One smile per reply is enough. Never a standup set.
+* Joke with the guest, never at them. No sarcasm about their budget, family, or taste.
+* If they are playful, play back. If they are brisk or stressed, drop the jokes and be clear.
+* Follow their lead. They can talk beaches, food, trains, leopards, or just "we have 8 days in March."
+* Sound like a person. Short sentences. Natural rhythm.
 
 STRICT RULES:
 
-* Speak naturally like a human
-* NEVER use dashes, hyphens, or bullet formatting for lists in your reply
-* NEVER use markdown bold or asterisks
-* Keep responses short, clear, and helpful
-* Ask only ONE question at a time
-* Do NOT repeat information
-* Do NOT overload the user with questions
-* Do NOT sound like AI
+* NEVER use markdown, asterisks, or bullet lists in the reply
+* Do not use hyphen lists. Commas and short sentences are fine. Hyphens inside words like check-in are fine
+* Keep replies short. Usually 2 to 4 sentences
+* Ask at most ONE question, and only if it helps
+* Do not repeat yourself
+* Do not invent prices, hotel names, availability, or policies
+* Do not force a script
+
+BE FLEXIBLE:
+
+* Answer the actual question first, even if you do not have their name yet
+* Never stall a travel question behind "what is your name" or "what is your email"
+* They can skip questions, change their mind, or jump topics. Go with it
+* Offer a useful nugget early: a region pairing, a pacing tip, a why this works
+* You may sketch a loose route in one or two sentences, not a full day by day schedule
 
 KNOWLEDGE ABOUT LANKALUX:
 
-* Private chauffeur-driven tours across Sri Lanka
-* Vehicle provided for the entire stay
-* Airport pickup and drop-off included
-* Custom itineraries based on preferences
+* Private chauffeur driven tours across Sri Lanka
+* One vehicle for the entire stay
+* Airport pickup and drop off included
+* Custom itineraries from their pace and interests
 * Hotel arrangements and full travel planning
-* Experienced English-speaking drivers
-* Current promotion: Free safari jeep (jeep only, not tickets)
+* Experienced English speaking drivers
+* Current promotion: free safari jeep (jeep only, not park tickets)
 
-CONVERSATION STYLE:
+CONVERSION (gentle, not a funnel):
 
-* Friendly, calm, premium tone
-* Not pushy, not salesy
-* Feels like a real travel assistant
+* After you have been actually helpful, you may casually ask what to call them
+* Once the trip has some shape (days, vibe, or dates), invite an email or WhatsApp so the team can send a real plan
+* If they are keen, suggest WhatsApp for a full draft, or Send request on the page
+* If they clearly agree to WhatsApp, set openWhatsApp to true
+* If they are just browsing, keep chatting. Do not hunt for contact details every turn
 
-CONVERSATION FLOW:
-
-* Start simple
-* Ask gradual questions
-* Give value early (suggest places, routes, ideas in one or two short sentences when it fits)
-* Then guide toward booking
-
-CONVERSION LOGIC:
-
-* If user shows interest, suggest shaping an itinerary with the team
-* If user is serious, suggest continuing on WhatsApp for a full draft
-* If the user clearly agrees to WhatsApp, set openWhatsApp to true in your JSON output
-
-WHATSAPP MESSAGE (for context only; do not paste this verbatim unless redirecting):
+WHATSAPP MESSAGE (context only):
 
 "Hi LankaLux, I'd like to plan my Sri Lanka trip. My name is [Name] and I'm looking for [details]."
 
 IMPORTANT:
 
-* Never invent facts, prices, or policies not in the knowledge base
-* Never repeat the same sentence you used in a previous assistant message in this thread
-* Never ask multiple questions at once
-* You may give brief route ideas (example regions) but not full day-by-day schedules
+* Never copy a previous assistant sentence in this thread
+* Never ask two questions at once
+* If they already answered something, do not ask it again
 
 REFERENCE:
 ${CHAT_KNOWLEDGE_SUMMARY}
@@ -418,10 +405,20 @@ Set openWhatsApp to true only if the guest clearly agrees to move to WhatsApp no
 Data for Send request on the website: start date, end date, number of adults, plus email or WhatsApp already collected. Optional: children, preferences, airline help.`
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+    const flexibilityHints: string[] = []
+    if (isRepeatedUserQuestion(lastUserMessage, messages)) {
+      flexibilityHints.push('They may be repeating a question. Answer freshly, with a new angle, no copied wording.')
+    }
+    if (!draft.name && userTurns >= 2) {
+      flexibilityHints.push('You may casually ask what to call them after you answer. Do not make it the whole reply.')
+    }
+    if (!draft.email && !draft.whatsapp && userTurns >= 3) {
+      flexibilityHints.push('If the trip idea has any shape, you may invite an email or WhatsApp. Never block their question behind it.')
+    }
     const completion = await openai.chat.completions.create({
       model: process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini',
-      temperature: 0.65,
-      max_tokens: 320,
+      temperature: 0.85,
+      max_tokens: 400,
       messages: [
         { role: 'system', content: system },
         {
@@ -430,9 +427,7 @@ Data for Send request on the website: start date, end date, number of adults, pl
             currentDraft: draft,
             mustAskFields,
             conversation: messages,
-            hint: isRepeatedUserQuestion(lastUserMessage, messages)
-              ? 'The user may be repeating a similar question. Answer in a fresh way without repeating your last wording.'
-              : undefined,
+            hint: flexibilityHints.length ? flexibilityHints.join(' ') : undefined,
           }),
         },
       ],
@@ -447,7 +442,7 @@ Data for Send request on the website: start date, end date, number of adults, pl
         {
           success: true,
           reply: sanitizeReply(
-            'I am here. What part of Sri Lanka are you most curious about, beaches, hills, or culture?'
+            'Still here. Beaches, hills, wildlife, or the classic "we want a bit of everything"?'
           ),
           draft,
           missingFields: missingBase.concat(!draft.email && !draft.whatsapp ? (['email_or_whatsapp'] as any) : []),
@@ -468,24 +463,26 @@ Data for Send request on the website: start date, end date, number of adults, pl
     let reply =
       typeof parsed?.reply === 'string'
         ? parsed.reply
-        : 'What kind of pace do you like on holiday, relaxed days or quite a bit of sightseeing?'
+        : 'Are you more slow mornings and late lunches, or the see-it-all energy?'
 
     reply = sanitizeReply(reply)
 
     const openWhatsApp = parsed?.openWhatsApp === true && userAgreesToWhatsApp(lastUserMessage)
 
     if (reply && (isDuplicateAssistantReply(reply, messages) || isSimilarAssistantReply(reply, messages))) {
-      if (!nextDraft.tripDays) {
-        reply = nextDraft.name
-          ? `${(nextDraft.name || '').trim().split(/\s+/)[0]}, how many days will you have in Sri Lanka?`
-          : 'How many days will you have in Sri Lanka?'
+      if (!nextDraft.name) {
+        reply = askNameReply()
+      } else if (!nextDraft.tripDays) {
+        reply = planningOpeningReply(nextDraft.name || '')
       } else if (!nextDraft.startDate || !nextDraft.endDate) {
-        reply = 'What month or rough dates are you considering? Even a ballpark helps.'
+        reply = 'Even a rough month helps. Sri Lanka in March and Sri Lanka in monsoon are two different movies.'
       } else if (nextDraft.numberOfAdults == null) {
-        reply = 'How many adults should I keep in mind for the vehicle?'
+        reply = 'How many adults should I keep in mind for the vehicle? I promise I am not seating a cricket team unless you say so.'
+      } else if (!nextDraft.email && !nextDraft.whatsapp) {
+        reply = askContactReply(userTurns + 3)
       } else {
         reply = sanitizeReply(
-          'I can line up next steps on WhatsApp with our team whenever you like, or use Send request on this page.'
+          'Whenever you like, WhatsApp our team or tap Send request. I will not take it personally if you pick the humans.'
         )
       }
     }
