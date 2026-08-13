@@ -9,7 +9,7 @@
   var REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
-  var STORE_KEY = 'llx_chat_state_v4';
+  var STORE_KEY = 'llx_chat_state_v5';
   var WELCOME_MESSAGE =
     "Hey. You've found LankaLux: private Sri Lanka journeys, no group-tour whistle. Beaches, wildlife, tea trains, or a bit of everything?";
   var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false, postRatingThanks: false };
@@ -213,7 +213,7 @@
       state.draft.message = base + 'Interested vehicle: ' + name;
     }
     addMessage('user', 'I am interested in ' + name + '.');
-    addMessage('assistant', 'Solid pick. That one treats the hills like a polite suggestion. Dates and group size whenever you have them, or tap Send request.');
+    addMessage('assistant', 'Solid pick. That one treats the hills like a polite suggestion. Ask me anything else about the fleet or the island.');
     render();
     persistChat('vehicle_selected');
   }

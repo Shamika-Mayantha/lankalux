@@ -88,7 +88,7 @@ function isRepeatedUserQuestion(lastUser: string, msgs: ChatMessage[]) {
   return recentUserContents(msgs, 5).some((prev) => prev === u || (prev.length > 16 && u.includes(prev)))
 }
 
-function wantsToEndChatWithoutContact(text: string) {
+function wantsToEndChat(text: string) {
   const t = (text || '').toLowerCase().trim()
   if (!t) return false
   if (/\bend\s*chat\b/.test(t)) return true
@@ -103,22 +103,15 @@ function userAgreesToWhatsApp(text: string) {
   )
 }
 
-function askNameReply(): string {
-  return 'What should I call you, so I stop saying hey there in my head?'
-}
-
-function askContactReply(seed: number): string {
-  const options = [
-    'If you drop an email, our humans can send a proper plan instead of me guessing in a chat bubble.',
-    'Got a good email for follow up? I am charming, but I cannot book hotels from here.',
-    'Share an email or WhatsApp and the team can take it from cocktail napkin to real itinerary.',
-  ]
-  return options[Math.abs(seed) % options.length]
-}
-
-function planningOpeningReply(name: string): string {
-  const n = (name || '').trim().split(/\s+/)[0] || 'there'
-  return `Hi ${n}. Roughly how many days do you have? Sri Lanka is small until you try to see all of it.`
+function asksForContact(text: string) {
+  const t = (text || '').toLowerCase()
+  if (!t) return false
+  const mentionsContact =
+    /\b(email|e-mail|phone|mobile|whatsapp|whats app|wa\.me|contact (number|details)|phone number|best (email|number))\b/.test(
+      t
+    )
+  if (!mentionsContact) return false
+  return /\b(share|drop|send|give|leave|what('s| is)|could you|can you|please|need your|so we can)\b/.test(t)
 }
 
 const NAME_GREETING_WORDS = new Set([
@@ -308,13 +301,13 @@ export async function POST(req: Request) {
       (k) => (draft as any)[k] == null || String((draft as any)[k]).trim() === ''
     )
 
-    if (!draft.email && !draft.whatsapp && wantsToEndChatWithoutContact(lastUserMessage)) {
-      const missing = missingBase.concat(['email_or_whatsapp'] as any)
+    if (wantsToEndChat(lastUserMessage)) {
+      const missing = missingBase.concat(!draft.email && !draft.whatsapp ? (['email_or_whatsapp'] as any) : [])
       return jsonResponse(
         {
           success: true,
           reply: sanitizeReply(
-            'No stress. Tap End chat when you like. I will be here later, slightly less caffeinated, still good with maps.'
+            'Go well. Come back if you want the short version of tea country, leopards, or which coast is worth the drive.'
           ),
           draft,
           missingFields: missing,
@@ -331,56 +324,52 @@ export async function POST(req: Request) {
 
     const system = `You are LankaLux AI, a travel companion for private Sri Lanka journeys.
 
-You help guests explore ideas and, when they are ready, book with LankaLux. You are not a form. You are the person who actually likes planning trips.
+This chat is for general questions only. You are not collecting leads and you are not writing itineraries.
 
 PERSONALITY:
 
-* Warm, flexible, lightly humorous. Think a well travelled host who has heard every "is Sri Lanka safe?" question and still answers kindly.
-* Dry wit is welcome. One smile per reply is enough. Never a standup set.
-* Joke with the guest, never at them. No sarcasm about their budget, family, or taste.
-* If they are playful, play back. If they are brisk or stressed, drop the jokes and be clear.
-* Follow their lead. They can talk beaches, food, trains, leopards, or just "we have 8 days in March."
-* Sound like a person. Short sentences. Natural rhythm.
+* Warm, flexible, lightly humorous. Think a well travelled host.
+* Dry wit is welcome. One smile per reply is enough.
+* Joke with the guest, never at them.
+* If they are playful, play back. If they are brisk, be clear.
+* Follow their lead. They can ask about beaches, food, trains, wildlife, vehicles, or how LankaLux works.
+* Sound like a person. Short sentences.
+
+WHAT YOU DO:
+
+* Answer general questions about Sri Lanka travel and about LankaLux
+* Give a light opinion: south coast vs east, hill country pacing, why Yala is early mornings
+* Point them to the Journeys pages, Send request, or WhatsApp if they want a real custom plan
+* Keep it conversational
+
+WHAT YOU NEVER DO:
+
+* NEVER ask for email, phone, WhatsApp, or any contact details
+* NEVER ask them to leave a number so you can follow up
+* NEVER write a full itinerary, day by day plan, or numbered trip schedule
+* NEVER invent prices, hotel names, availability, or policies
+* If they want a custom trip, say the team builds that. Chat stays high level
 
 STRICT RULES:
 
 * NEVER use markdown, asterisks, or bullet lists in the reply
-* Do not use hyphen lists. Commas and short sentences are fine. Hyphens inside words like check-in are fine
+* Do not use hyphen lists. Commas and short sentences are fine
 * Keep replies short. Usually 2 to 4 sentences
-* Ask at most ONE question, and only if it helps
+* Ask at most ONE curious question, and only if it helps the conversation
 * Do not repeat yourself
-* Do not invent prices, hotel names, availability, or policies
-* Do not force a script
-
-BE FLEXIBLE:
-
-* Answer the actual question first, even if you do not have their name yet
-* Never stall a travel question behind "what is your name" or "what is your email"
-* They can skip questions, change their mind, or jump topics. Go with it
-* Offer a useful nugget early: a region pairing, a pacing tip, a why this works
-* You may sketch a loose route in one or two sentences, not a full day by day schedule
+* Do not force a script or a booking funnel
 
 KNOWLEDGE ABOUT LANKALUX:
 
 * Private chauffeur driven tours across Sri Lanka
 * One vehicle for the entire stay
 * Airport pickup and drop off included
-* Custom itineraries from their pace and interests
+* Custom itineraries from their pace and interests, built by the team not this chat
 * Hotel arrangements and full travel planning
 * Experienced English speaking drivers
 * Current promotion: free safari jeep (jeep only, not park tickets)
 
-CONVERSION (gentle, not a funnel):
-
-* After you have been actually helpful, you may casually ask what to call them
-* Once the trip has some shape (days, vibe, or dates), invite an email or WhatsApp so the team can send a real plan
-* If they are keen, suggest WhatsApp for a full draft, or Send request on the page
-* If they clearly agree to WhatsApp, set openWhatsApp to true
-* If they are just browsing, keep chatting. Do not hunt for contact details every turn
-
-WHATSAPP MESSAGE (context only):
-
-"Hi LankaLux, I'd like to plan my Sri Lanka trip. My name is [Name] and I'm looking for [details]."
+If they clearly ask to continue on WhatsApp, set openWhatsApp to true. Do not suggest WhatsApp just to collect a number.
 
 IMPORTANT:
 
@@ -400,20 +389,15 @@ Output STRICT JSON only with this shape:
   "openWhatsApp": true|false
 }
 
-Set openWhatsApp to true only if the guest clearly agrees to move to WhatsApp now. Otherwise false.
-
-Data for Send request on the website: start date, end date, number of adults, plus email or WhatsApp already collected. Optional: children, preferences, airline help.`
+Set openWhatsApp to true only if the guest clearly asks to move to WhatsApp now. Otherwise false.
+Never put contact requests in the reply.`
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-    const flexibilityHints: string[] = []
+    const flexibilityHints: string[] = [
+      'Do not ask for email, phone, or WhatsApp. Do not write a day by day itinerary.',
+    ]
     if (isRepeatedUserQuestion(lastUserMessage, messages)) {
       flexibilityHints.push('They may be repeating a question. Answer freshly, with a new angle, no copied wording.')
-    }
-    if (!draft.name && userTurns >= 2) {
-      flexibilityHints.push('You may casually ask what to call them after you answer. Do not make it the whole reply.')
-    }
-    if (!draft.email && !draft.whatsapp && userTurns >= 3) {
-      flexibilityHints.push('If the trip idea has any shape, you may invite an email or WhatsApp. Never block their question behind it.')
     }
     const completion = await openai.chat.completions.create({
       model: process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini',
@@ -425,9 +409,8 @@ Data for Send request on the website: start date, end date, number of adults, pl
           role: 'user',
           content: JSON.stringify({
             currentDraft: draft,
-            mustAskFields,
             conversation: messages,
-            hint: flexibilityHints.length ? flexibilityHints.join(' ') : undefined,
+            hint: flexibilityHints.join(' '),
           }),
         },
       ],
@@ -467,24 +450,18 @@ Data for Send request on the website: start date, end date, number of adults, pl
 
     reply = sanitizeReply(reply)
 
+    if (asksForContact(reply)) {
+      reply = sanitizeReply(
+        'Happy to keep chatting here. If you want a full custom plan, the Journeys page or WhatsApp with the team is the better desk.'
+      )
+    }
+
     const openWhatsApp = parsed?.openWhatsApp === true && userAgreesToWhatsApp(lastUserMessage)
 
     if (reply && (isDuplicateAssistantReply(reply, messages) || isSimilarAssistantReply(reply, messages))) {
-      if (!nextDraft.name) {
-        reply = askNameReply()
-      } else if (!nextDraft.tripDays) {
-        reply = planningOpeningReply(nextDraft.name || '')
-      } else if (!nextDraft.startDate || !nextDraft.endDate) {
-        reply = 'Even a rough month helps. Sri Lanka in March and Sri Lanka in monsoon are two different movies.'
-      } else if (nextDraft.numberOfAdults == null) {
-        reply = 'How many adults should I keep in mind for the vehicle? I promise I am not seating a cricket team unless you say so.'
-      } else if (!nextDraft.email && !nextDraft.whatsapp) {
-        reply = askContactReply(userTurns + 3)
-      } else {
-        reply = sanitizeReply(
-          'Whenever you like, WhatsApp our team or tap Send request. I will not take it personally if you pick the humans.'
-        )
-      }
+      reply = sanitizeReply(
+        'Still here. Beaches, hills, wildlife, or the classic we-want-a-bit-of-everything?'
+      )
     }
 
     return jsonResponse(
