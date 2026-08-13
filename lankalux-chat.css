@@ -1,11 +1,11 @@
 .llx-chat-fab{
   position:fixed!important;bottom:30px!important;right:30px!important;z-index:5000;
   width:60px;height:60px;border-radius:999px;
-  border:2px solid #caa24d;
-  background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
-  color:#caa24d;font-weight:700;cursor:pointer;
-  box-shadow:0 4px 20px rgba(202,162,77,.3);
-  transition:all .3s ease;
+  border:1px solid #B18544;
+  background:#1A2A1D;
+  color:#F9F4EB;font-weight:700;cursor:pointer;
+  box-shadow:0 8px 24px rgba(26,42,29,.22);
+  transition:all .3s cubic-bezier(.22,1,.36,1);
   display:flex;align-items:center;justify-content:center
 }
 .llx-chat-fab svg{
@@ -52,9 +52,9 @@
   height:min(580px,calc(100dvh - 140px));
   max-height:min(580px,calc(100dvh - 140px));
   display:flex;flex-direction:column;overflow:hidden;min-height:0;
-  border:1px solid #2a2a2a;border-radius:18px;
-  background:rgba(15,15,15,.97);
-  box-shadow:0 24px 64px rgba(0,0,0,.55);
+  border:1px solid rgba(26,42,29,.12);border-radius:8px;
+  background:#F9F4EB;
+  box-shadow:0 24px 64px rgba(26,42,29,.18);
   opacity:0;transform:translateY(18px) scale(.96);
   pointer-events:none;transition:opacity .38s ease, transform .4s cubic-bezier(.22,1,.36,1), box-shadow .35s ease
 }
@@ -64,19 +64,19 @@
 }
 .llx-chat-head{
   display:flex;justify-content:space-between;align-items:center;
-  padding:14px 15px;border-bottom:1px solid #262626
+  padding:14px 15px;border-bottom:1px solid rgba(26,42,29,.1)
 }
 .llx-chat-head strong{
-  font-family:'Playfair Display',serif;font-size:18px;color:#f5f0e3;
+  font-family:'Be Vietnam Pro',sans-serif;font-size:18px;color:#1A2A1D;
   letter-spacing:.25px;font-weight:600
 }
 .llx-chat-head small{
-  display:block;color:#bfb5a4;font-size:12px;
+  display:block;color:#B18544;font-size:12px;
   letter-spacing:.35px;text-transform:uppercase;margin-top:2px
 }
 .llx-chat-close{
-  width:34px;height:34px;border-radius:10px;border:1px solid #2a2a2a;
-  background:transparent;color:#e5dccb;cursor:pointer;
+  width:34px;height:34px;border-radius:10px;border:1px solid rgba(26,42,29,.15);
+  background:transparent;color:#1A2A1D;cursor:pointer;
   transition:all .25s ease
 }
 .llx-chat-close:hover{
@@ -92,29 +92,29 @@
   animation:llxMsgIn .28s cubic-bezier(.22,1,.36,1)
 }
 .llx-chat-msg.user{
-  align-self:flex-end;background:linear-gradient(135deg,#1a1a1a,#202020);
-  border:1px solid #2a2a2a;color:#f5f3ee
+  align-self:flex-end;background:#1A2A1D;
+  border:1px solid #1A2A1D;color:#F9F4EB
 }
 .llx-chat-msg.assistant{
-  align-self:flex-start;background:linear-gradient(135deg,rgba(202,162,77,.11),rgba(202,162,77,.05));
-  border:1px solid rgba(202,162,77,.27);color:#f4eee0
+  align-self:flex-start;background:#fff;
+  border:1px solid rgba(26,42,29,.12);color:#252523
 }
 .llx-chat-vehicle-wrap{
   align-self:flex-start;max-width:100%;
-  background:rgba(202,162,77,.08);
-  border:1px solid rgba(202,162,77,.24);
+  background:#fff;
+  border:1px solid rgba(26,42,29,.12);
   border-radius:14px;padding:10px;
   animation:llxMsgIn .22s ease
 }
 .llx-chat-vehicle-title{
-  font-family:'Playfair Display',serif;
-  font-size:15px;color:#f0dfb7;margin:0 0 8px
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:15px;color:#1A2A1D;margin:0 0 8px
 }
 .llx-chat-vehicle-grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px
 }
 .llx-chat-vehicle-card{
-  border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;background:#141414;
+  border:1px solid rgba(26,42,29,.12);border-radius:10px;overflow:hidden;background:#fff;
   cursor:pointer;transition:border-color .2s ease,transform .2s ease
 }
 .llx-chat-vehicle-card:hover{
@@ -124,7 +124,7 @@
   width:100%;height:82px;object-fit:cover;display:block
 }
 .llx-chat-vehicle-card span{
-  display:block;padding:7px 8px;font-size:11px;color:#e8dfcf
+  display:block;padding:7px 8px;font-size:11px;color:#1A2A1D
 }
 .llx-chat-typing{
   align-self:flex-start;
@@ -151,18 +151,18 @@
   animation:llxPulse .9s ease forwards
 }
 .llx-chat-foot{
-  border-top:1px solid #262626;padding:14px 14px 16px;
-  display:flex;flex-direction:column;gap:12px;background:#121212;flex-shrink:0
+  border-top:1px solid rgba(26,42,29,.1);padding:14px 14px 16px;
+  display:flex;flex-direction:column;gap:12px;background:#F1E9DA;flex-shrink:0
 }
 .llx-chat-draft{
-  font-size:12px;color:#d9d1c2;line-height:1.5;
-  padding:11px;border:1px solid #262626;border-radius:12px;background:#0f0f0f
+  font-size:12px;color:#252523;line-height:1.5;
+  padding:11px;border:1px solid rgba(26,42,29,.12);border-radius:12px;background:#fff
 }
 .llx-chat-actions{display:flex;gap:8px;flex-wrap:wrap}
 .llx-chat-btn{
-  border:1px solid #2a2a2a;background:transparent;color:#ece2d1;
+  border:1px solid rgba(26,42,29,.16);background:transparent;color:#1A2A1D;
   border-radius:11px;padding:9px 12px;font-size:14px;font-weight:500;cursor:pointer;
-  font-family:'Playfair Display',serif;letter-spacing:.2px;line-height:1.2;
+  font-family:'Be Vietnam Pro',sans-serif;letter-spacing:.2px;line-height:1.2;
   transition:background .2s ease,border-color .2s ease,color .2s ease;
   text-rendering:auto;text-shadow:none
 }
@@ -171,10 +171,10 @@
   transform:none
 }
 .llx-chat-btn.primary{
-  background:#caa24d;
-  border:1px solid #caa24d;
-  color:#111;
-  font-family:'Playfair Display',serif;
+  background:#B18544;
+  border:1px solid #B18544;
+  color:#F9F4EB;
+  font-family:'Be Vietnam Pro',sans-serif;
   font-size:14px;
   letter-spacing:.2px;
   box-shadow:none
@@ -187,8 +187,8 @@
 .llx-chat-btn:disabled{opacity:.5;cursor:not-allowed}
 .llx-chat-row{display:flex;gap:8px}
 .llx-chat-input{
-  flex:1;border:1px solid #2a2a2a;border-radius:12px;background:#0e0e0e;color:#f5f5f5;
-  padding:11px 12px;font-size:14px;font-family:'Inter',sans-serif;line-height:1.4
+  flex:1;border:1px solid rgba(26,42,29,.18);border-radius:12px;background:#fff;color:#252523;
+  padding:11px 12px;font-size:14px;font-family:'Open Sans',sans-serif;line-height:1.4
 }
 .llx-chat-input::placeholder{color:#9f9586}
 .llx-chat-note{
@@ -208,7 +208,7 @@
 .llx-chat-agent-connect .llx-chat-agent-btn{
   width:100%;border:1px solid #caa24d;background:#caa24d;color:#111;
   border-radius:11px;padding:10px 14px;font-size:14px;font-weight:600;
-  font-family:'Playfair Display',serif;cursor:pointer;
+  font-family:'Be Vietnam Pro',sans-serif;cursor:pointer;
   transition:background .2s ease,border-color .2s ease
 }
 .llx-chat-agent-connect .llx-chat-agent-btn:hover{

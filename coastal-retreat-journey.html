@@ -6,8 +6,12 @@
 <link rel="icon" type="image/png" href="/lankalux-favicon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Sri Lanka beach trip: Arugam Bay, Galle, south coast. Surf, sun &amp; historic forts. Private chauffeur, handpicked stays. LankaLux Coastal Retreat Journey.">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lankalux-design.css">
+<link rel="stylesheet" href="/lankalux-journeys.css">
+<style media="not all">
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#f5f5f5;line-height:1.7}
@@ -585,10 +589,9 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 
 </head>
 <body>
-<header>
-  <a href="/" class="logo">
-    <img src="lankalux-favicon.png" alt="LankaLux" class="logo-icon">
-    <span class="logo-text">LankaLux</span>
+<header class="on-media">
+  <a href="/" class="logo" aria-label="LankaLux">
+    <img src="/lankalux-logo.png" alt="LankaLux" class="logo-lockup">
   </a>
   <nav>
     <a href="/#about">About</a>
@@ -600,7 +603,7 @@ footer{text-align:center;padding:40px;font-size:13px;color:#aaa}
 
 <a href="/" class="back-btn" id="backToHomeBtn">← Back to Home</a>
 
-<section class="journey-hero">
+<section class="journey-hero" style="--hero-image:url('images/coastalretreat/coastalhp.jpg')">
   <h1>Coastal Retreat Journey</h1>
   <p>A relaxing 8-day coastal escape exploring Sri Lanka's stunning beaches, from the historic Galle Fort to pristine bays perfect for swimming, surfing, and sunset watching.</p>
 </section>
@@ -1332,6 +1335,7 @@ window.addEventListener("load", function() {
 </script>
 
 
+<script src="/lankalux-motion.js" defer></script>
 <script src="/lankalux-chat.js" defer></script>
 </body>
 </html>
