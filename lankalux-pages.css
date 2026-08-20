@@ -1,0 +1,162 @@
+/* Editorial pages — uses LankaLux tokens from lankalux-design.css */
+
+.page-hero {
+  min-height: 48vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 128px var(--page-pad) 56px;
+  background-size: cover;
+  background-position: center;
+  color: var(--ivory);
+  position: relative;
+}
+
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(26, 42, 29, 0.58) 0%, rgba(26, 42, 29, 0.18) 55%, rgba(26, 42, 29, 0.12) 100%);
+}
+
+.page-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.page-hero h1 {
+  color: var(--ivory);
+  margin-bottom: 14px;
+}
+
+.page-hero p {
+  color: rgba(249, 244, 235, 0.9);
+  font-size: 18px;
+  max-width: 54ch;
+}
+
+.page-body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 96px) var(--page-pad) 48px;
+}
+
+.page-body p {
+  font-size: 17px;
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+
+.page-body h2 {
+  margin-top: 44px;
+  margin-bottom: 14px;
+}
+
+.page-body h2:first-child { margin-top: 0; }
+
+.page-body ul {
+  margin: 0 0 22px 1.15em;
+  color: var(--charcoal);
+}
+
+.page-body li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+
+.page-body a {
+  color: var(--forest);
+  text-underline-offset: 3px;
+}
+
+.page-note {
+  font-size: 15px;
+  color: rgba(37, 37, 35, 0.78);
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  margin-top: 36px;
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 36px 0 8px;
+}
+
+.related-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.related-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  min-height: 180px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.related-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26, 42, 29, 0.72), rgba(26, 42, 29, 0.12));
+}
+
+.related-card span {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  z-index: 1;
+  color: var(--ivory);
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+@media (max-width: 700px) {
+  .related-row { grid-template-columns: 1fr; }
+  .page-hero { min-height: 40vh; padding-top: 110px; }
+}
+
+.faq-list {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-item h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.faq-item p {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.footer-line-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: rgba(249, 244, 235, 0.75);
+}

@@ -278,6 +278,13 @@
   color: var(--forest);
 }
 
+h2.day-title {
+  margin-bottom: 0;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
 .day-content {
   display: grid;
   grid-template-columns: 1fr 1fr;

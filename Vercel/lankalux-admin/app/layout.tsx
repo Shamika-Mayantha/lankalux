@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LankaLux CRM",
   description: "LankaLux Admin CRM System",
+  robots: { index: false, follow: false },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

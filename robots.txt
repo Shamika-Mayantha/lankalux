@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /CMR
+Disallow: /CMR/
+Disallow: /Vercel/
+
+Sitemap: https://lankalux.com/sitemap.xml

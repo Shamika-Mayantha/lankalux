@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "LankaLux Journey",
   description: "Your personalized Sri Lanka itinerary",
+  robots: { index: false, follow: false },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

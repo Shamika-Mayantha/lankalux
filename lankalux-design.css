@@ -346,6 +346,16 @@ footer a:hover { color: var(--gold); }
 }
 
 .footer-separator { color: var(--gold); opacity: 0.7; }
+.footer-line-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: rgba(249, 244, 235, 0.75);
+}
 .footer-line3 { font-size: 12px; color: rgba(249, 244, 235, 0.5); margin-top: 8px; }
 
 .social-float {
@@ -1008,5 +1018,5 @@ body.is-leaving .page-veil { opacity: 1; }
   .promo-btn-primary, .promo-btn-secondary { width: 100%; margin-left: 0; }
   .promo-modal-actions { flex-direction: column; gap: 10px; }
   .contact-buttons { flex-direction: column; }
-  footer .footer-line1, footer .footer-line2 { flex-direction: column; gap: 6px; }
+  footer .footer-line1, footer .footer-line2, footer .footer-line-nav { flex-direction: column; gap: 6px; }
 }
