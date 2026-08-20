@@ -98,6 +98,14 @@ body > header.on-media:not(.is-scrolled) {
   background: transparent;
 }
 
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  z-index: 1002;
+  min-width: 0;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -125,7 +133,8 @@ body > header nav {
 }
 
 body > header nav a,
-body > header nav button.cta {
+body > header nav button.cta,
+.nav-topics-btn {
   margin-left: 28px;
   color: var(--forest);
   text-decoration: none;
@@ -136,16 +145,39 @@ body > header nav button.cta {
   border: none;
   cursor: pointer;
   padding: 0;
+  font-family: inherit;
   transition: color 0.3s var(--ease);
 }
 
+.nav-topics-btn {
+  margin-left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-topics-btn::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.nav-topics.is-open .nav-topics-btn::after {
+  transform: rotate(225deg) translateY(-1px);
+}
+
 body > header.on-media:not(.is-scrolled):not(.nav-open) nav a,
-body > header.on-media:not(.is-scrolled):not(.nav-open) nav button.cta {
+body > header.on-media:not(.is-scrolled):not(.nav-open) nav button.cta,
+body > header.on-media:not(.is-scrolled):not(.nav-open) .nav-topics-btn {
   color: var(--ivory);
 }
 
 body > header nav a:hover,
-body > header nav button.cta:hover {
+body > header nav button.cta:hover,
+.nav-topics-btn:hover {
   color: var(--gold);
 }
 
@@ -157,6 +189,62 @@ body > header nav a.cta {
 body > header.on-media:not(.is-scrolled):not(.nav-open) nav button.cta,
 body > header.on-media:not(.is-scrolled):not(.nav-open) nav a.cta {
   color: var(--gold);
+}
+
+.nav-topics {
+  position: relative;
+}
+
+.nav-topics-panel {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 0;
+  display: none;
+  width: min(640px, calc(100vw - 40px));
+  padding: 28px 32px 24px;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 48px rgba(26, 42, 29, 0.12);
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px 28px;
+  z-index: 1003;
+}
+
+.nav-topics.is-open .nav-topics-panel {
+  display: grid;
+}
+
+.nav-topics-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.nav-topics-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 6px;
+}
+
+.nav-topics-panel a,
+.nav-topics-mobile a {
+  color: var(--forest);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.nav-topics-panel a:hover,
+.nav-topics-mobile a:hover {
+  color: var(--gold);
+}
+
+.nav-topics-mobile {
+  display: none;
 }
 
 .nav-toggle {
@@ -191,8 +279,31 @@ body > header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.
   display: none;
 }
 
+@media (max-width: 900px) {
+  .nav-topics-panel {
+    grid-template-columns: 1fr 1fr;
+    width: min(420px, calc(100vw - 32px));
+  }
+}
+
 @media (max-width: 768px) {
   .nav-toggle { display: flex; }
+  .nav-topics { display: none; }
+  .nav-topics-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-topics-mobile .nav-topics-label {
+    margin-top: 12px;
+  }
+  .nav-topics-mobile .nav-topics-label:first-child {
+    margin-top: 0;
+  }
 
   .logo-lockup {
     height: 40px;
@@ -281,6 +392,37 @@ body > header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.
 .promo-btn-primary:hover,
 .whatsapp-send-btn:hover {
   background: var(--forest-soft);
+}
+
+a.btn,
+a.btn:link,
+a.btn:visited,
+a.btn:hover,
+a.btn:active,
+a.btn:focus {
+  color: var(--ivory);
+  background: var(--forest);
+  text-decoration: none;
+}
+
+a.btn:hover,
+a.btn:focus {
+  color: var(--ivory);
+  background: var(--forest-soft);
+}
+
+a.btn-secondary,
+a.btn-secondary:link,
+a.btn-secondary:visited {
+  color: var(--forest);
+  background: transparent;
+  text-decoration: none;
+}
+
+a.btn-secondary:hover,
+a.btn-secondary:focus {
+  color: var(--ivory);
+  background: var(--forest);
 }
 
 .btn-secondary,

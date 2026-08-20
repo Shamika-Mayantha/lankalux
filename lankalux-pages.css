@@ -65,9 +65,35 @@
   line-height: 1.7;
 }
 
-.page-body a {
+.page-body a:not(.btn):not(.btn-secondary):not(.related-card) {
   color: var(--forest);
   text-underline-offset: 3px;
+}
+
+.page-actions .btn,
+.page-body a.btn {
+  color: var(--ivory);
+  background: var(--forest);
+  text-decoration: none;
+}
+
+.page-actions .btn:hover,
+.page-body a.btn:hover {
+  color: var(--ivory);
+  background: var(--forest-soft);
+}
+
+.page-actions .btn-secondary,
+.page-body a.btn-secondary {
+  color: var(--forest);
+  background: transparent;
+  text-decoration: none;
+}
+
+.page-actions .btn-secondary:hover,
+.page-body a.btn-secondary:hover {
+  color: var(--ivory);
+  background: var(--forest);
 }
 
 .page-note {
