@@ -11,19 +11,19 @@
   document.body.appendChild(veil);
 
   if (header) {
-    header.querySelectorAll('nav a[href="#experiences"], nav a[href="/#experiences"]').forEach(function (el) {
+    header.querySelectorAll("nav > a[href='#experiences'], nav > a[href='/#experiences']").forEach(function (el) {
       el.remove();
     });
-    header.querySelectorAll('nav a[href="#faq"], nav a[href="/#faq"]').forEach(function (el) {
+    header.querySelectorAll("nav > a[href='#faq'], nav > a[href='/#faq']").forEach(function (el) {
       el.remove();
     });
 
     var nav = header.querySelector("nav");
     if (nav && !nav.querySelector(".nav-topics")) {
-      var topics = document.createElement("details");
+      var topics = document.createElement("div");
       topics.className = "nav-topics";
       topics.innerHTML =
-        '<summary class="nav-topics-btn">Questions</summary>' +
+        '<button type="button" class="nav-topics-btn" aria-expanded="false" aria-haspopup="true">Questions</button>' +
         '<div class="nav-topics-panel">' +
           '<div class="nav-topics-col">' +
             '<p class="nav-topics-label">Guides</p>' +
@@ -56,19 +56,31 @@
       var cta = nav.querySelector(".cta");
       if (cta) nav.insertBefore(topics, cta);
       else nav.appendChild(topics);
+
+      var topicsBtn = topics.querySelector(".nav-topics-btn");
+      function setTopicsOpen(open) {
+        topics.classList.toggle("is-open", open);
+        topicsBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      topicsBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setTopicsOpen(!topics.classList.contains("is-open"));
+      });
     }
 
-    document.addEventListener("click", function (e) {
-      header.querySelectorAll("details.nav-topics[open]").forEach(function (d) {
-        if (!d.contains(e.target)) d.removeAttribute("open");
+    function closeTopics() {
+      header.querySelectorAll(".nav-topics.is-open").forEach(function (el) {
+        el.classList.remove("is-open");
+        var b = el.querySelector(".nav-topics-btn");
+        if (b) b.setAttribute("aria-expanded", "false");
       });
+    }
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".nav-topics")) closeTopics();
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") {
-        header.querySelectorAll("details.nav-topics[open]").forEach(function (d) {
-          d.removeAttribute("open");
-        });
-      }
+      if (e.key === "Escape") closeTopics();
     });
   }
 
@@ -85,6 +97,11 @@
     function closeNav() {
       header.classList.remove("nav-open");
       toggle.setAttribute("aria-label", "Open menu");
+      header.querySelectorAll(".nav-topics.is-open").forEach(function (el) {
+        el.classList.remove("is-open");
+        var b = el.querySelector(".nav-topics-btn");
+        if (b) b.setAttribute("aria-expanded", "false");
+      });
     }
     toggle.addEventListener("click", function () {
       var open = header.classList.toggle("nav-open");
@@ -92,6 +109,7 @@
     });
     backdrop.addEventListener("click", closeNav);
     header.querySelectorAll("nav a, nav button").forEach(function (el) {
+      if (el.classList.contains("nav-topics-btn")) return;
       el.addEventListener("click", closeNav);
     });
   }
@@ -193,15 +211,61 @@
     }
   }
 
+  window.addEventListener("pageshow", function () {
+    document.body.classList.remove("is-leaving");
+  });
+
+  function isHomePath(pathname) {
+    return pathname === "/" || pathname === "/index.html" || pathname === "";
+  }
+
+  function scrollToFaq() {
+    var faq = document.getElementById("faq");
+    if (!faq) return false;
+    faq.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    return true;
+  }
+
+  if (isHomePath(window.location.pathname) && window.location.hash === "#faq") {
+    window.setTimeout(scrollToFaq, 50);
+  }
+
   if (!reduced) {
     document.addEventListener("click", function (e) {
       var a = e.target.closest("a[href]");
       if (!a) return;
       var href = a.getAttribute("href") || "";
-      if (!href || href.charAt(0) === "#" || a.target === "_blank" || a.hasAttribute("download")) return;
+      if (!href || a.target === "_blank" || a.hasAttribute("download")) return;
       if (/^(mailto:|tel:|javascript:)/i.test(href)) return;
       if (/^https?:/i.test(href) && a.host !== window.location.host) return;
       if (a.getAttribute("rel") && a.getAttribute("rel").indexOf("external") !== -1) return;
+
+      var dest;
+      try {
+        dest = new URL(a.href, window.location.href);
+      } catch (err) {
+        return;
+      }
+
+      if (dest.hash === "#faq" && isHomePath(dest.pathname)) {
+        if (isHomePath(window.location.pathname)) {
+          e.preventDefault();
+          e.stopPropagation();
+          header && header.querySelectorAll(".nav-topics.is-open").forEach(function (el) {
+            el.classList.remove("is-open");
+          });
+          if (window.location.hash !== "#faq") {
+            history.replaceState(null, "", "#faq");
+          }
+          scrollToFaq();
+          return;
+        }
+        return;
+      }
+
+      if (href.charAt(0) === "#") return;
+      if (dest.hash && dest.pathname === window.location.pathname) return;
+
       e.preventDefault();
       document.body.classList.add("is-leaving");
       window.setTimeout(function () {
