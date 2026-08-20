@@ -14,8 +14,8 @@ type DraftLead = {
   name?: string | null
   email?: string | null
   whatsapp?: string | null
-  startDate?: string | null // YYYY-MM-DD
-  endDate?: string | null // YYYY-MM-DD
+  startDate?: string | null
+  endDate?: string | null
   numberOfAdults?: number | null
   numberOfChildren?: number | null
   childrenAgesValues?: number[] | null
@@ -28,6 +28,8 @@ type DraftLead = {
 }
 
 const MAX_REPLY_CHARS = 480
+const CONTACT_EMAIL = 'hello@lankalux.com'
+const WHATSAPP_DISPLAY = '+94 76 326 1788'
 
 function jsonResponse(body: unknown, status = 200) {
   const res = NextResponse.json(body, { status })
@@ -74,20 +76,6 @@ function isSimilarAssistantReply(reply: string, msgs: ChatMessage[]) {
   })
 }
 
-function recentUserContents(msgs: ChatMessage[], n: number) {
-  return msgs
-    .filter((m) => m.role === 'user')
-    .slice(-(n + 1), -1)
-    .map((m) => normalizeForCompare(m.content))
-    .filter(Boolean)
-}
-
-function isRepeatedUserQuestion(lastUser: string, msgs: ChatMessage[]) {
-  const u = normalizeForCompare(lastUser)
-  if (u.length < 12) return false
-  return recentUserContents(msgs, 5).some((prev) => prev === u || (prev.length > 16 && u.includes(prev)))
-}
-
 function wantsToEndChat(text: string) {
   const t = (text || '').toLowerCase().trim()
   if (!t) return false
@@ -97,60 +85,37 @@ function wantsToEndChat(text: string) {
 
 function userAgreesToWhatsApp(text: string) {
   const t = (text || '').toLowerCase()
-  if (/\b(no|not|don't|dont|wait|later)\b/.test(t)) return false
+  if (/\b(no|not|don't|dont|wait|later|email)\b/.test(t)) return false
   return /\b(yes|yeah|yep|sure|ok|okay|please|whatsapp|wa\.me|sounds good|go ahead|that works|perfect|do it|send it|message me|text me)\b/.test(
     t
   )
 }
 
-function asksForContact(text: string) {
+function userAgreesToEmail(text: string) {
   const t = (text || '').toLowerCase()
-  if (!t) return false
-  const mentionsContact =
-    /\b(email|e-mail|phone|mobile|whatsapp|whats app|wa\.me|contact (number|details)|phone number|best (email|number))\b/.test(
-      t
-    )
-  if (!mentionsContact) return false
-  return /\b(share|drop|send|give|leave|what('s| is)|could you|can you|please|need your|so we can)\b/.test(t)
+  if (/\b(no|not|don't|dont|wait|later|whatsapp)\b/.test(t)) return false
+  return /\b(email|e-mail|mail me|send (an )?email|hello@lankalux)\b/.test(t)
 }
 
-const NAME_GREETING_WORDS = new Set([
-  'hello',
-  'hi',
-  'hey',
-  'thanks',
-  'thank',
-  'yes',
-  'no',
-  'ok',
-  'okay',
-  'sure',
-  'please',
-  'help',
-  'wildlife',
-  'beach',
-  'beaches',
-  'safari',
-  'hills',
-  'hill',
-  'tea',
-  'train',
-  'trains',
-  'culture',
-  'coast',
-  'coastal',
-  'yala',
-  'ella',
-  'kandy',
-  'galle',
-  'sigiriya',
-  'trip',
-  'tour',
-  'tours',
-  'jeep',
-  'info',
-  'information',
-])
+function wantsCustomTripPlan(text: string) {
+  const t = (text || '').toLowerCase()
+  if (!t) return false
+  if (/\b(tell me about|what is|what's|explain|your|the)\b.{0,40}\b(10[- ]?day|signature|published)\b/.test(t)) {
+    return false
+  }
+  if (/\b(plan|build|create|write|design|make|draft|put together)\b.{0,50}\b(itinerary|trip|holiday|vacation|tour|route|schedule)\b/.test(t)) {
+    return true
+  }
+  if (/\b(can you|could you|please|i want you to|help me)\b.{0,40}\b(plan|itinerary)\b/.test(t)) return true
+  if (/\bday\s*(1|one)\b/.test(t) && /\b(day\s*(2|two)|each day|day by day)\b/.test(t)) return true
+  if (/\b(day[- ]?by[- ]?day|full itinerary|custom itinerary)\b/.test(t)) return true
+  return false
+}
+
+function looksLikeItinerary(text: string) {
+  const days = (text.match(/\bday\s*\d+\b/gi) || []).length
+  return days >= 2
+}
 
 function extractNameFromMessage(text: string): string | null {
   const raw = (text || '').trim()
@@ -161,12 +126,6 @@ function extractNameFromMessage(text: string): string | null {
     /^(?:i'?m|i am|my name is|this is|call me|it's|its)\s+([A-Za-z][A-Za-z'.-]*(?:\s+[A-Za-z][A-Za-z'.-]*){0,3})\s*\.?$/i
   )
   if (m1) return m1[1].trim().split(/\s+/).slice(0, 4).join(' ')
-  const words = raw.split(/\s+/).filter(Boolean)
-  if (words.length >= 1 && words.length <= 3 && raw.length <= 42) {
-    const w0 = words[0].toLowerCase()
-    if (words.length === 1 && NAME_GREETING_WORDS.has(w0)) return null
-    if (words.every((w) => /^[A-Za-z][A-Za-z'.-]*$/.test(w))) return raw
-  }
   return null
 }
 
@@ -184,7 +143,7 @@ function extractWhatsApp(text: string) {
 
 function extractTripDays(text: string): number | null {
   const t = (text || '').toLowerCase()
-  const m = t.match(/\b(\d{1,2})\s*(?:days?|nights?)\b/) || t.match(/\b(?:about|around|for)\s+(\d{1,2})\b/)
+  const m = t.match(/\b(\d{1,2})\s*(?:days?|nights?)\b/)
   if (!m) return null
   const n = parseInt(m[1], 10)
   return n >= 1 && n <= 60 ? n : null
@@ -193,14 +152,13 @@ function extractTripDays(text: string): number | null {
 function coerceDraft(d: any): DraftLead {
   const asNum = (v: any) => (typeof v === 'number' ? v : v == null ? null : Number(String(v)))
   const asBool = (v: any) => (typeof v === 'boolean' ? v : v == null ? null : String(v).toLowerCase() === 'true')
-  const ages =
-    Array.isArray(d?.childrenAgesValues)
-      ? d.childrenAgesValues
-          .map((x: any) => (typeof x === 'number' ? x : Number(String(x))))
-          .filter((n: any) => Number.isFinite(n))
-      : null
+  const ages = Array.isArray(d?.childrenAgesValues)
+    ? d.childrenAgesValues
+        .map((x: any) => (typeof x === 'number' ? x : Number(String(x))))
+        .filter((n: any) => Number.isFinite(n))
+    : null
   const tripDaysRaw = asNum(d?.tripDays)
-  const out: DraftLead = {
+  return {
     name: d?.name != null ? String(d.name).trim() || null : null,
     email: d?.email != null ? String(d.email).trim() || null : null,
     whatsapp: d?.whatsapp != null ? String(d.whatsapp).trim() || null : null,
@@ -214,12 +172,13 @@ function coerceDraft(d: any): DraftLead {
     airlineFrom: d?.airlineFrom != null ? String(d.airlineFrom).trim() || null : null,
     airlineDates: d?.airlineDates != null ? String(d.airlineDates).trim() || null : null,
     tripPlanningStarted: d?.tripPlanningStarted === true ? true : d?.tripPlanningStarted === false ? false : null,
-    tripDays: Number.isFinite(tripDaysRaw) && (tripDaysRaw as number) >= 1 && (tripDaysRaw as number) <= 60 ? (tripDaysRaw as number) : null,
+    tripDays:
+      Number.isFinite(tripDaysRaw) && (tripDaysRaw as number) >= 1 && (tripDaysRaw as number) <= 60
+        ? (tripDaysRaw as number)
+        : null,
   }
-  return out
 }
 
-/** Merge model JSON draft patch without wiping fields omitted from the patch. */
 function mergeDraftPatch(base: DraftLead, patchRaw: unknown): DraftLead {
   if (!patchRaw || typeof patchRaw !== 'object') return base
   const p = patchRaw as Record<string, unknown>
@@ -262,6 +221,105 @@ function sanitizeReply(text: string): string {
   return s.trim()
 }
 
+function hasContact(d: DraftLead) {
+  return !!(d.email || d.whatsapp)
+}
+
+function nextLeadField(d: DraftLead, tripIntent: boolean, userTurns: number): string | null {
+  if (!hasContact(d) && (tripIntent || userTurns >= 2)) return 'contact'
+  if (tripIntent || hasContact(d)) {
+    if (!d.startDate && !d.endDate && !d.tripDays) return 'dates'
+    if (d.numberOfAdults == null) return 'party'
+    if (!d.name) return 'name'
+  }
+  return null
+}
+
+function tripPlanHandoffReply(d: DraftLead) {
+  const bits = [
+    'Tempting, but I will not write your days from this chat. The team does that properly, once they have your dates and pace.',
+    `WhatsApp ${WHATSAPP_DISPLAY} or email ${CONTACT_EMAIL} and they will shape it with you.`,
+  ]
+  if (!hasContact(d)) {
+    bits.push('Or leave an email or WhatsApp number here and I will pass you across.')
+  } else if (!d.startDate && !d.endDate && !d.tripDays) {
+    bits.push('Rough dates or how many days would help them start.')
+  }
+  return bits.join(' ')
+}
+
+function buildSystemPrompt(opts: {
+  tripIntent: boolean
+  leadField: string | null
+  userTurns: number
+  hasContact: boolean
+}) {
+  const leadLine =
+    opts.leadField === 'contact'
+      ? 'You still need an email or WhatsApp number. Ask for that in one short, friendly line after you answer.'
+      : opts.leadField === 'dates'
+        ? 'You still need arrival and departure dates, or how many days. Ask for that in one short line after you answer.'
+        : opts.leadField === 'party'
+          ? 'You still need how many adults, and children if any. Ask for that in one short line after you answer.'
+          : opts.leadField === 'name'
+            ? 'You have contact details. If it fits, ask their name so the team can greet them properly. One short line.'
+            : opts.userTurns >= 3 && !opts.hasContact
+              ? 'Invite them, once, to WhatsApp, email, or to tap Send request when they are ready. Do not nag.'
+              : 'Do not force a form. If they volunteer details, thank them and keep going.'
+
+  const planLine = opts.tripIntent
+    ? `They want a trip planned. Do not write an itinerary, Day 1 list, or numbered schedule. Direct them to WhatsApp ${WHATSAPP_DISPLAY} or email ${CONTACT_EMAIL}. You may mention published journey pages as inspiration only.`
+    : 'If they start asking you to plan days, stop and send them to WhatsApp or email instead.'
+
+  return `You are LankaLux AI, a travel companion on lankalux.com.
+
+PERSONALITY:
+Warm, flexible, lightly humorous. A well travelled host, not a booking form.
+Dry wit is welcome. One smile per reply is enough.
+Joke with the guest, never at them.
+If they are playful, play back. If they are brisk, be clear.
+Sound like a person. Short sentences. Usually 2 to 4 sentences.
+Never use markdown, asterisks, or bullet lists. Commas and short sentences are fine.
+
+WHAT YOU MAY DO:
+Answer general questions using ONLY the website knowledge below.
+Give a light opinion that already exists on the site: south vs east timing, Yala vs Udawalawe, why ten days beats five frantic nights.
+Point to public pages when useful.
+Collect a lead naturally: email or WhatsApp, dates, who is travelling, name, what they care about.
+Invite Send request, WhatsApp, or email so the human team can follow up.
+
+WHAT YOU MUST NOT DO:
+Never invent prices, hotel names, availability, visas, medical advice, or facts not in the knowledge.
+Never write a full itinerary, day-by-day plan, or numbered trip schedule.
+Never pretend you can confirm a booking.
+Never copy a previous assistant sentence in this thread.
+Never ask two questions at once.
+
+${planLine}
+
+LEADS:
+A lead is an email or WhatsApp number, plus whatever trip notes they share.
+${leadLine}
+Offer both WhatsApp ${WHATSAPP_DISPLAY} and ${CONTACT_EMAIL} when they want a human.
+Set openWhatsApp true only if they clearly want WhatsApp now.
+Set openEmail true only if they clearly want email now.
+
+KNOWLEDGE:
+${CHAT_KNOWLEDGE_SUMMARY}
+
+Output STRICT JSON only:
+{
+  "reply": "string",
+  "draft": {},
+  "missingFields": [],
+  "suggestSendRequest": true,
+  "openWhatsApp": false,
+  "openEmail": false
+}
+
+Put newly learned name, email, whatsapp, dates, adults, children, tripDays, or interests into draft. Omit unchanged fields.`
+}
+
 export async function POST(req: Request) {
   try {
     if (!process.env.OPENAI_API_KEY) {
@@ -281,9 +339,9 @@ export async function POST(req: Request) {
       : []
 
     let draft = coerceDraft(body?.draft || {})
-
-    const mustAskFields: (keyof DraftLead)[] = ['startDate', 'endDate', 'numberOfAdults']
     const lastUserMessage = [...messages].reverse().find((m) => m.role === 'user')?.content || ''
+    const userTurns = countUserMessages(messages)
+    const tripIntent = wantsCustomTripPlan(lastUserMessage)
 
     const inferredEmail = extractEmail(lastUserMessage)
     const inferredWhatsApp = extractWhatsApp(lastUserMessage)
@@ -295,122 +353,65 @@ export async function POST(req: Request) {
     }
     const inferredDays = extractTripDays(lastUserMessage)
     if (inferredDays && !draft.tripDays) draft = { ...draft, tripDays: inferredDays }
+    if (tripIntent) draft = { ...draft, tripPlanningStarted: true }
 
-    const userTurns = countUserMessages(messages)
-    const missingBase = mustAskFields.filter(
+    const missingBase = (['startDate', 'endDate', 'numberOfAdults'] as (keyof DraftLead)[]).filter(
       (k) => (draft as any)[k] == null || String((draft as any)[k]).trim() === ''
     )
+    const missing = missingBase.concat(!hasContact(draft) ? (['email_or_whatsapp'] as any) : [])
+    const leadField = nextLeadField(draft, tripIntent, userTurns)
 
     if (wantsToEndChat(lastUserMessage)) {
-      const missing = missingBase.concat(!draft.email && !draft.whatsapp ? (['email_or_whatsapp'] as any) : [])
-      return jsonResponse(
-        {
-          success: true,
-          reply: sanitizeReply(
-            'Go well. Come back if you want the short version of tea country, leopards, or which coast is worth the drive.'
-          ),
-          draft,
-          missingFields: missing,
-          suggestSendRequest: false,
-          openWhatsApp: false,
-        },
-        200
-      )
+      const bye = hasContact(draft)
+        ? 'Go well. The team already has a way to reach you if you want the trip written properly.'
+        : `Go well. If a custom trip starts calling, WhatsApp ${WHATSAPP_DISPLAY} or ${CONTACT_EMAIL}.`
+      return jsonResponse({
+        success: true,
+        reply: sanitizeReply(bye),
+        draft,
+        missingFields: missing,
+        suggestSendRequest: false,
+        openWhatsApp: false,
+        openEmail: false,
+      })
     }
 
-    if (userTurns >= 1 && draft.tripPlanningStarted !== true) {
-      draft = { ...draft, tripPlanningStarted: true }
+    if (tripIntent) {
+      const agreedWa = userAgreesToWhatsApp(lastUserMessage)
+      const agreedEmail = userAgreesToEmail(lastUserMessage)
+      return jsonResponse({
+        success: true,
+        reply: sanitizeReply(tripPlanHandoffReply(draft)),
+        draft,
+        missingFields: missing,
+        suggestSendRequest: hasContact(draft) && missingBase.length === 0,
+        openWhatsApp: agreedWa,
+        openEmail: agreedEmail && !agreedWa,
+      })
     }
-
-    const system = `You are LankaLux AI, a travel companion for private Sri Lanka journeys.
-
-This chat is for general questions only. You are not collecting leads and you are not writing itineraries.
-
-PERSONALITY:
-
-* Warm, flexible, lightly humorous. Think a well travelled host.
-* Dry wit is welcome. One smile per reply is enough.
-* Joke with the guest, never at them.
-* If they are playful, play back. If they are brisk, be clear.
-* Follow their lead. They can ask about beaches, food, trains, wildlife, vehicles, or how LankaLux works.
-* Sound like a person. Short sentences.
-
-WHAT YOU DO:
-
-* Answer general questions about Sri Lanka travel and about LankaLux
-* Give a light opinion: south coast vs east, hill country pacing, why Yala is early mornings
-* Point them to the Journeys pages, Send request, or WhatsApp if they want a real custom plan
-* Keep it conversational
-
-WHAT YOU NEVER DO:
-
-* NEVER ask for email, phone, WhatsApp, or any contact details
-* NEVER ask them to leave a number so you can follow up
-* NEVER write a full itinerary, day by day plan, or numbered trip schedule
-* NEVER invent prices, hotel names, availability, or policies
-* If they want a custom trip, say the team builds that. Chat stays high level
-
-STRICT RULES:
-
-* NEVER use markdown, asterisks, or bullet lists in the reply
-* Do not use hyphen lists. Commas and short sentences are fine
-* Keep replies short. Usually 2 to 4 sentences
-* Ask at most ONE curious question, and only if it helps the conversation
-* Do not repeat yourself
-* Do not force a script or a booking funnel
-
-KNOWLEDGE ABOUT LANKALUX:
-
-* Private chauffeur driven tours across Sri Lanka
-* One vehicle for the entire stay
-* Airport pickup and drop off included
-* Custom itineraries from their pace and interests, built by the team not this chat
-* Hotel arrangements and full travel planning
-* Experienced English speaking drivers
-* Current promotion: free safari jeep (jeep only, not park tickets)
-
-If they clearly ask to continue on WhatsApp, set openWhatsApp to true. Do not suggest WhatsApp just to collect a number.
-
-IMPORTANT:
-
-* Never copy a previous assistant sentence in this thread
-* Never ask two questions at once
-* If they already answered something, do not ask it again
-
-REFERENCE:
-${CHAT_KNOWLEDGE_SUMMARY}
-
-Output STRICT JSON only with this shape:
-{
-  "reply": "string",
-  "draft": { },
-  "missingFields": ["startDate","endDate","numberOfAdults","email_or_whatsapp"],
-  "suggestSendRequest": true|false,
-  "openWhatsApp": true|false
-}
-
-Set openWhatsApp to true only if the guest clearly asks to move to WhatsApp now. Otherwise false.
-Never put contact requests in the reply.`
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-    const flexibilityHints: string[] = [
-      'Do not ask for email, phone, or WhatsApp. Do not write a day by day itinerary.',
-    ]
-    if (isRepeatedUserQuestion(lastUserMessage, messages)) {
-      flexibilityHints.push('They may be repeating a question. Answer freshly, with a new angle, no copied wording.')
-    }
     const completion = await openai.chat.completions.create({
       model: process.env.OPENAI_CHAT_MODEL || 'gpt-4o-mini',
-      temperature: 0.85,
+      temperature: 0.8,
       max_tokens: 400,
       messages: [
-        { role: 'system', content: system },
+        {
+          role: 'system',
+          content: buildSystemPrompt({
+            tripIntent,
+            leadField,
+            userTurns,
+            hasContact: hasContact(draft),
+          }),
+        },
         {
           role: 'user',
           content: JSON.stringify({
             currentDraft: draft,
             conversation: messages,
-            hint: flexibilityHints.join(' '),
+            nextLeadField: leadField,
+            hint: 'Answer from website knowledge only. No itinerary. Try to earn a lead without sounding like a form.',
           }),
         },
       ],
@@ -421,60 +422,64 @@ Never put contact requests in the reply.`
     try {
       parsed = JSON.parse(text)
     } catch {
-      return jsonResponse(
-        {
-          success: true,
-          reply: sanitizeReply(
-            'Still here. Beaches, hills, wildlife, or the classic "we want a bit of everything"?'
-          ),
-          draft,
-          missingFields: missingBase.concat(!draft.email && !draft.whatsapp ? (['email_or_whatsapp'] as any) : []),
-          suggestSendRequest: false,
-          openWhatsApp: false,
-        },
-        200
-      )
+      return jsonResponse({
+        success: true,
+        reply: sanitizeReply(
+          `Still here. Beaches, hills, wildlife, or a bit of everything? For a custom trip, WhatsApp ${WHATSAPP_DISPLAY} or ${CONTACT_EMAIL}.`
+        ),
+        draft,
+        missingFields: missing,
+        suggestSendRequest: false,
+        openWhatsApp: false,
+        openEmail: false,
+      })
     }
 
     const nextDraft = mergeDraftPatch(draft, parsed?.draft)
-    const missing = mustAskFields
-      .filter((k) => (nextDraft as any)[k] == null || String((nextDraft as any)[k]).trim() === '')
-      .concat(!nextDraft.email && !nextDraft.whatsapp ? (['email_or_whatsapp'] as any) : [])
-
-    const suggestSendRequest = missing.length === 0
+    const nextMissingBase = (['startDate', 'endDate', 'numberOfAdults'] as (keyof DraftLead)[]).filter(
+      (k) => (nextDraft as any)[k] == null || String((nextDraft as any)[k]).trim() === ''
+    )
+    const nextMissing = nextMissingBase.concat(!hasContact(nextDraft) ? (['email_or_whatsapp'] as any) : [])
+    const suggestSendRequest = nextMissing.length === 0
 
     let reply =
       typeof parsed?.reply === 'string'
         ? parsed.reply
-        : 'Are you more slow mornings and late lunches, or the see-it-all energy?'
+        : 'Beaches, hills, wildlife, or the classic we-want-a-bit-of-everything?'
 
     reply = sanitizeReply(reply)
 
-    if (asksForContact(reply)) {
-      reply = sanitizeReply(
-        'Happy to keep chatting here. If you want a full custom plan, the Journeys page or WhatsApp with the team is the better desk.'
-      )
+    if (looksLikeItinerary(reply)) {
+      reply = sanitizeReply(tripPlanHandoffReply(nextDraft))
     }
-
-    const openWhatsApp = parsed?.openWhatsApp === true && userAgreesToWhatsApp(lastUserMessage)
 
     if (reply && (isDuplicateAssistantReply(reply, messages) || isSimilarAssistantReply(reply, messages))) {
       reply = sanitizeReply(
-        'Still here. Beaches, hills, wildlife, or the classic we-want-a-bit-of-everything?'
+        hasContact(nextDraft)
+          ? 'Still here. Tap Send request when you are ready, or WhatsApp if you would rather talk to a person.'
+          : `Still here. Leave an email or WhatsApp, or tap WhatsApp ${WHATSAPP_DISPLAY} and the team will pick it up.`
       )
     }
 
-    return jsonResponse(
-      {
-        success: true,
-        reply,
-        draft: nextDraft,
-        missingFields: Array.isArray(parsed?.missingFields) ? parsed.missingFields : missing,
-        suggestSendRequest,
-        openWhatsApp,
-      },
-      200
-    )
+    const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant')?.content || ''
+    let openWhatsApp = parsed?.openWhatsApp === true && userAgreesToWhatsApp(lastUserMessage)
+    let openEmail = parsed?.openEmail === true && userAgreesToEmail(lastUserMessage) && !openWhatsApp
+    if (!openWhatsApp && userAgreesToWhatsApp(lastUserMessage) && /whatsapp/i.test(lastAssistant)) {
+      openWhatsApp = true
+      openEmail = false
+    } else if (!openEmail && userAgreesToEmail(lastUserMessage) && /hello@lankalux|email/i.test(lastAssistant)) {
+      openEmail = true
+    }
+
+    return jsonResponse({
+      success: true,
+      reply,
+      draft: nextDraft,
+      missingFields: Array.isArray(parsed?.missingFields) ? parsed.missingFields : nextMissing,
+      suggestSendRequest: parsed?.suggestSendRequest === true || suggestSendRequest,
+      openWhatsApp,
+      openEmail,
+    })
   } catch (err) {
     return jsonResponse({ success: false, error: err instanceof Error ? err.message : 'Unknown error' }, 500)
   }

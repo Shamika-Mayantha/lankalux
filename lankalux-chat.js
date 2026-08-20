@@ -3,13 +3,14 @@
   if (window.__LLX_CHAT_INIT__) return;
   window.__LLX_CHAT_INIT__ = true;
   if (!document.getElementById('llxChatFab')) {
-    document.body.insertAdjacentHTML('beforeend', "<button id=\"llxChatFab\" class=\"llx-chat-fab\" type=\"button\" aria-label=\"Open chat\">\r\n  <svg viewBox=\"0 0 64 64\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\r\n    <circle cx=\"32\" cy=\"24\" r=\"10\" fill=\"currentColor\" opacity=\".18\"></circle>\r\n    <path d=\"M14 24a18 18 0 0 1 36 0\"></path>\r\n    <rect x=\"10\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <rect x=\"48\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <path d=\"M23 38c2 4 16 4 18 0\"></path>\r\n    <path d=\"M32 36v8\"></path>\r\n    <path d=\"M20 56c0-8 5-12 12-12s12 4 12 12\"></path>\r\n  </svg>\r\n  <span class=\"llx-chat-fab-tooltip\">Stuck choosing between leopards and coconuts?</span>\r\n</button>\r\n<div id=\"llxChatPanel\" class=\"llx-chat-panel\" aria-live=\"polite\">\r\n  <div class=\"llx-chat-head\">\r\n    <div><strong>LankaLux AI</strong><small>Sri Lanka, with a wink</small></div>\r\n    <button id=\"llxChatClose\" class=\"llx-chat-close\" type=\"button\" aria-label=\"Close chat\">✕</button>\r\n  </div>\r\n  <div id=\"llxChatBody\" class=\"llx-chat-body\"></div>\r\n  <div class=\"llx-chat-foot\">\r\n    <div class=\"llx-chat-actions\">\r\n      <button id=\"llxSendRequest\" class=\"llx-chat-btn primary\" type=\"button\" disabled>Send request</button>\r\n      <button id=\"llxWhatsApp\" class=\"llx-chat-btn\" type=\"button\">WhatsApp</button>\r\n      <button id=\"llxEndChat\" class=\"llx-chat-btn\" type=\"button\">End chat</button>\r\n    </div>\r\n    <div class=\"llx-chat-row\">\r\n      <input id=\"llxChatInput\" class=\"llx-chat-input\" type=\"text\" placeholder=\"Type your message...\">\r\n      <button id=\"llxChatSend\" class=\"llx-chat-btn\" type=\"button\">Send</button>\r\n    </div>\r\n    <div class=\"llx-chat-note\">Send request when you are ready and our team will shape your itinerary with you.</div>\r\n  </div>\r\n</div>");
+    document.body.insertAdjacentHTML('beforeend', "<button id=\"llxChatFab\" class=\"llx-chat-fab\" type=\"button\" aria-label=\"Open chat\">\r\n  <svg viewBox=\"0 0 64 64\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\r\n    <circle cx=\"32\" cy=\"24\" r=\"10\" fill=\"currentColor\" opacity=\".18\"></circle>\r\n    <path d=\"M14 24a18 18 0 0 1 36 0\"></path>\r\n    <rect x=\"10\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <rect x=\"48\" y=\"24\" width=\"6\" height=\"12\" rx=\"2\"></rect>\r\n    <path d=\"M23 38c2 4 16 4 18 0\"></path>\r\n    <path d=\"M32 36v8\"></path>\r\n    <path d=\"M20 56c0-8 5-12 12-12s12 4 12 12\"></path>\r\n  </svg>\r\n  <span class=\"llx-chat-fab-tooltip\">Stuck choosing between leopards and coconuts?</span>\r\n</button>\r\n<div id=\"llxChatPanel\" class=\"llx-chat-panel\" aria-live=\"polite\">\r\n  <div class=\"llx-chat-head\">\r\n    <div><strong>LankaLux AI</strong><small>Sri Lanka, with a wink</small></div>\r\n    <button id=\"llxChatClose\" class=\"llx-chat-close\" type=\"button\" aria-label=\"Close chat\">✕</button>\r\n  </div>\r\n  <div id=\"llxChatBody\" class=\"llx-chat-body\"></div>\r\n  <div class=\"llx-chat-foot\">\r\n    <div class=\"llx-chat-actions\">\r\n      <button id=\"llxSendRequest\" class=\"llx-chat-btn primary\" type=\"button\" disabled>Send request</button>\r\n      <button id=\"llxWhatsApp\" class=\"llx-chat-btn\" type=\"button\">WhatsApp</button>\r\n      <button id=\"llxEmail\" class=\"llx-chat-btn\" type=\"button\">Email</button>\r\n      <button id=\"llxEndChat\" class=\"llx-chat-btn\" type=\"button\">End chat</button>\r\n    </div>\r\n    <div class=\"llx-chat-row\">\r\n      <input id=\"llxChatInput\" class=\"llx-chat-input\" type=\"text\" placeholder=\"Type your message...\">\r\n      <button id=\"llxChatSend\" class=\"llx-chat-btn\" type=\"button\">Send</button>\r\n    </div>\r\n    <div class=\"llx-chat-note\">Answers from our pages. For a custom trip, WhatsApp or email the team.</div>\r\n  </div>\r\n</div>");
   }
   var CHAT_URL = 'https://admin.lankalux.com/api/chat';
   var REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
   var CHATS_URL = 'https://admin.lankalux.com/api/chats';
   var WHATSAPP_NUMBER = '94763261788';
-  var STORE_KEY = 'llx_chat_state_v5';
+  var CONTACT_EMAIL = 'hello@lankalux.com';
+  var STORE_KEY = 'llx_chat_state_v6';
   var WELCOME_MESSAGE =
     "Hey. You've found LankaLux: private Sri Lanka journeys, no group-tour whistle. Beaches, wildlife, tea trains, or a bit of everything?";
   var state = { messages: [], draft: {}, requestId: null, isTyping: false, vehicleShownAt: 0, selectedVehicle: null, sessionId: null, pendingAgentConnect: false, showEndRating: false, postRatingThanks: false };
@@ -17,8 +18,9 @@
   var VEHICLE_KEYWORDS = ['vehicle', 'vehicles', 'fleet', 'car', 'cars', 'van', 'vans', 'suv', 'jeep', 'transfer', 'transport'];
   var fallbackVehicles = [
     { name: 'Toyota Voxy', image: 'voxy1.jpg' },
+    { name: 'Toyota KDH (Flat Roof)', image: 'flatroof1.jpg' },
+    { name: 'Toyota KDH (High Roof)', image: 'highroof1.jpg' },
     { name: 'Sedan', image: 'sedan1.jpg' },
-    { name: 'Safari Jeep', image: 'safarijeep.jpg' },
     { name: 'Party Bus', image: 'partybus1.jpg' }
   ];
 
@@ -43,6 +45,7 @@
   var sendRequestBtn = document.getElementById('llxSendRequest');
   var endChatBtn = document.getElementById('llxEndChat');
   var waBtn = document.getElementById('llxWhatsApp');
+  var emailBtn = document.getElementById('llxEmail');
   var keyboardTick = 0;
 
   function saveState() {
@@ -129,6 +132,7 @@
     input.disabled = lock;
     send.disabled = lock;
     waBtn.disabled = lock;
+    if (emailBtn) emailBtn.disabled = lock;
     endChatBtn.disabled = lock;
     if (lock) {
       sendRequestBtn.disabled = true;
@@ -185,6 +189,17 @@
       || t.indexOf('message you on whatsapp') !== -1
       || t.indexOf('continue on whatsapp') !== -1;
   }
+  function wantsEmailHandoff(text) {
+    var t = String(text || '').toLowerCase();
+    if (!t || t.indexOf('whatsapp') !== -1) return false;
+    return t.indexOf('email the team') !== -1
+      || t.indexOf('send an email') !== -1
+      || t.indexOf('email you') !== -1
+      || t.indexOf('email lanka') !== -1
+      || t.indexOf('hello@lankalux') !== -1
+      || t.indexOf('mail me') !== -1
+      || t.indexOf('continue by email') !== -1;
+  }
   function getChatVehicles() {
     try {
       if (typeof vehiclesData !== 'undefined' && vehiclesData && typeof vehiclesData === 'object') {
@@ -196,7 +211,7 @@
             var image = /^https?:\/\//i.test(firstImage)
               ? firstImage
               : (/^images\//i.test(firstImage) ? ('https://lankalux.com/' + firstImage) : (VEHICLE_IMAGE_BASE + firstImage));
-            return { name: v.name || 'Vehicle', image: image };
+            return { name: v.name || v.title || 'Vehicle', image: image };
           })
           .filter(function(v) { return !!v; });
       }
@@ -412,6 +427,21 @@
     var body = "Hi LankaLux, I'd like to plan my Sri Lanka trip. My name is " + name + " and I'm looking for " + details + ".";
     return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(body);
   }
+  function buildPlanEmailUrl() {
+    var d = state.draft || {};
+    var name = (d.name || '').trim() || 'Guest';
+    var parts = [];
+    if (d.tripDays != null && d.tripDays !== '') {
+      var n = parseInt(String(d.tripDays), 10);
+      if (!isNaN(n) && n > 0) parts.push(n + '-day trip');
+    }
+    if (d.startDate && d.endDate) parts.push(d.startDate + ' to ' + d.endDate);
+    var pref = (d.message || '').trim();
+    if (pref) parts.push(pref.slice(0, 140));
+    var details = parts.length ? parts.join(', ') : 'a private chauffeur tour with LankaLux';
+    var body = "Hi LankaLux,\n\nI'd like to plan my Sri Lanka trip. My name is " + name + " and I'm looking for " + details + ".\n";
+    return 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent('LankaLux trip enquiry') + '&body=' + encodeURIComponent(body);
+  }
   async function callChat() {
     var res = await fetch(CHAT_URL, {
       method: 'POST',
@@ -423,7 +453,8 @@
     if (data.draft) state.draft = data.draft;
     var reply = typeof data.reply === 'string' ? data.reply.trim() : '';
     var doWa = !!data.openWhatsApp;
-    if (!reply && !doWa) return null;
+    var doEmail = !!data.openEmail;
+    if (!reply && !doWa && !doEmail) return null;
     if (reply) await sleep(typingDelayMs(reply));
     if (reply) addMessage('assistant', reply);
     if (doWa) {
@@ -433,8 +464,13 @@
         if (!win) window.location.href = url;
         persistChat('whatsapp_redirect', { handoffRequested: true });
       }, 420);
+    } else if (doEmail) {
+      setTimeout(function() {
+        window.location.href = buildPlanEmailUrl();
+        persistChat('email_redirect', { handoffRequested: true });
+      }, 420);
     }
-    return reply || (doWa ? 'whatsapp' : null);
+    return reply || (doWa ? 'whatsapp' : doEmail ? 'email' : null);
   }
   async function submitMessage(preFilledText) {
     if (state.showEndRating) return;
@@ -450,6 +486,13 @@
       openWhatsApp();
       return;
     }
+    if (wantsEmailHandoff(text)) {
+      addMessage('user', text);
+      addMessage('assistant', 'Opening email to hello@lankalux.com. The team is better at writing the actual trip.');
+      render();
+      openEmail();
+      return;
+    }
     var askVehicles = shouldShowVehicles(text);
     addMessage('user', text);
     render();
@@ -460,7 +503,7 @@
       if (askVehicles) addVehiclesMessage();
     } catch (e) {
       await sleep(380 + Math.floor(Math.random() * 220));
-      addMessage('assistant', 'The line went quiet for a second. Try again, or tap WhatsApp and a human will jump in.');
+      addMessage('assistant', 'The line went quiet for a second. Try again, or tap WhatsApp or Email and a human will jump in.');
     } finally {
       state.isTyping = false;
     }
@@ -527,8 +570,8 @@
       addMessage(
         'assistant',
         errDetail
-          ? ('Could not save your request (' + errDetail + '). Tap WhatsApp and we will help you there.')
-          : 'Could not save your request. Tap WhatsApp and we will help you there.'
+          ? ('Could not save your request (' + errDetail + '). Tap WhatsApp or Email and we will help you there.')
+          : 'Could not save your request. Tap WhatsApp or Email and we will help you there.'
       );
     }
     render();
@@ -539,6 +582,10 @@
     var waUrl = buildPlanWhatsAppUrl();
     var win = window.open(waUrl, '_blank');
     if (!win) window.location.href = waUrl;
+  }
+  function openEmail() {
+    persistChat('email_handoff', { handoffRequested: true });
+    window.location.href = buildPlanEmailUrl();
   }
 
   fab.addEventListener('click', openPanel);
@@ -565,6 +612,7 @@
   }
   sendRequestBtn.addEventListener('click', sendRequest);
   waBtn.addEventListener('click', openWhatsApp);
+  if (emailBtn) emailBtn.addEventListener('click', openEmail);
   endChatBtn.addEventListener('click', openEndChatRating);
   render();
 })();
