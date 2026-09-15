@@ -2280,6 +2280,7 @@ footer{
     });
   })();
 </script>
+<script src="/lankalux-datepicker.js"></script>
 
 <script>
 // Admin dashboard: form submissions are also sent here so they appear on the requests page
@@ -2321,29 +2322,32 @@ function formatDateRange(from, to) {
 }
 // Set min date to today on all date inputs (call when modal opens)
 function initDateInputs() {
-  var today = new Date().toISOString().split('T')[0];
+  var today = window.LankaLuxDatePicker ? LankaLuxDatePicker.todayIso() : new Date().toISOString().split('T')[0];
   var ids = ['bookingTravelFrom', 'bookingTravelTo', 'airlineDateFrom', 'airlineDateTo', 'vehicleReservationFrom', 'vehicleReservationTo'];
   ids.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.setAttribute('min', today);
   });
+  if (window.LankaLuxDatePicker) LankaLuxDatePicker.refreshMins(today);
 }
-// One-time: link "from" date to "to" date min so departure can't be before arrival
+// Brand calendar: departure/return cannot be before arrival/outbound
 function setupDateRangeListeners() {
-  var today = new Date().toISOString().split('T')[0];
-  var pairs = [
-    ['bookingTravelFrom', 'bookingTravelTo'],
-    ['airlineDateFrom', 'airlineDateTo'],
-    ['vehicleReservationFrom', 'vehicleReservationTo']
-  ];
-  pairs.forEach(function(pair) {
-    var fromEl = document.getElementById(pair[0]);
-    var toEl = document.getElementById(pair[1]);
-    if (fromEl && toEl) {
-      fromEl.addEventListener('change', function() {
-        toEl.setAttribute('min', this.value || today);
-      });
-    }
+  if (!window.LankaLuxDatePicker) return;
+  var today = LankaLuxDatePicker.todayIso();
+  LankaLuxDatePicker.pair('bookingTravelFrom', 'bookingTravelTo', {
+    min: today,
+    fromPlaceholder: 'Select arrival',
+    toPlaceholder: 'Select departure'
+  });
+  LankaLuxDatePicker.pair('airlineDateFrom', 'airlineDateTo', {
+    min: today,
+    fromPlaceholder: 'Select outbound',
+    toPlaceholder: 'Select return'
+  });
+  LankaLuxDatePicker.pair('vehicleReservationFrom', 'vehicleReservationTo', {
+    min: today,
+    fromPlaceholder: 'Select arrival',
+    toPlaceholder: 'Select departure'
   });
 }
 
@@ -2679,6 +2683,7 @@ function openVehicleReservationModal(vehicleKey) {
 }
 
 function closeVehicleReservationModal() {
+  if (window.LankaLuxDatePicker) LankaLuxDatePicker.closeOpen();
   const reservationModal = document.getElementById('vehicleReservationModal');
   reservationModal.classList.remove('active');
   setTimeout(function() {
@@ -2705,6 +2710,7 @@ function openBookingModal() {
 }
 
 function closeBookingModal() {
+  if (window.LankaLuxDatePicker) LankaLuxDatePicker.closeOpen();
   const bookingModal = document.getElementById('bookingModal');
   bookingModal.classList.remove('active');
   // Delay restoring scroll to allow animation to complete
@@ -2833,13 +2839,9 @@ document.getElementById('needAirlineTickets').addEventListener('change', functio
   if (this.checked) {
     airlineFields.classList.add('active');
     document.getElementById('airlineFrom').required = true;
-    document.getElementById('airlineDateFrom').required = true;
-    document.getElementById('airlineDateTo').required = true;
   } else {
     airlineFields.classList.remove('active');
     document.getElementById('airlineFrom').required = false;
-    document.getElementById('airlineDateFrom').required = false;
-    document.getElementById('airlineDateTo').required = false;
   }
 });
 setupDateRangeListeners();
@@ -2977,7 +2979,17 @@ window.addEventListener("load", function() {
     const bookingMessage = document.getElementById('bookingMessage').value.trim();
     const needAirlineTickets = document.getElementById('needAirlineTickets').checked;
     const airlineFrom = document.getElementById('airlineFrom').value.trim() || 'N/A';
-    const airlineDates = needAirlineTickets ? formatDateRange(document.getElementById('airlineDateFrom').value, document.getElementById('airlineDateTo').value) : 'N/A';
+    const airlineFromDate = document.getElementById('airlineDateFrom').value;
+    const airlineToDate = document.getElementById('airlineDateTo').value;
+    if (needAirlineTickets && (!airlineFrom || airlineFrom === 'N/A' || !airlineFromDate || !airlineToDate)) {
+      if (statusDiv) {
+        statusDiv.textContent = 'Please add the city you are flying from and both outbound and return dates.';
+        statusDiv.classList.add('show', 'error');
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      return;
+    }
+    const airlineDates = needAirlineTickets ? formatDateRange(airlineFromDate, airlineToDate) : 'N/A';
     
     // Prepare EmailJS template parameters
     const templateParams = {
@@ -3017,8 +3029,6 @@ window.addEventListener("load", function() {
         bookingForm.reset();
         document.getElementById('airlineFields').classList.remove('active');
         document.getElementById('airlineFrom').required = false;
-        document.getElementById('airlineDateFrom').required = false;
-        document.getElementById('airlineDateTo').required = false;
         
         // Close success popup after 3 seconds
         setTimeout(function() {

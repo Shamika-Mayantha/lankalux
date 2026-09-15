@@ -928,8 +928,17 @@ footer{text-align:center}
           <input type="email" id="bookingEmail" name="email" required>
         </div>
         <div class="booking-form-group">
-          <label for="bookingDates">Travel Dates *</label>
-          <input type="text" id="bookingDates" name="travelDates" placeholder="e.g., March 15-25, 2026" required>
+          <label>Travel Dates *</label>
+          <div class="booking-form-row" style="margin-top:8px">
+            <div>
+              <label for="bookingTravelFrom" class="booking-form-hint" style="margin-bottom:4px;display:block">Arrival</label>
+              <input type="date" id="bookingTravelFrom" name="travelFrom" aria-label="Arrival date">
+            </div>
+            <div>
+              <label for="bookingTravelTo" class="booking-form-hint" style="margin-bottom:4px;display:block">Departure</label>
+              <input type="date" id="bookingTravelTo" name="travelTo" aria-label="Departure date">
+            </div>
+          </div>
         </div>
         <div class="booking-form-group">
           <label for="bookingMessage">Message</label>
@@ -945,8 +954,17 @@ footer{text-align:center}
             <input type="text" id="airlineFrom" name="airlineFrom" placeholder="e.g., New York, London, Dubai">
           </div>
           <div class="booking-form-group">
-            <label for="airlineDates">Flight Dates *</label>
-            <input type="text" id="airlineDates" name="airlineDates" placeholder="e.g., March 14 (departure) - March 26 (return)">
+            <label>Flight Dates *</label>
+            <div class="booking-form-row" style="margin-top:8px">
+              <div>
+                <label for="airlineDateFrom" class="booking-form-hint" style="margin-bottom:4px;display:block">Outbound</label>
+                <input type="date" id="airlineDateFrom" name="airlineDateFrom" aria-label="Outbound flight date">
+              </div>
+              <div>
+                <label for="airlineDateTo" class="booking-form-hint" style="margin-bottom:4px;display:block">Return</label>
+                <input type="date" id="airlineDateTo" name="airlineDateTo" aria-label="Return flight date">
+              </div>
+            </div>
           </div>
         </div>
         <div id="formStatus" class="form-status"></div>
@@ -968,8 +986,37 @@ footer{text-align:center}
     });
   })();
 </script>
+<script src="/lankalux-datepicker.js"></script>
 
 <script>
+function formatDateRange(from, to) {
+  if (!from && !to) return 'Not specified';
+  var fmt = function(ymd) {
+    if (!ymd) return '';
+    var d = new Date(ymd + 'T12:00:00');
+    return isNaN(d.getTime()) ? ymd : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  var fromStr = fmt(from);
+  var toStr = fmt(to);
+  if (fromStr && toStr) return fromStr + ' – ' + toStr;
+  return fromStr || toStr;
+}
+function setupJourneyDatePickers() {
+  if (!window.LankaLuxDatePicker) return;
+  var today = LankaLuxDatePicker.todayIso();
+  LankaLuxDatePicker.pair('bookingTravelFrom', 'bookingTravelTo', {
+    min: today,
+    fromPlaceholder: 'Select arrival',
+    toPlaceholder: 'Select departure'
+  });
+  LankaLuxDatePicker.pair('airlineDateFrom', 'airlineDateTo', {
+    min: today,
+    fromPlaceholder: 'Select outbound',
+    toPlaceholder: 'Select return'
+  });
+}
+setupJourneyDatePickers();
+
 // Contact Options Modal Functions
 function openContactModal() {
   document.getElementById('contactModal').classList.add('active');
@@ -983,12 +1030,14 @@ function closeContactModal() {
 
 // Booking Modal Functions
 function openBookingModal() {
+  setupJourneyDatePickers();
   document.getElementById('bookingModal').classList.add('active');
   document.body.style.overflow = 'hidden';
   closeContactModal(); // Close contact modal if open
 }
 
 function closeBookingModal() {
+  if (window.LankaLuxDatePicker) LankaLuxDatePicker.closeOpen();
   document.getElementById('bookingModal').classList.remove('active');
   document.body.style.overflow = '';
   document.getElementById('bookingForm').reset();
@@ -1052,11 +1101,9 @@ window.addEventListener("load", function() {
       if (this.checked) {
         airlineFields.classList.add('active');
         document.getElementById('airlineFrom').required = true;
-        document.getElementById('airlineDates').required = true;
       } else {
         airlineFields.classList.remove('active');
         document.getElementById('airlineFrom').required = false;
-        document.getElementById('airlineDates').required = false;
       }
     });
   }
@@ -1079,11 +1126,31 @@ window.addEventListener("load", function() {
     // Get form field values
     const bookingName = document.getElementById('bookingName').value;
     const bookingEmail = document.getElementById('bookingEmail').value;
-    const bookingDates = document.getElementById('bookingDates').value;
+    const travelFrom = document.getElementById('bookingTravelFrom').value;
+    const travelTo = document.getElementById('bookingTravelTo').value;
+    if (!travelFrom || !travelTo) {
+      if (statusDiv) {
+        statusDiv.textContent = 'Please select arrival and departure dates.';
+        statusDiv.classList.add('show', 'error');
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      return;
+    }
+    const bookingDates = formatDateRange(travelFrom, travelTo);
     const bookingMessage = document.getElementById('bookingMessage').value;
     const needAirlineTickets = document.getElementById('needAirlineTickets').checked;
     const airlineFrom = document.getElementById('airlineFrom').value || 'N/A';
-    const airlineDates = document.getElementById('airlineDates').value || 'N/A';
+    const airlineFromDate = document.getElementById('airlineDateFrom').value;
+    const airlineToDate = document.getElementById('airlineDateTo').value;
+    if (needAirlineTickets && (!document.getElementById('airlineFrom').value || !airlineFromDate || !airlineToDate)) {
+      if (statusDiv) {
+        statusDiv.textContent = 'Please add the city you are flying from and both outbound and return dates.';
+        statusDiv.classList.add('show', 'error');
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      return;
+    }
+    const airlineDates = needAirlineTickets ? formatDateRange(airlineFromDate, airlineToDate) : 'N/A';
     const journeyName = document.querySelector('.journey-hero h1').textContent;
     
     // Prepare EmailJS template parameters
@@ -1113,7 +1180,6 @@ window.addEventListener("load", function() {
         bookingForm.reset();
         document.getElementById('airlineFields').classList.remove('active');
         document.getElementById('airlineFrom').required = false;
-        document.getElementById('airlineDates').required = false;
         
         // Close success popup after 3 seconds
         setTimeout(function() {
