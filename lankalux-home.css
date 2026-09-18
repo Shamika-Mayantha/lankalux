@@ -38,6 +38,7 @@
   position: absolute;
   inset: 0;
   background:
+    linear-gradient(to right, rgba(26, 42, 29, 0.22) 0%, rgba(26, 42, 29, 0.08) 34%, transparent 58%),
     linear-gradient(to top, rgba(26, 42, 29, 0.42) 0%, rgba(26, 42, 29, 0.08) 42%, transparent 70%);
 }
 
@@ -736,11 +737,14 @@
   }
 }
 
-@media (max-width: 600px) {
-  .hero { height: 92vh; padding-bottom: 16vh; }
-  .hero-buttons { flex-direction: column; align-items: stretch; width: 100%; }
+@media (max-width: 768px) {
+  .hero-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 420px; }
   .hero-buttons .btn,
   .hero-buttons .btn-secondary { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .hero { height: 92vh; padding-bottom: 16vh; }
   .hero-points { flex-direction: column; gap: 8px; }
   .services, .exp-grid { grid-template-columns: 1fr; }
   .exp,
