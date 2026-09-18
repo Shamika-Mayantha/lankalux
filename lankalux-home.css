@@ -110,6 +110,101 @@
   animation: heroFadeUp 0.5s var(--ease) 0.9s both;
 }
 
+.hero-instagram {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: clamp(120px, 22vh, 210px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  max-width: min(240px, calc(100% - 48px));
+  padding: 10px 14px 10px 12px;
+  background: rgba(249, 244, 235, 0.88);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(26, 42, 29, 0.14);
+  color: var(--forest);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    transform 0.35s var(--ease),
+    background 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
+
+.hero.is-ready .hero-instagram {
+  animation: heroInstagramIn 0.7s var(--ease) 1.15s both;
+}
+
+.hero-instagram-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+
+.hero-instagram-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.hero-instagram-kicker {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.hero-instagram-handle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--forest);
+}
+
+.hero-instagram-hint {
+  display: block;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(4px);
+  font-size: 11px;
+  color: var(--muted);
+  transition:
+    max-height 0.35s var(--ease),
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease),
+    margin 0.35s var(--ease);
+}
+
+.hero-instagram:hover,
+.hero-instagram:focus-visible {
+  background: rgba(249, 244, 235, 0.96);
+  border-color: rgba(177, 133, 68, 0.4);
+}
+
+.hero-instagram:hover .hero-instagram-hint,
+.hero-instagram:focus-visible .hero-instagram-hint {
+  max-height: 18px;
+  margin-top: 3px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes heroInstagramIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .hero h1 {
   font-size: clamp(32px, 4.8vw, 58px);
 }
@@ -124,7 +219,8 @@
 #chauffeur,
 #flexibility,
 #promise,
-#moment {
+#moment,
+#from-the-road {
   scroll-margin-top: 110px;
 }
 
@@ -240,6 +336,93 @@
   font-size: 17px;
   line-height: 1.85;
   color: var(--charcoal);
+}
+
+.from-the-road {
+  background: var(--ivory);
+}
+
+.from-the-road .center p {
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+.road-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 920px;
+  margin: 56px auto 0;
+}
+
+.road-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background: var(--forest);
+  color: var(--ivory);
+  text-decoration: none;
+}
+
+.road-card img,
+.road-card video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.road-card video {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+.road-card.is-playing video {
+  opacity: 1;
+}
+
+.road-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26, 42, 29, 0.58) 0%, rgba(26, 42, 29, 0.08) 42%, transparent 62%);
+  pointer-events: none;
+}
+
+.road-card-title {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}
+
+.road-follow {
+  text-align: center;
+  margin: 40px 0 0;
+}
+
+.road-follow a {
+  color: var(--forest);
+  text-decoration: none;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 3px;
+  transition: color 0.3s var(--ease);
+}
+
+.road-follow a:hover,
+.road-follow a:focus-visible {
+  color: var(--gold);
 }
 
 .cta-section p {
@@ -694,6 +877,7 @@
 @media (max-width: 900px) {
   .hero { align-items: flex-end; padding-bottom: 14vh; min-height: 560px; }
   .hero h1 { font-size: 38px; }
+  .hero-instagram { bottom: 112px; }
   .difference { grid-template-columns: 1fr; }
   .difference-stage {
     position: relative;
@@ -741,10 +925,35 @@
   .hero-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 420px; }
   .hero-buttons .btn,
   .hero-buttons .btn-secondary { width: 100%; }
+  .hero-instagram {
+    right: var(--page-pad);
+    bottom: 96px;
+    padding: 8px 11px 8px 9px;
+    gap: 8px;
+    max-width: min(210px, calc(100vw - 88px));
+  }
+  .hero-instagram-icon { width: 24px; height: 24px; }
+  .hero-instagram-handle { font-size: 12px; }
+  .hero-instagram-hint { display: none; }
+  .road-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    scroll-snap-type: x mandatory;
+    margin-left: calc(-1 * var(--page-pad));
+    margin-right: calc(-1 * var(--page-pad));
+    padding: 0 var(--page-pad) 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .road-card {
+    flex: 0 0 min(62vw, 260px);
+    scroll-snap-align: start;
+  }
 }
 
 @media (max-width: 600px) {
   .hero { height: 92vh; padding-bottom: 16vh; }
+  .hero-instagram { bottom: 88px; }
   .hero-points { flex-direction: column; gap: 8px; }
   .services, .exp-grid { grid-template-columns: 1fr; }
   .exp,
@@ -755,6 +964,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-slide.active { animation: none; transform: none; }
+  .hero-instagram,
+  .hero.is-ready .hero-instagram {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
   .film-moment-media,
   .diff-image.active { animation: none !important; transform: none !important; }
 }
