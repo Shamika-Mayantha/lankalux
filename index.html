@@ -133,6 +133,7 @@
 <link rel="preload" as="image" href="images/homepage/homepage1.jpg">
 <link rel="stylesheet" href="/lankalux-design.css">
 <link rel="stylesheet" href="/lankalux-home.css">
+<link rel="stylesheet" href="/lankalux-journal.css">
 <link rel="stylesheet" href="/lankalux-pages.css">
 <style media="not all">
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1576,33 +1577,43 @@ footer{
 </section>
 
 <section id="about">
-  <div class="center">
-    <h2>Your version of Sri Lanka.</h2>
-    <p>Some travellers want sunrise hikes and full days of exploring. Others want slow mornings, beautiful hotels and time to enjoy the journey.</p>
-    <p>That is why we do not start with a package.</p>
-    <p>We start by understanding you, your pace, interests, travel style and the experiences you would rather avoid.</p>
-    <p>Then we design Sri Lanka around that.</p>
-  </div>
-  <div class="version-grid">
-    <div class="version-item">
-      <div class="how-number">01</div>
-      <h3>We learn how you travel</h3>
-      <p>Not only where you want to go. We consider your pace, interests, comfort, food preferences, activity level and the kind of experience you want from Sri Lanka.</p>
+  <div class="journal-about-grid">
+    <div class="journal-about-copy journal-reveal">
+      <p class="journal-kicker">The Open Road Journal</p>
+      <h2>Your version of Sri Lanka.</h2>
+      <hr class="journal-rule">
+      <p>Some travellers want sunrise hikes and full days of exploring. Others want slow mornings, beautiful hotels and time to enjoy the journey.</p>
+      <p>That is why we do not start with a package.</p>
+      <p>We start by understanding you, your pace, interests, travel style and the experiences you would rather avoid.</p>
+      <p>Then we design Sri Lanka around that.</p>
+      <div class="journal-about-visual journal-clip" aria-hidden="true">
+        <img class="is-active" src="images/homepage/homepage2.jpg" alt="" width="900" height="680">
+        <img src="images/signaturejourney/sigjhp1.jpg" alt="" width="900" height="680" loading="lazy" decoding="async">
+        <img src="images/fleet/voxy1.jpg" alt="" width="900" height="680" loading="lazy" decoding="async">
+        <img src="images/homepage/homepage4.jpg" alt="" width="900" height="680" loading="lazy" decoding="async">
+      </div>
     </div>
-    <div class="version-item">
-      <div class="how-number">02</div>
-      <h3>We design the route</h3>
-      <p>Your journey is planned around realistic travel times, worthwhile stops and experiences that actually suit you, not around filling every hour of the day.</p>
-    </div>
-    <div class="version-item">
-      <div class="how-number">03</div>
-      <h3>We match your chauffeur-guide</h3>
-      <p>Your chauffeur will be one of the most important people during your journey. We aim to match travellers with someone suitable for their travel style.</p>
-    </div>
-    <div class="version-item">
-      <div class="how-number">04</div>
-      <h3>We stay flexible</h3>
-      <p>Your holiday does not become fixed the moment you arrive. If plans, weather, energy levels or interests change, we help adapt the journey.</p>
+    <div class="journal-about-stages">
+      <article class="journal-stage is-active journal-reveal">
+        <div class="how-number">01</div>
+        <h3>We learn how you travel</h3>
+        <p>Not only where you want to go. We consider your pace, interests, comfort, food preferences, activity level and the kind of experience you want from Sri Lanka.</p>
+      </article>
+      <article class="journal-stage journal-reveal">
+        <div class="how-number">02</div>
+        <h3>We design the route</h3>
+        <p>Your journey is planned around realistic travel times, worthwhile stops and experiences that actually suit you, not around filling every hour of the day.</p>
+      </article>
+      <article class="journal-stage journal-reveal">
+        <div class="how-number">03</div>
+        <h3>We match your chauffeur-guide</h3>
+        <p>Your chauffeur will be one of the most important people during your journey. We aim to match travellers with someone suitable for their travel style.</p>
+      </article>
+      <article class="journal-stage journal-reveal">
+        <div class="how-number">04</div>
+        <h3>We stay flexible</h3>
+        <p>Your holiday does not become fixed the moment you arrive. If plans, weather, energy levels or interests change, we help adapt the journey.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -1664,21 +1675,21 @@ footer{
 </section>
 
 <section id="services">
-  <div class="center"><h2>The practical side is taken care of too.</h2></div>
-  <div class="services">
-    <div class="card">
+  <div class="center journal-reveal"><h2>The practical side is taken care of too.</h2></div>
+  <div class="journal-services">
+    <div class="card journal-reveal">
       <h3>Registered Tour Operator</h3>
       <p>Officially operating within Sri Lanka's tourism framework with professional standards.</p>
     </div>
-    <div class="card">
+    <div class="card journal-reveal">
       <h3>Licensed Chauffeur-Guides</h3>
       <p>Experienced, professionally licensed chauffeur-guides ensuring comfort and safety throughout your journey.</p>
     </div>
-    <div class="card">
+    <div class="card journal-reveal">
       <h3>Fully Insured Vehicles</h3>
       <p>Modern, well-maintained vehicles covered by comprehensive insurance policies. Insurance coverage extends to travelers as well.</p>
     </div>
-    <div class="card">
+    <div class="card journal-reveal">
       <h3>Airline Ticket Assistance</h3>
       <p>We assist with booking and arranging airline tickets for your journey to Sri Lanka.</p>
     </div>
@@ -1707,9 +1718,12 @@ footer{
         </div>
         <div class="journey-overlay"></div>
         <div class="journey-btn-content">
-          <span class="journey-btn-explore">View Journey</span>
+          <div class="journey-meta">
+            <span>10 days</span>
+            <span>Culture / Wildlife / Coast</span>
+          </div>
           <span class="journey-btn-text">Signature Sri Lanka Journey</span>
-          <span class="journey-btn-icon"></span>
+          <span class="journey-btn-explore">Explore this journey</span>
         </div>
       </a>
       <a href="/nature-wildlife-journey" class="journey-item">
@@ -1729,9 +1743,12 @@ footer{
         </div>
         <div class="journey-overlay"></div>
         <div class="journey-btn-content">
-          <span class="journey-btn-explore">View Journey</span>
+          <div class="journey-meta">
+            <span>9 days</span>
+            <span>Wildlife / Forests / Coast</span>
+          </div>
           <span class="journey-btn-text">Nature & Wildlife Discovery Journey</span>
-          <span class="journey-btn-icon"></span>
+          <span class="journey-btn-explore">Explore this journey</span>
         </div>
       </a>
       <a href="/hill-country-journey" class="journey-item">
@@ -1751,9 +1768,12 @@ footer{
         </div>
         <div class="journey-overlay"></div>
         <div class="journey-btn-content">
-          <span class="journey-btn-explore">View Journey</span>
+          <div class="journey-meta">
+            <span>8 days</span>
+            <span>Tea country / Rail / Hills</span>
+          </div>
           <span class="journey-btn-text">Hill Country & Scenic Rail Journey</span>
-          <span class="journey-btn-icon"></span>
+          <span class="journey-btn-explore">Explore this journey</span>
         </div>
       </a>
       <a href="/coastal-retreat-journey" class="journey-item">
@@ -1773,37 +1793,180 @@ footer{
         </div>
         <div class="journey-overlay"></div>
         <div class="journey-btn-content">
-          <span class="journey-btn-explore">View Journey</span>
+          <div class="journey-meta">
+            <span>8 days</span>
+            <span>Coast / Surf / Forts</span>
+          </div>
           <span class="journey-btn-text">Coastal Retreat Journey</span>
-          <span class="journey-btn-icon"></span>
+          <span class="journey-btn-explore">Explore this journey</span>
         </div>
       </a>
     </div>
   </div>
 </section>
 
+<section id="itinerary-preview">
+  <div class="itinerary-preview-intro journal-reveal">
+    <p class="journal-kicker">A LankaLux itinerary</p>
+    <h2>See your journey before you travel.</h2>
+    <p>Your route, stays, experiences and daily plans, brought together before you arrive.</p>
+    <button class="btn" type="button" data-open-booking>BUILD MY JOURNEY</button>
+  </div>
+  <div class="itinerary-preview-layout">
+    <div class="itinerary-day-nav" role="tablist" aria-label="Sample journey days">
+      <button type="button" class="itinerary-day-btn is-active" role="tab" id="itinerary-tab-01" aria-controls="itinerary-day-01" aria-selected="true">
+        <span class="day-number">01</span>
+        <span>
+          <strong>Arrival and Sigiriya</strong>
+          <span class="itinerary-day-summary">Airport welcome, then the Cultural Triangle and the rock fortress.</span>
+        </span>
+      </button>
+      <button type="button" class="itinerary-day-btn" role="tab" id="itinerary-tab-03" aria-controls="itinerary-day-03" aria-selected="false" tabindex="-1">
+        <span class="day-number">03</span>
+        <span>
+          <strong>Cultural Triangle</strong>
+          <span class="itinerary-day-summary">Ancient cities, stupas and the story of early Sri Lanka.</span>
+        </span>
+      </button>
+      <button type="button" class="itinerary-day-btn" role="tab" id="itinerary-tab-06" aria-controls="itinerary-day-06" aria-selected="false" tabindex="-1">
+        <span class="day-number">06</span>
+        <span>
+          <strong>Ella</strong>
+          <span class="itinerary-day-summary">Hill-country air, a slower pace, and views that stay with you.</span>
+        </span>
+      </button>
+      <button type="button" class="itinerary-day-btn" role="tab" id="itinerary-tab-10" aria-controls="itinerary-day-10" aria-selected="false" tabindex="-1">
+        <span class="day-number">10</span>
+        <span>
+          <strong>South Coast</strong>
+          <span class="itinerary-day-summary">Galle, Mirissa and time to unwind by the sea.</span>
+        </span>
+      </button>
+    </div>
+    <div class="itinerary-preview-stage">
+      <article class="itinerary-document is-active" id="itinerary-day-01" role="tabpanel" aria-labelledby="itinerary-tab-01">
+        <div class="itinerary-route" aria-hidden="true"><span class="is-on"></span><i></i><span></span><i></i><span></span><i></i><span></span></div>
+        <div class="day-header">
+          <div class="day-number">01</div>
+          <h3 class="day-title">Arrival and Sigiriya</h3>
+        </div>
+        <div class="day-description">
+          <p>Welcome to Sri Lanka. Upon arrival at Bandaranaike International Airport, you are greeted by your private chauffeur-guide. After time to settle, the journey continues toward the Cultural Triangle and the ancient rock fortress of Sigiriya.</p>
+          <h3>Highlights:</h3>
+          <ul>
+            <li>Airport meet and greet</li>
+            <li>Private transfer with your chauffeur-guide</li>
+            <li>Scenic drive through rural Sri Lanka</li>
+            <li>Sigiriya Rock Fortress</li>
+          </ul>
+        </div>
+        <img loading="lazy" decoding="async" src="images/highlights/cultural/sigirya.jpg" alt="Sigiriya Rock Fortress in Sri Lanka" class="day-image" width="900" height="560">
+      </article>
+      <article class="itinerary-document" id="itinerary-day-03" role="tabpanel" aria-labelledby="itinerary-tab-03">
+        <div class="itinerary-route" aria-hidden="true"><span></span><i></i><span class="is-on"></span><i></i><span></span><i></i><span></span></div>
+        <div class="day-header">
+          <div class="day-number">03</div>
+          <h3 class="day-title">Cultural Triangle Exploration</h3>
+        </div>
+        <div class="day-description">
+          <p>Discover the ancient cities of Polonnaruwa and Anuradhapura. Explore well-preserved ruins, massive stupas, and intricate stone carvings that tell the story of ancient Sri Lankan civilization.</p>
+          <h3>Highlights:</h3>
+          <ul>
+            <li>Polonnaruwa ancient city tour</li>
+            <li>Anuradhapura sacred city visit</li>
+            <li>Buddhist temples and stupas</li>
+            <li>Ancient irrigation systems</li>
+          </ul>
+        </div>
+        <img loading="lazy" decoding="async" src="images/highlights/cultural/atamasthana.jpg" alt="Cultural Triangle ruins in Sri Lanka" class="day-image" width="900" height="560">
+      </article>
+      <article class="itinerary-document" id="itinerary-day-06" role="tabpanel" aria-labelledby="itinerary-tab-06">
+        <div class="itinerary-route" aria-hidden="true"><span></span><i></i><span></span><i></i><span class="is-on"></span><i></i><span></span></div>
+        <div class="day-header">
+          <div class="day-number">06</div>
+          <h3 class="day-title">Ella at Leisure</h3>
+        </div>
+        <div class="day-description">
+          <p>A full day to enjoy Ella at your own pace. Optional visits include Little Adam's Peak or Ravana Falls. Spend the remainder of the day relaxing or exploring the town.</p>
+          <h3>Highlights:</h3>
+          <ul>
+            <li>Optional Little Adam's Peak</li>
+            <li>Ravana Falls</li>
+            <li>Free time</li>
+            <li>Hill-country views</li>
+          </ul>
+        </div>
+        <img loading="lazy" decoding="async" src="images/hillcountry/day6.jpg" alt="Views from Ella, Sri Lanka" class="day-image" width="900" height="560">
+      </article>
+      <article class="itinerary-document" id="itinerary-day-10" role="tabpanel" aria-labelledby="itinerary-tab-10">
+        <div class="itinerary-route" aria-hidden="true"><span></span><i></i><span></span><i></i><span></span><i></i><span class="is-on"></span></div>
+        <div class="day-header">
+          <div class="day-number">10</div>
+          <h3 class="day-title">South Coast</h3>
+        </div>
+        <div class="day-description">
+          <p>Time on the southern coast, with the historic Galle Fort and the beach town of Mirissa. Optional activities include whale watching when in season, or simply enjoying the golden sands and turquoise waters.</p>
+          <h3>Highlights:</h3>
+          <ul>
+            <li>Galle Fort exploration</li>
+            <li>Beach relaxation in Mirissa</li>
+            <li>Optional whale watching tour</li>
+            <li>Fresh seafood dining</li>
+          </ul>
+        </div>
+        <img loading="lazy" decoding="async" src="images/highlights/beach/mirissa.jpg" alt="Mirissa beach in Sri Lanka" class="day-image" width="900" height="560">
+      </article>
+    </div>
+  </div>
+</section>
+
 <section id="itinerary-review">
-  <div class="center">
-    <h2>Already planning Sri Lanka?</h2>
-    <p class="section-lead">Send us your itinerary. We will improve it free.</p>
-    <p>Already have your hotels or route planned?</p>
-    <p>Send it to us and we will look at the pacing, driving times, stops and activities, and tell you what we would change.</p>
-    <p>No obligation. No hard sell.</p>
-    <div class="section-actions">
+  <div class="itinerary-review-layout">
+    <div class="itinerary-review-copy journal-reveal">
+      <p class="journal-kicker">Free itinerary review</p>
+      <h2>Already planning Sri Lanka?</h2>
+      <p class="section-lead">Send us your itinerary. We will improve it free.</p>
+      <p>Already have your hotels or route planned?</p>
+      <p>Send it to us and we will look at the pacing, driving times, stops and activities, and tell you what we would change.</p>
+      <p>No obligation. No hard sell.</p>
+    </div>
+    <div class="itinerary-review-choices journal-reveal">
+      <button class="journal-choice" type="button" data-open-itinerary="itineraryRoute">
+        <strong>PASTE YOUR ROUTE</strong>
+        <span>Share the hotels, towns or day-by-day plan you already have.</span>
+      </button>
+      <button class="journal-choice" type="button" data-open-itinerary="itineraryFile">
+        <strong>UPLOAD YOUR ITINERARY</strong>
+        <span>Send a text file and we will read it before we reply.</span>
+      </button>
       <button class="btn" type="button" id="reviewItineraryBtn">REVIEW MY ITINERARY</button>
     </div>
   </div>
 </section>
 
-<section id="chauffeur" class="split-section">
-  <div class="split-copy">
-    <h2>More than assigning a driver.</h2>
-    <p>Your chauffeur-guide may spend more time with you in Sri Lanka than anyone else.</p>
-    <p>So we do not look only at which vehicle is available. We consider your travel style and aim to pair you with a chauffeur suited to your journey.</p>
-    <p class="split-support-title">Meet your chauffeur before you arrive.</p>
-    <p>Selected LankaLux guests can receive a personal introduction from their chauffeur-guide before arrival.</p>
+<section id="chauffeur">
+  <div class="chauffeur-story">
+    <div class="chauffeur-visual journal-clip" style="background-image:url('images/fleet/voxy1.jpg')" role="img" aria-label="LankaLux private vehicle on the road in Sri Lanka"></div>
+    <div class="chauffeur-copy journal-reveal">
+      <p class="journal-kicker">Your chauffeur-guide</p>
+      <h2>More than assigning a driver.</h2>
+      <p>Your chauffeur-guide may spend more time with you in Sri Lanka than anyone else.</p>
+      <p>So we do not look only at which vehicle is available. We consider your travel style and aim to pair you with a chauffeur suited to your journey.</p>
+      <ul class="chauffeur-lines">
+        <li class="is-on">Your driver.</li>
+        <li>Your guide.</li>
+        <li>Your local connection.</li>
+        <li>Someone you trust.</li>
+      </ul>
+      <ul class="chauffeur-notes">
+        <li>Local knowledge for the road ahead, and the stops worth making.</li>
+        <li>Flexibility when the weather, energy or interest changes.</li>
+        <li>Personal care from the airport to the last evening.</li>
+      </ul>
+      <p class="split-support-title">Meet your chauffeur before you arrive.</p>
+      <p>Selected LankaLux guests can receive a personal introduction from their chauffeur-guide before arrival.</p>
+    </div>
   </div>
-  <div class="split-stage" style="background-image:url('images/fleet/voxy1.jpg')" role="img" aria-label="LankaLux private vehicle"></div>
 </section>
 
 <section id="fleet" class="fleet-section">
@@ -1812,7 +1975,7 @@ footer{
     <p>From couples to families and larger groups, we match the vehicle to your group, luggage and route.</p>
   </div>
   <div class="fleet-grid">
-    <div class="vehicle-card" data-vehicle="voxy">
+    <div class="vehicle-card" data-vehicle="voxy" tabindex="0" role="button" aria-label="Toyota Voxy details">
       <div class="vehicle-image">
         <div class="vehicle-carousel-track">
           <div class="vehicle-carousel-slide active">
@@ -1828,8 +1991,9 @@ footer{
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Toyota Voxy</div>
+      <p class="vehicle-meta">Couples, families and small groups. Generous luggage space for multi-day travel.</p>
     </div>
-    <div class="vehicle-card" data-vehicle="kdh-flat">
+    <div class="vehicle-card" data-vehicle="kdh-flat" tabindex="0" role="button" aria-label="Toyota KDH Flat Roof details">
       <div class="vehicle-image">
         <div class="vehicle-carousel-track">
           <div class="vehicle-carousel-slide active">
@@ -1845,8 +2009,9 @@ footer{
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Toyota KDH (Flat Roof)</div>
+      <p class="vehicle-meta">Families and small groups. Comfortable seating without feeling oversized.</p>
     </div>
-    <div class="vehicle-card" data-vehicle="kdh-high">
+    <div class="vehicle-card" data-vehicle="kdh-high" tabindex="0" role="button" aria-label="Toyota KDH High Roof details">
       <div class="vehicle-image">
         <div class="vehicle-carousel-track">
           <div class="vehicle-carousel-slide active">
@@ -1862,8 +2027,9 @@ footer{
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Toyota KDH (High Roof)</div>
+      <p class="vehicle-meta">Larger groups and longer itineraries. Extra headroom and significant luggage space.</p>
     </div>
-    <div class="vehicle-card" data-vehicle="sedan">
+    <div class="vehicle-card" data-vehicle="sedan" tabindex="0" role="button" aria-label="Sedan Comfort Class details">
       <div class="vehicle-image">
         <div class="vehicle-carousel-track">
           <div class="vehicle-carousel-slide active">
@@ -1879,8 +2045,9 @@ footer{
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Sedan (Comfort Class)</div>
+      <p class="vehicle-meta">Solo travellers or couples. Airport transfers, city travel and shorter regional drives.</p>
     </div>
-    <div class="vehicle-card" data-vehicle="party-bus">
+    <div class="vehicle-card" data-vehicle="party-bus" tabindex="0" role="button" aria-label="Party Bus details">
       <div class="vehicle-image">
         <div class="vehicle-carousel-track">
           <div class="vehicle-carousel-slide active">
@@ -1896,6 +2063,7 @@ footer{
       </div>
       <div class="vehicle-label">Vehicle</div>
       <div class="vehicle-name">Party Bus</div>
+      <p class="vehicle-meta">Celebrations and group events. The journey itself becomes part of the night.</p>
     </div>
   </div>
 </section>
@@ -1916,27 +2084,54 @@ footer{
 </section>
 
 <section id="promise" class="editorial-block">
-  <div class="center">
-    <h2>Travel with clarity.</h2>
-    <p>You should know what you are booking, what is included and who is looking after you.</p>
+  <div class="promise-layout">
+    <div class="journal-reveal">
+      <p class="journal-kicker">The LankaLux promise</p>
+      <h2>Travel with clarity.</h2>
+      <hr class="journal-rule">
+      <p>You should know what you are booking, what is included and who is looking after you.</p>
+      <p class="promise-note">Book your own hotels, let LankaLux arrange them, or combine both. Your journey does not have to fit into a package.</p>
+    </div>
+    <ul class="promise-list journal-reveal">
+      <li>No unwanted shopping stops</li>
+      <li>No hidden chauffeur expenses</li>
+      <li>No forced hotel choices</li>
+      <li>No intentionally overloaded itineraries</li>
+      <li>Clear inclusions before you book</li>
+      <li>Support throughout your journey</li>
+    </ul>
   </div>
-  <ul class="promise-list">
-    <li>No unwanted shopping stops</li>
-    <li>No hidden chauffeur expenses</li>
-    <li>No forced hotel choices</li>
-    <li>No intentionally overloaded itineraries</li>
-    <li>Clear inclusions before you book</li>
-    <li>Support throughout your journey</li>
-  </ul>
-  <p class="promise-note">Book your own hotels, let LankaLux arrange them, or combine both. Your journey does not have to fit into a package.</p>
 </section>
 
 <section id="moment" class="editorial-block">
-  <div class="center">
-    <h2>And one thing we will not put on your itinerary.</h2>
+  <div class="moment-intro journal-reveal">
+    <p class="journal-kicker">And one thing we will not put on your itinerary.</p>
+    <h2>The moments we could never plan.</h2>
     <p>Every journey leaves room for something unexpected.</p>
     <p>A local breakfast. A sunset stop. A small family-run experience. Somewhere your chauffeur thinks you should see.</p>
     <p>The best moments in Sri Lanka are not always the ones planned months in advance.</p>
+  </div>
+  <div class="moment-story">
+    <figure class="moment-frame journal-clip">
+      <img loading="lazy" decoding="async" src="images/highlights/tea/stclairs.jpg" alt="A roadside stop in Sri Lanka tea country" width="900" height="1200">
+      <figcaption class="moment-caption">A stop that was never on the plan</figcaption>
+    </figure>
+    <figure class="moment-frame journal-clip">
+      <img loading="lazy" decoding="async" src="images/highlights/wildlife/leopard.jpg" alt="Wildlife encountered on a Sri Lanka safari" width="800" height="600">
+      <figcaption class="moment-caption">Waiting quietly in the park</figcaption>
+    </figure>
+    <figure class="moment-frame journal-clip">
+      <img loading="lazy" decoding="async" src="images/highlights/cultural/kandy.jpg" alt="A cultural visit in Kandy, Sri Lanka" width="800" height="600">
+      <figcaption class="moment-caption">A temple visit, then something unplanned</figcaption>
+    </figure>
+    <figure class="moment-frame journal-clip">
+      <img loading="lazy" decoding="async" src="images/hillcountry/day5.jpg" alt="Hill country road near Ella, Sri Lanka" width="800" height="600">
+      <figcaption class="moment-caption">Changing the day because the hills asked for it</figcaption>
+    </figure>
+    <figure class="moment-frame journal-clip">
+      <img loading="lazy" decoding="async" src="images/highlights/beach/mirissa.jpg" alt="Evening light on the south coast of Sri Lanka" width="1200" height="700">
+      <figcaption class="moment-caption">Staying for the light on the south coast</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1962,19 +2157,35 @@ footer{
 </section>
 
 <section class="reviews">
-  <div class="center"><h2>The parts we could not have planned.</h2></div>
-  <div class="review-carousel-container">
+  <div class="center journal-reveal">
+    <p class="journal-kicker">From guests</p>
+    <h2>The parts we could not have planned.</h2>
+  </div>
+  <div class="review-featured journal-reveal">
+    <blockquote>
+      "While visiting the Kalutara temple, our chauffeur Shantha welcomed us into his nearby home. His wife prepared a homemade meal, let us try making hoppers, and even gifted us the equipment. This was not charged at all, just pure generosity, and became one of our favorite moments of the trip."
+      <span>Michael &amp; Amina, Dubai</span>
+    </blockquote>
+  </div>
+  <div class="review-carousel-head">
+    <p>More from the road</p>
+    <div class="review-controls">
+      <button type="button" class="review-nav" id="reviewPrev" aria-label="Previous review">&#8592;</button>
+      <button type="button" class="review-nav" id="reviewNext" aria-label="Next review">&#8594;</button>
+    </div>
+  </div>
+  <div class="review-carousel-container" tabindex="0" aria-roledescription="carousel" aria-label="Guest reviews">
     <div class="review-track" id="reviewTrack">
       <div class="review-slide">
         <div class="review-grid">
           <div class="review active">
-            "While visiting the Kalutara temple, our chauffeur Shantha welcomed us into his nearby home. His wife prepared a homemade meal, let us try making hoppers, and even gifted us the equipment. This was not charged at all, just pure generosity, and became one of our favorite moments of the trip."
-            <span>Michael &amp; Amina, Dubai</span>
-          </div>
-          <div class="review active">
             "We never felt rushed with Shantha. If we wanted to stop somewhere or change plans a bit, it was never a problem. That made the trip feel relaxed."
             <span>Arjun &amp; Neha, India</span>
           </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
           <div class="review active">
             "Long drives can be tiring, but with Shantha it didn’t feel like that. Smooth driving, good music, and the Voxy had plenty of space for us and our luggage."
             <span>Omar A, Dubai</span>
@@ -1987,13 +2198,13 @@ footer{
             "Shantha was always calm and friendly, even on long driving days. The Toyota Voxy was very comfortable and clean, so traveling never felt tiring."
             <span>Dmitry K, Russia</span>
           </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
           <div class="review active">
             "Everything felt quite easy throughout the trip. Pickups were on time, the car was comfortable, and we didn’t really have to think about planning once we arrived. It was a very smooth experience overall."
             <span>Min-Joon &amp; Soo-Yeon, South Korea</span>
-          </div>
-          <div class="review active">
-            "Exactly the kind of journey we wanted, without stress or compromises."
-            <span>Emma R, United Kingdom</span>
           </div>
         </div>
       </div>
@@ -2003,10 +2214,26 @@ footer{
             "Excellent trip organization. Every detail was thoughtfully planned, and we felt like special guests throughout our journey."
             <span>Ivan &amp; Elena P, Russia</span>
           </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
           <div class="review active">
             "Sri Lanka was amazing. The culture, the people, and the food were all unforgettable. We enjoyed great meals, fun nights, and so many memorable moments. Big thanks to LankaLux for organizing everything so well."
             <span>Oren &amp; Maya, Israel</span>
           </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
+          <div class="review active">
+            "Exactly the kind of journey we wanted, without stress or compromises."
+            <span>Emma R, United Kingdom</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-slide">
+        <div class="review-grid">
           <div class="review active">
             "An absolutely incredible experience from start to finish. The attention to detail and personalized service exceeded all our expectations."
             <span>Jennifer &amp; Michael T, United States</span>
@@ -2019,37 +2246,33 @@ footer{
 </section>
 
 <section id="how-it-works">
-  <div class="center">
+  <div class="center journal-reveal">
+    <p class="journal-kicker">From first note to the open road</p>
     <h2>How your LankaLux journey comes together</h2>
   </div>
   <div class="how-steps how-steps-five">
-    <div class="how-step">
+    <div class="how-step journal-reveal">
       <div class="how-number">01</div>
-      <div class="how-divider"></div>
       <h3>Tell us how you travel</h3>
       <p>Dates are only the beginning. Tell us the pace, places and experiences you actually enjoy.</p>
     </div>
-    <div class="how-step">
+    <div class="how-step journal-reveal">
       <div class="how-number">02</div>
-      <div class="how-divider"></div>
       <h3>See your LankaLux journey</h3>
       <p>We create the proposed route and refine it with you.</p>
     </div>
-    <div class="how-step">
+    <div class="how-step journal-reveal">
       <div class="how-number">03</div>
-      <div class="how-divider"></div>
       <h3>Meet your chauffeur-guide</h3>
       <p>Before arrival, you will know who is looking after you.</p>
     </div>
-    <div class="how-step">
+    <div class="how-step journal-reveal">
       <div class="how-number">04</div>
-      <div class="how-divider"></div>
       <h3>Arrive in Sri Lanka</h3>
       <p>Your private journey begins.</p>
     </div>
-    <div class="how-step">
+    <div class="how-step journal-reveal">
       <div class="how-number">05</div>
-      <div class="how-divider"></div>
       <h3>Change something? Tell us.</h3>
       <p>Your journey can adapt while you are travelling.</p>
     </div>
@@ -2057,52 +2280,89 @@ footer{
 </section>
 
 <section id="faq">
-  <div class="center">
+  <div class="center journal-reveal">
     <h2>A Few Practical Answers</h2>
   </div>
   <div class="faq-list">
-    <div class="faq-item">
-      <h3>What is included in a LankaLux journey?</h3>
-      <p>A private vehicle for your stay, airport pickup and drop-off, an English-speaking chauffeur-guide, and a custom itinerary. Hotels can be yours, arranged by LankaLux, or a mix of both. We plan the days around you rather than a fixed group package.</p>
+    <div class="faq-item is-open">
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="true">What is included in a LankaLux journey?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>A private vehicle for your stay, airport pickup and drop-off, an English-speaking chauffeur-guide, and a custom itinerary. Hotels can be yours, arranged by LankaLux, or a mix of both. We plan the days around you rather than a fixed group package.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>Is the chauffeur also a guide?</h3>
-      <p>Yes. You travel with a dedicated <a href="/private-chauffeur-guide-sri-lanka">private chauffeur-guide</a>: one person who drives, helps with pacing, and shares local context. We do not describe this as a licensed national-guide qualification.</p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">Is the chauffeur also a guide?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>Yes. You travel with a dedicated <a href="/private-chauffeur-guide-sri-lanka">private chauffeur-guide</a>: one person who drives, helps with pacing, and shares local context. We do not describe this as a licensed national-guide qualification.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>Are safari jeeps, trains and entrance fees included?</h3>
-      <p>Train tickets, safari jeep excursions, attraction entrance fees and optional activities are not included unless we specifically say so. We can arrange them where possible, with applicable fees paid separately or on site. For a limited time, confirmed bookings include a free safari jeep at one selected park (jeep only, not park tickets), until the end of October.</p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">Are safari jeeps, trains and entrance fees included?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>Train tickets, safari jeep excursions, attraction entrance fees and optional activities are not included unless we specifically say so. We can arrange them where possible, with applicable fees paid separately or on site. For a limited time, confirmed bookings include a free safari jeep at one selected park (jeep only, not park tickets), until the end of October.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>How do we start planning?</h3>
-      <p>Share dates, who is travelling, and the kind of pace you like. We send a custom itinerary, then refine it with you. You can write to us, use WhatsApp, or begin from one of our <a href="/journeys">journey ideas</a>.</p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">How do we start planning?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>Share dates, who is travelling, and the kind of pace you like. We send a custom itinerary, then refine it with you. You can write to us, use WhatsApp, or begin from one of our <a href="/journeys">journey ideas</a>.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>Can we travel with children?</h3>
-      <p>Yes. We pace the days more gently, choose suitable vehicles, and keep room for rest. See <a href="/sri-lanka-family-tours">Sri Lanka family tours</a> for how we usually approach it.</p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">Can we travel with children?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>Yes. We pace the days more gently, choose suitable vehicles, and keep room for rest. See <a href="/sri-lanka-family-tours">Sri Lanka family tours</a> for how we usually approach it.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>Are the journeys on the website fixed packages?</h3>
-      <p>No. They are starting points. Choose a journey you like and we will reshape it around you.</p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">Are the journeys on the website fixed packages?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>No. They are starting points. Choose a journey you like and we will reshape it around you.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>Which vehicles can we travel in?</h3>
-      <p>We match the vehicle to your group, luggage and route. Options include a Toyota Voxy, Toyota KDH vans and a sedan. See <a href="#fleet">Our Fleet</a>.</p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">Which vehicles can we travel in?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>We match the vehicle to your group, luggage and route. Options include a Toyota Voxy, Toyota KDH vans and a sedan. See <a href="#fleet">Our Fleet</a>.</p>
+      </div>
     </div>
     <div class="faq-item">
-      <h3>Can you review an itinerary we already have?</h3>
-      <p>Yes. Send your current hotels or route and we will look at pacing, driving times, stops and activities, and tell you what we would change. There is no obligation. Start from <a href="#itinerary-review">Already planning Sri Lanka?</a></p>
+      <h3>
+        <button type="button" class="faq-trigger" aria-expanded="false">Can you review an itinerary we already have?</button>
+      </h3>
+      <div class="faq-panel">
+        <p>Yes. Send your current hotels or route and we will look at pacing, driving times, stops and activities, and tell you what we would change. There is no obligation. Start from <a href="#itinerary-review">Already planning Sri Lanka?</a></p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
-  <h2>Tell us how you want to experience Sri Lanka.</h2>
-  <p>You do not need to know the perfect route yet. Tell us your dates, interests and travel style. We will help shape the rest.</p>
-  <div class="contact-buttons">
-    <button class="btn" type="button" data-open-booking>BUILD MY JOURNEY</button>
-    <a href="#itinerary-review" class="btn-secondary">I ALREADY HAVE AN ITINERARY</a>
+<section class="cta-section journal-cta">
+  <div class="journal-reveal">
+    <p class="journal-kicker">Begin the journal</p>
+    <h2>Tell us how you want to experience Sri Lanka.</h2>
+    <p>You do not need to know the perfect route yet.</p>
+    <p>Tell us your dates, interests and travel style. We will help shape the rest.</p>
+    <div class="contact-buttons">
+      <button class="btn" type="button" data-open-booking>BUILD MY JOURNEY</button>
+      <a href="#itinerary-review" class="btn-secondary">I ALREADY HAVE AN ITINERARY</a>
+    </div>
   </div>
+  <div class="journal-cta-visual" style="background-image:url('images/homepage/homepage3.jpg')" role="img" aria-label="Sri Lanka landscape on a LankaLux journey"></div>
 </section>
 
 <footer>
@@ -2920,9 +3180,10 @@ function openBookingModal() {
   closeContactModal(); // Close contact modal if open
 }
 
-function openItineraryModal() {
+function openItineraryModal(focusId) {
   const modal = document.getElementById('itineraryModal');
   if (!modal) return;
+  if (focusId && typeof focusId !== 'string') focusId = null;
   initDateInputs();
   if (window.LankaLuxDatePicker) {
     var today = LankaLuxDatePicker.todayIso();
@@ -2935,8 +3196,13 @@ function openItineraryModal() {
   requestAnimationFrame(function() {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    if (focusId) {
+      var field = document.getElementById(focusId);
+      if (field) field.focus();
+    }
   });
 }
+window.openItineraryModal = openItineraryModal;
 
 function closeItineraryModal() {
   if (window.LankaLuxDatePicker) LankaLuxDatePicker.closeOpen();
@@ -3055,6 +3321,12 @@ document.querySelectorAll('.vehicle-card').forEach(card => {
   card.addEventListener('click', () => {
     const vehicleKey = card.getAttribute('data-vehicle');
     openVehicleModal(vehicleKey);
+  });
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openVehicleModal(card.getAttribute('data-vehicle'));
+    }
   });
 });
 
@@ -3539,9 +3811,9 @@ reviewSlides.forEach((_, index) => {
   const dot = document.createElement('button');
   dot.className = 'review-dot' + (index === 0 ? ' active' : '');
       dot.setAttribute('type', 'button');
+      dot.setAttribute('aria-label', 'Show review ' + (index + 1));
       dot.addEventListener('click', () => {
         goToReviewSlide(index);
-        resetInterval();
       });
   reviewDotsContainer.appendChild(dot);
 });
@@ -3577,24 +3849,25 @@ function nextReviewSlide() {
       startInterval();
     }
     
-    // Initialize first slide
     goToReviewSlide(0);
-    
-    // Start auto-rotation
-    startInterval();
 
-// Pause on hover
-const reviewCarousel = document.querySelector('.review-carousel-container');
+    var reviewCarousel = document.querySelector('.review-carousel-container');
     if (reviewCarousel) {
-reviewCarousel.addEventListener('mouseenter', () => {
+      reviewCarousel.addEventListener('mouseenter', function () {
         if (reviewInterval) {
-  clearInterval(reviewInterval);
+          clearInterval(reviewInterval);
           reviewInterval = null;
         }
-});
-
-reviewCarousel.addEventListener('mouseleave', () => {
-        startInterval();
+      });
+      reviewCarousel.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goToReviewSlide((currentReviewSlide - 1 + reviewSlides.length) % reviewSlides.length);
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          goToReviewSlide((currentReviewSlide + 1) % reviewSlides.length);
+        }
       });
     }
   }
@@ -3888,6 +4161,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
 
 <script src="/lankalux-instagram.js" defer></script>
 <script src="/lankalux-motion.js" defer></script>
+<script src="/lankalux-journal.js" defer></script>
 <script src="/lankalux-chat.js?v=3" defer></script>
 <script src="/lankalux-analytics.js" defer></script>
 

@@ -134,7 +134,7 @@
   }
 
   if (!reduced) {
-    var revealEls = document.querySelectorAll("#about, .day-section");
+    var revealEls = document.querySelectorAll(".day-section, .journal-reveal, .journal-clip");
     if ("IntersectionObserver" in window && revealEls.length) {
       var io = new IntersectionObserver(
         function (entries) {
