@@ -112,22 +112,28 @@
 
 .hero-instagram {
   position: absolute;
+  top: 46%;
   right: var(--page-pad);
-  bottom: clamp(108px, 18vh, 160px);
+  bottom: auto;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: transparent;
-  border: none;
-  color: var(--ivory);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(249, 244, 235, 0.92);
+  border: 1px solid rgba(177, 133, 68, 0.42);
+  color: var(--gold);
   text-decoration: none;
-  filter: drop-shadow(0 1px 8px rgba(8, 14, 10, 0.45));
+  box-shadow: 0 8px 22px rgba(8, 14, 10, 0.2);
   opacity: 0;
   transform: translateY(8px);
-  transition: color 0.3s var(--ease), transform 0.35s var(--ease);
+  transition:
+    color 0.3s var(--ease),
+    background 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 
 .hero.is-ready .hero-instagram {
@@ -143,23 +149,27 @@
 
 .hero-instagram-tip {
   position: absolute;
-  right: calc(100% + 10px);
+  right: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-  padding: 6px 10px;
-  background: rgba(249, 244, 235, 0.92);
+  padding: 7px 12px;
+  background: rgba(249, 244, 235, 0.94);
   color: var(--forest);
   font-size: 12px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   opacity: 0;
   pointer-events: none;
+  box-shadow: 0 8px 20px rgba(8, 14, 10, 0.12);
   transition: opacity 0.3s var(--ease);
 }
 
 .hero-instagram:hover,
 .hero-instagram:focus-visible {
-  color: var(--gold);
+  color: var(--forest);
+  background: var(--ivory);
+  border-color: var(--gold);
+  box-shadow: 0 10px 24px rgba(8, 14, 10, 0.24);
 }
 
 .hero-instagram:hover .hero-instagram-tip,
@@ -844,7 +854,11 @@
 @media (max-width: 900px) {
   .hero { align-items: flex-end; padding-bottom: 14vh; min-height: 560px; }
   .hero h1 { font-size: 38px; }
-  .hero-instagram { bottom: 104px; }
+  .hero-instagram {
+    top: auto;
+    right: var(--page-pad);
+    bottom: 104px;
+  }
   .difference { grid-template-columns: 1fr; }
   .difference-stage {
     position: relative;
@@ -893,9 +907,11 @@
   .hero-buttons .btn,
   .hero-buttons .btn-secondary { width: 100%; }
   .hero-instagram {
+    top: auto;
     right: var(--page-pad);
     bottom: 96px;
   }
+  .hero-instagram-tip { display: none; }
   .road-grid {
     display: flex;
     overflow-x: auto;
@@ -914,7 +930,10 @@
 
 @media (max-width: 600px) {
   .hero { height: 92vh; padding-bottom: 16vh; }
-  .hero-instagram { bottom: 88px; }
+  .hero-instagram {
+    top: auto;
+    bottom: 88px;
+  }
   .hero-points { flex-direction: column; gap: 8px; }
   .services, .exp-grid { grid-template-columns: 1fr; }
   .exp,
