@@ -1,4 +1,4 @@
-/* Homepage layouts — LankaLux visual redesign */
+/* Homepage layouts: LankaLux visual redesign */
 
 .hero {
   height: 100vh;
@@ -82,16 +82,29 @@
   align-items: center;
 }
 
+@keyframes heroLineIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .hero.is-ready .hero-content h1 {
-  animation: heroFadeUp 0.7s var(--ease) 0.35s both;
+  animation: none;
+}
+
+.hero.is-ready .hero-content h1 span:first-child {
+  animation: heroLineIn 0.55s var(--ease) 0.12s both;
+}
+
+.hero.is-ready .hero-content h1 span:last-child {
+  animation: heroLineIn 0.55s var(--ease) 0.28s both;
 }
 
 .hero.is-ready .hero-content > p {
-  animation: heroFadeUp 0.6s var(--ease) 0.55s both;
+  animation: heroLineIn 0.5s var(--ease) 0.42s both;
 }
 
 .hero.is-ready .hero-buttons {
-  animation: heroFadeUp 0.5s var(--ease) 0.75s both;
+  animation: heroLineIn 0.45s var(--ease) 0.56s both;
 }
 
 .hero-points {
@@ -107,7 +120,7 @@
 }
 
 .hero.is-ready .hero-points {
-  animation: heroFadeUp 0.5s var(--ease) 0.9s both;
+  animation: heroLineIn 0.4s var(--ease) 0.68s both;
 }
 
 .hero-instagram {
@@ -186,7 +199,8 @@ html.is-ready .hero-instagram {
   .hero h1 span:last-child { white-space: nowrap; }
 }
 
-#itinerary-review,
+#how-it-works,
+#itinerary-preview,
 #chauffeur,
 #flexibility,
 #promise,
@@ -311,6 +325,14 @@ html.is-ready .hero-instagram {
 
 .from-the-road {
   background: var(--ivory);
+  overflow-x: clip;
+}
+
+.reviews,
+#itinerary-preview,
+#moment,
+#fleet {
+  overflow-x: clip;
 }
 
 .from-the-road .center p {
@@ -522,7 +544,7 @@ html.is-ready .hero-instagram {
   max-width: 42ch;
 }
 
-/* Journeys — editorial mosaic */
+/* Journeys: editorial mosaic */
 .journeys-section {
   background: var(--ivory);
   padding-top: clamp(72px, 9vw, 120px);
@@ -892,6 +914,14 @@ html.is-ready .hero-instagram {
 }
 
 @media (max-width: 768px) {
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    padding-top: 108px;
+    padding-bottom: 88px;
+  }
+  .hero h1 { font-size: clamp(28px, 8.4vw, 36px); }
+  .hero p { font-size: 16px; margin-bottom: 22px; }
   .hero-buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 420px; }
   .hero-buttons .btn,
   .hero-buttons .btn-secondary { width: 100%; }
@@ -928,6 +958,15 @@ html.is-ready .hero-instagram {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-slide.active { animation: none; transform: none; }
+  .hero.is-ready .hero-content h1 span:first-child,
+  .hero.is-ready .hero-content h1 span:last-child,
+  .hero.is-ready .hero-content > p,
+  .hero.is-ready .hero-buttons,
+  .hero.is-ready .hero-points {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
   .hero-instagram,
   html.is-ready .hero-instagram {
     animation: none;
