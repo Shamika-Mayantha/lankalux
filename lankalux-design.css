@@ -103,18 +103,19 @@ body > header.on-media:not(.nav-open)::before {
   left: 0;
   right: 0;
   top: 0;
-  height: 132px;
+  height: 176px;
   background:
     linear-gradient(
       90deg,
-      rgba(8, 14, 10, 0.08) 0%,
-      rgba(8, 14, 10, 0.22) 48%,
+      rgba(8, 14, 10, 0.04) 0%,
+      rgba(8, 14, 10, 0.20) 48%,
       rgba(8, 14, 10, 0.42) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(8, 14, 10, 0.46) 0%,
-      rgba(26, 42, 29, 0.18) 46%,
+      rgba(8, 14, 10, 0.52) 0%,
+      rgba(26, 42, 29, 0.18) 32%,
+      rgba(26, 42, 29, 0.05) 62%,
       transparent 100%
     );
   pointer-events: none;
@@ -210,8 +211,8 @@ body > header nav > button.cta,
 body > header.on-media:not(.nav-open) nav > a,
 body > header.on-media:not(.nav-open) nav > button.cta,
 body > header.on-media:not(.nav-open) .nav-topics-btn {
-  color: var(--ivory);
-  text-shadow: 0 1px 10px rgba(8, 14, 10, 0.35);
+  color: #F9F4EB;
+  text-shadow: 0 1px 8px rgba(8, 14, 10, 0.45);
 }
 
 body > header nav > a:hover,
@@ -362,6 +363,16 @@ body > header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.
 }
 
 @media (max-width: 768px) {
+  body > header.on-media:not(.nav-open)::before {
+    height: 76px;
+    background: linear-gradient(
+      180deg,
+      rgba(8, 14, 10, 0.48) 0%,
+      rgba(26, 42, 29, 0.12) 70%,
+      transparent 100%
+    );
+  }
+
   .nav-toggle { display: flex; }
 
   .nav-topics {
@@ -580,7 +591,7 @@ a.btn-secondary:focus {
 .hero a.btn-secondary:visited {
   color: var(--forest);
   background: var(--ivory);
-  border-color: rgba(177, 133, 68, 0.72);
+  border-color: var(--gold);
 }
 
 .hero .btn-secondary:hover,
