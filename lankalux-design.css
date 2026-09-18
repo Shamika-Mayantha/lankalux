@@ -103,19 +103,18 @@ body > header.on-media:not(.nav-open)::before {
   left: 0;
   right: 0;
   top: 0;
-  height: 176px;
+  height: var(--header-h);
   background:
     linear-gradient(
       90deg,
-      rgba(8, 14, 10, 0.04) 0%,
-      rgba(8, 14, 10, 0.20) 48%,
-      rgba(8, 14, 10, 0.42) 100%
+      transparent 0%,
+      transparent 42%,
+      rgba(8, 14, 10, 0.16) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(8, 14, 10, 0.52) 0%,
-      rgba(26, 42, 29, 0.18) 32%,
-      rgba(26, 42, 29, 0.05) 62%,
+      rgba(8, 14, 10, 0.28) 0%,
+      rgba(26, 42, 29, 0.08) 58%,
       transparent 100%
     );
   pointer-events: none;
@@ -212,7 +211,7 @@ body > header.on-media:not(.nav-open) nav > a,
 body > header.on-media:not(.nav-open) nav > button.cta,
 body > header.on-media:not(.nav-open) .nav-topics-btn {
   color: #F9F4EB;
-  text-shadow: 0 1px 8px rgba(8, 14, 10, 0.45);
+  text-shadow: 0 1px 10px rgba(8, 14, 10, 0.55);
 }
 
 body > header nav > a:hover,
@@ -364,11 +363,11 @@ body > header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.
 
 @media (max-width: 768px) {
   body > header.on-media:not(.nav-open)::before {
-    height: 76px;
+    height: 72px;
     background: linear-gradient(
       180deg,
-      rgba(8, 14, 10, 0.48) 0%,
-      rgba(26, 42, 29, 0.12) 70%,
+      rgba(8, 14, 10, 0.26) 0%,
+      rgba(26, 42, 29, 0.08) 62%,
       transparent 100%
     );
   }
