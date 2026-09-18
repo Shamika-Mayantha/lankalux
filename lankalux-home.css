@@ -113,26 +113,21 @@
 .hero-instagram {
   position: absolute;
   right: var(--page-pad);
-  bottom: clamp(120px, 22vh, 210px);
+  bottom: clamp(108px, 18vh, 160px);
   z-index: 3;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  max-width: min(240px, calc(100% - 48px));
-  padding: 10px 14px 10px 12px;
-  background: rgba(249, 244, 235, 0.88);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(26, 42, 29, 0.14);
-  color: var(--forest);
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  color: var(--ivory);
   text-decoration: none;
+  filter: drop-shadow(0 1px 8px rgba(8, 14, 10, 0.45));
   opacity: 0;
   transform: translateY(8px);
-  transition:
-    transform 0.35s var(--ease),
-    background 0.35s var(--ease),
-    border-color 0.35s var(--ease);
+  transition: color 0.3s var(--ease), transform 0.35s var(--ease);
 }
 
 .hero.is-ready .hero-instagram {
@@ -143,61 +138,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  color: var(--gold);
+  line-height: 0;
 }
 
-.hero-instagram-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 0;
-  line-height: 1.25;
-}
-
-.hero-instagram-kicker {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.hero-instagram-handle {
-  font-size: 13px;
-  font-weight: 500;
+.hero-instagram-tip {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  padding: 6px 10px;
+  background: rgba(249, 244, 235, 0.92);
   color: var(--forest);
-}
-
-.hero-instagram-hint {
-  display: block;
-  max-height: 0;
-  margin: 0;
-  overflow: hidden;
+  font-size: 12px;
+  letter-spacing: 0.03em;
   opacity: 0;
-  transform: translateY(4px);
-  font-size: 11px;
-  color: var(--muted);
-  transition:
-    max-height 0.35s var(--ease),
-    opacity 0.35s var(--ease),
-    transform 0.35s var(--ease),
-    margin 0.35s var(--ease);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
 }
 
 .hero-instagram:hover,
 .hero-instagram:focus-visible {
-  background: rgba(249, 244, 235, 0.96);
-  border-color: rgba(177, 133, 68, 0.4);
+  color: var(--gold);
 }
 
-.hero-instagram:hover .hero-instagram-hint,
-.hero-instagram:focus-visible .hero-instagram-hint {
-  max-height: 18px;
-  margin-top: 3px;
+.hero-instagram:hover .hero-instagram-tip,
+.hero-instagram:focus-visible .hero-instagram-tip {
   opacity: 1;
-  transform: translateY(0);
 }
 
 @keyframes heroInstagramIn {
@@ -877,7 +844,7 @@
 @media (max-width: 900px) {
   .hero { align-items: flex-end; padding-bottom: 14vh; min-height: 560px; }
   .hero h1 { font-size: 38px; }
-  .hero-instagram { bottom: 112px; }
+  .hero-instagram { bottom: 104px; }
   .difference { grid-template-columns: 1fr; }
   .difference-stage {
     position: relative;
@@ -928,13 +895,7 @@
   .hero-instagram {
     right: var(--page-pad);
     bottom: 96px;
-    padding: 8px 11px 8px 9px;
-    gap: 8px;
-    max-width: min(210px, calc(100vw - 88px));
   }
-  .hero-instagram-icon { width: 24px; height: 24px; }
-  .hero-instagram-handle { font-size: 12px; }
-  .hero-instagram-hint { display: none; }
   .road-grid {
     display: flex;
     overflow-x: auto;
