@@ -1,6 +1,14 @@
 /* Open Road Journal: homepage editorial upgrade.
    Protects existing nav, hero buttons, Instagram float, forms and tokens. */
 
+html:has(.page-home) {
+  overflow-x: clip;
+}
+
+.page-home {
+  overflow-x: clip;
+}
+
 .page-home .social-float {
   display: none;
 }
@@ -111,12 +119,14 @@ html.has-js .is-in .journal-clip img {
   height: 100%;
   object-fit: cover;
   opacity: 0;
+  visibility: hidden;
   transform: scale(1.05);
   transition: opacity 0.8s var(--ease), transform 8s linear;
 }
 
 .journal-about-visual img.is-active {
   opacity: 1;
+  visibility: visible;
   transform: scale(1);
 }
 
@@ -566,13 +576,14 @@ html.has-js .itinerary-document.is-active {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: clamp(32px, 5vw, 80px);
-  align-items: center;
+  align-items: stretch;
   max-width: 1240px;
   margin: 0 auto;
 }
 
 .chauffeur-visual {
   min-height: 560px;
+  height: 100%;
   background-size: cover;
   background-position: center;
   background-color: var(--forest);
@@ -907,6 +918,17 @@ html.has-js .itinerary-document.is-active {
   padding: 8px 0;
 }
 
+.review-carousel-container {
+  overflow: hidden;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.review-track {
+  width: 100%;
+  min-width: 0;
+}
+
 /* ------------------------------------------------------------------ */
 /* How it works                                                          */
 /* ------------------------------------------------------------------ */
@@ -914,7 +936,7 @@ html.has-js .itinerary-document.is-active {
   background: var(--ivory);
 }
 
-.how-steps-five {
+.how-steps.how-steps-five {
   display: flex;
   flex-direction: column;
   max-width: 760px;
@@ -1052,6 +1074,7 @@ html:not(.has-js) .faq-panel {
   color: var(--ivory);
   padding-left: var(--page-pad);
   padding-right: var(--page-pad);
+  padding-bottom: clamp(88px, 12vw, 128px);
 }
 
 .journal-cta h2,
@@ -1075,19 +1098,26 @@ html:not(.has-js) .faq-panel {
   justify-content: flex-start;
 }
 
+.journal-cta .btn,
+.journal-cta .btn:hover,
+.journal-cta .btn:focus {
+  background: var(--ivory);
+  color: var(--forest);
+}
+
 .journal-cta .btn-secondary,
 .journal-cta a.btn-secondary,
 .journal-cta a.btn-secondary:link,
 .journal-cta a.btn-secondary:visited {
-  background: var(--ivory);
-  color: var(--forest);
+  background: transparent;
+  color: var(--ivory);
   border-color: var(--ivory);
 }
 
 .journal-cta .btn-secondary:hover,
 .journal-cta a.btn-secondary:hover,
 .journal-cta a.btn-secondary:focus {
-  background: var(--ivory-deep);
+  background: var(--ivory);
   color: var(--forest);
 }
 
@@ -1161,8 +1191,11 @@ html:not(.has-js) .faq-panel {
     overflow-x: auto;
     gap: 0;
     scroll-snap-type: x mandatory;
-    margin: 0 calc(-1 * var(--page-pad));
-    padding: 0 var(--page-pad);
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
     -webkit-overflow-scrolling: touch;
   }
 
