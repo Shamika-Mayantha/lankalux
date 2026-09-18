@@ -988,6 +988,13 @@ body.is-leaving .page-veil { opacity: 1; }
 .booking-form-group textarea { min-height: 120px; resize: vertical; }
 .booking-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .booking-form-group input[type="date"] { cursor: pointer; color-scheme: light; }
+.booking-form-group input[type="file"] {
+  padding: 8px 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  cursor: pointer;
+}
 .booking-form-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
 .ll-dp,
