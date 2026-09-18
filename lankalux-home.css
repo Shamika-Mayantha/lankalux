@@ -113,6 +113,12 @@
   font-size: clamp(32px, 4.8vw, 58px);
 }
 
+.hero h1 span { display: block; }
+
+@media (min-width: 760px) {
+  .hero h1 span:last-child { white-space: nowrap; }
+}
+
 #itinerary-review,
 #chauffeur,
 #flexibility,

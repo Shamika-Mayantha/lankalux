@@ -530,7 +530,8 @@ a.btn-secondary:focus {
 
 .hero .btn-secondary {
   color: var(--ivory);
-  border-color: rgba(249, 244, 235, 0.5);
+  border-color: var(--ivory);
+  background: rgba(26, 42, 29, 0.48);
 }
 
 .hero .btn-secondary:hover {
