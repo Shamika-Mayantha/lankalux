@@ -11,7 +11,7 @@
   var CARDS = [
     {
       title: "Tea country",
-      image: "images/highlights/tea/damrotea.jpg",
+      image: "images/highlights/tea/stclairs.jpg",
       href: PROFILE
     },
     {
