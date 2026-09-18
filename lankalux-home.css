@@ -112,9 +112,10 @@
 
 .hero-instagram {
   position: absolute;
-  top: 46%;
-  right: var(--page-pad);
-  bottom: auto;
+  left: var(--page-pad);
+  right: auto;
+  top: auto;
+  bottom: 28px;
   z-index: 3;
   display: flex;
   align-items: center;
@@ -149,7 +150,8 @@
 
 .hero-instagram-tip {
   position: absolute;
-  right: calc(100% + 12px);
+  left: calc(100% + 12px);
+  right: auto;
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
@@ -855,9 +857,10 @@
   .hero { align-items: flex-end; padding-bottom: 14vh; min-height: 560px; }
   .hero h1 { font-size: 38px; }
   .hero-instagram {
+    left: var(--page-pad);
+    right: auto;
     top: auto;
-    right: var(--page-pad);
-    bottom: 104px;
+    bottom: 24px;
   }
   .difference { grid-template-columns: 1fr; }
   .difference-stage {
@@ -907,9 +910,10 @@
   .hero-buttons .btn,
   .hero-buttons .btn-secondary { width: 100%; }
   .hero-instagram {
+    left: var(--page-pad);
+    right: auto;
     top: auto;
-    right: var(--page-pad);
-    bottom: 96px;
+    bottom: 20px;
   }
   .hero-instagram-tip { display: none; }
   .road-grid {
@@ -931,8 +935,8 @@
 @media (max-width: 600px) {
   .hero { height: 92vh; padding-bottom: 16vh; }
   .hero-instagram {
-    top: auto;
-    bottom: 88px;
+    left: var(--page-pad);
+    bottom: 18px;
   }
   .hero-points { flex-direction: column; gap: 8px; }
   .services, .exp-grid { grid-template-columns: 1fr; }
