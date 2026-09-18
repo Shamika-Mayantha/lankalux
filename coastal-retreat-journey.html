@@ -1001,6 +1001,14 @@ function formatDateRange(from, to) {
   if (fromStr && toStr) return fromStr + ' – ' + toStr;
   return fromStr || toStr;
 }
+var ADMIN_REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
+function sendToAdmin(payload, source) {
+  fetch(ADMIN_REQUESTS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Object.assign({ source: source || 'journey-page' }, payload))
+  }).catch(function() {});
+}
 function setupJourneyDatePickers() {
   if (!window.LankaLuxDatePicker) return;
   var today = LankaLuxDatePicker.todayIso();
@@ -1158,14 +1166,17 @@ window.addEventListener("load", function() {
       name: bookingName,
       email: bookingEmail,
       travelDates: bookingDates,
+      startDate: travelFrom || null,
+      endDate: travelTo || null,
       message: bookingMessage || '',
       needAirlineTickets: needAirlineTickets ? 'Yes' : 'No',
       airlineFrom: airlineFrom,
       airlineDates: airlineDates,
-      journeyName: journeyName
+      journeyName: journeyName,
+      requestedDestinations: journeyName
     };
-    
-    // Send email via EmailJS
+
+    sendToAdmin(templateParams, 'journey-page');
     emailjs.send("service_2rzlol8", "template_9n2ggh3", templateParams)
       .then(function(response) {
         // Success

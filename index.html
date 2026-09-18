@@ -2500,11 +2500,14 @@ function sendToAdmin(payload, source) {
     passengers: payload.passengers,
     numberOfAdults: payload.numberOfAdults || null,
     numberOfChildren: payload.numberOfChildren || null,
+    childrenAgesValues: payload.childrenAgesValues || null,
     kidsAges: payload.kidsAges,
     message: payload.message,
     needAirlineTickets: payload.needAirlineTickets,
     airlineFrom: payload.airlineFrom,
-    airlineDates: payload.airlineDates
+    airlineDates: payload.airlineDates,
+    requestedDestinations: payload.requestedDestinations || payload.journeyName || null,
+    vehiclePreference: payload.vehiclePreference || null
   });
   fetch(ADMIN_REQUESTS_URL, {
     method: 'POST',
@@ -3179,7 +3182,9 @@ window.addEventListener("load", function() {
       
       const name = document.getElementById('vehicleReservationName').value.trim();
       const email = document.getElementById('vehicleReservationEmail').value.trim();
-      const dates = formatDateRange(document.getElementById('vehicleReservationFrom').value, document.getElementById('vehicleReservationTo').value);
+      const vehicleFrom = document.getElementById('vehicleReservationFrom').value;
+      const vehicleTo = document.getElementById('vehicleReservationTo').value;
+      const dates = formatDateRange(vehicleFrom, vehicleTo);
       const message = document.getElementById('vehicleReservationMessage').value.trim();
       const vehicleName = document.getElementById('selectedVehicleName').textContent;
       
@@ -3187,7 +3192,10 @@ window.addEventListener("load", function() {
         name: name,
         email: email,
         travelDates: dates,
+        startDate: vehicleFrom || null,
+        endDate: vehicleTo || null,
         message: `Vehicle: ${vehicleName}\n\n${message}`,
+        vehiclePreference: vehicleName || null,
         needAirlineTickets: 'No',
         airlineFrom: 'N/A',
         airlineDates: 'N/A'
@@ -3238,13 +3246,19 @@ window.addEventListener("load", function() {
     const bookingName = document.getElementById('bookingName').value.trim();
     const bookingEmail = document.getElementById('bookingEmail').value.trim();
     const bookingWhatsApp = document.getElementById('bookingWhatsApp').value.trim() || 'Not provided';
-    const bookingDates = formatDateRange(document.getElementById('bookingTravelFrom').value, document.getElementById('bookingTravelTo').value);
+    const travelFrom = document.getElementById('bookingTravelFrom').value;
+    const travelTo = document.getElementById('bookingTravelTo').value;
+    const bookingDates = formatDateRange(travelFrom, travelTo);
     const adults = document.getElementById('bookingAdults').value;
     const childrenCount = parseInt(document.getElementById('bookingChildren').value, 10) || 0;
     const kidsAges = [];
+    const kidsAgeValues = [];
     for (var k = 0; k < childrenCount; k++) {
       var sel = document.querySelector('select[name="childAge' + (k + 1) + '"]');
-      if (sel && sel.value) kidsAges.push(sel.options[sel.selectedIndex].text);
+      if (sel && sel.value) {
+        kidsAges.push(sel.options[sel.selectedIndex].text);
+        kidsAgeValues.push(sel.value);
+      }
     }
     var passengersSummary = adults + ' adult' + (adults !== '1' ? 's' : '');
     if (childrenCount > 0) {
@@ -3272,7 +3286,12 @@ window.addEventListener("load", function() {
       email: bookingEmail,
       whatsapp: bookingWhatsApp,
       travelDates: bookingDates,
+      startDate: travelFrom || null,
+      endDate: travelTo || null,
       passengers: passengersSummary,
+      numberOfAdults: parseInt(adults, 10) || null,
+      numberOfChildren: childrenCount,
+      childrenAgesValues: kidsAgeValues.length ? kidsAgeValues : null,
       kidsAges: kidsAges.length ? kidsAges.join(', ') : 'None',
       message: bookingMessage,
       needAirlineTickets: needAirlineTickets ? 'Yes' : 'No',
