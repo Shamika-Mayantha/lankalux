@@ -273,4 +273,62 @@
       }, 320);
     });
   }
+  // Background photos marked with data-bg load as they come near the screen, not all at
+  // once with the page. Hero slides are handled by the homepage carousel itself.
+  var lazyBgs = Array.prototype.filter.call(document.querySelectorAll("[data-bg]"), function (el) {
+    return !el.classList.contains("hero-slide");
+  });
+  function showBg(el) {
+    var src = el.getAttribute("data-bg");
+    if (!src) return;
+    el.style.backgroundImage = "url('" + src + "')";
+    el.removeAttribute("data-bg");
+  }
+  if (lazyBgs.length) {
+    if ("IntersectionObserver" in window) {
+      var bgio = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            bgio.unobserve(entry.target);
+            showBg(entry.target);
+            // Siblings in the same stack (e.g. the "why" images) swap in on hover/scroll,
+            // so warm them up together.
+            var parent = entry.target.parentElement;
+            if (parent) {
+              Array.prototype.forEach.call(parent.querySelectorAll("[data-bg]"), function (sib) {
+                bgio.unobserve(sib);
+                showBg(sib);
+              });
+            }
+          });
+        },
+        { rootMargin: "600px 0px" }
+      );
+      lazyBgs.forEach(function (el) { bgio.observe(el); });
+    } else {
+      lazyBgs.forEach(showBg);
+    }
+  }
+
+  // Start fetching a page as soon as the visitor points at (or touches) its link,
+  // so it is usually ready by the time the page fade finishes.
+  var prefetched = {};
+  function prefetch(e) {
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    var url;
+    try { url = new URL(a.href, window.location.href); } catch (err) { return; }
+    if (url.origin !== window.location.origin || url.pathname === window.location.pathname) return;
+    if (prefetched[url.pathname]) return;
+    var conn = navigator.connection;
+    if (conn && (conn.saveData || /2g/.test(conn.effectiveType || ""))) return;
+    prefetched[url.pathname] = true;
+    var link = document.createElement("link");
+    link.rel = "prefetch";
+    link.href = url.pathname;
+    document.head.appendChild(link);
+  }
+  document.addEventListener("mouseover", prefetch, { passive: true });
+  document.addEventListener("touchstart", prefetch, { passive: true });
 })();

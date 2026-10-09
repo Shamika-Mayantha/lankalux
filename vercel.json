@@ -3,6 +3,24 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/(lankalux-logo.png|lankalux-logo-stacked.png|lankalux-mark.png|lankalux-favicon.png|lankalux-favicon.ico)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=2592000"
+        }
+      ]
+    },
+    {
       "source": "/:path*",
       "has": [
         {
