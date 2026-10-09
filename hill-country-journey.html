@@ -433,7 +433,7 @@ function sendToAdmin(payload, source) {
   fetch(ADMIN_REQUESTS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(Object.assign({ source: source || 'journey-page' }, payload))
+    body: JSON.stringify(Object.assign({ source: source || 'journey-page', attribution: window.LankaLuxAttribution ? window.LankaLuxAttribution() : null }, payload))
   }).catch(function() {});
 }
 function setupJourneyDatePickers() {

@@ -1111,7 +1111,8 @@ function sendToAdmin(payload, source) {
     airlineFrom: payload.airlineFrom,
     airlineDates: payload.airlineDates,
     requestedDestinations: payload.requestedDestinations || payload.journeyName || null,
-    vehiclePreference: payload.vehiclePreference || null
+    vehiclePreference: payload.vehiclePreference || null,
+    attribution: window.LankaLuxAttribution ? window.LankaLuxAttribution() : null
   });
   fetch(ADMIN_REQUESTS_URL, {
     method: 'POST',
