@@ -1028,6 +1028,7 @@ footer{text-align:center}
 </script>
 <script src="/lankalux-datepicker.js"></script>
 
+<script src="/lankalux-leads.js"></script>
 <script>
 function formatDateRange(from, to) {
   if (!from && !to) return 'Not specified';
@@ -1040,14 +1041,6 @@ function formatDateRange(from, to) {
   var toStr = fmt(to);
   if (fromStr && toStr) return fromStr + ' – ' + toStr;
   return fromStr || toStr;
-}
-var ADMIN_REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
-function sendToAdmin(payload, source) {
-  fetch(ADMIN_REQUESTS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(Object.assign({ source: source || 'journey-page' }, payload))
-  }).catch(function() {});
 }
 function setupJourneyDatePickers() {
   if (!window.LankaLuxDatePicker) return;

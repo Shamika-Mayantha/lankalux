@@ -2484,37 +2484,8 @@ footer{
 </script>
 <script src="/lankalux-datepicker.js"></script>
 
+<script src="/lankalux-leads.js"></script>
 <script>
-// Admin dashboard: form submissions are also sent here so they appear on the requests page
-var ADMIN_REQUESTS_URL = 'https://admin.lankalux.com/api/requests';
-function sendToAdmin(payload, source) {
-  var body = JSON.stringify({
-    source: source || 'hero-form',
-    submittedAt: new Date().toISOString(),
-    name: payload.name,
-    email: payload.email,
-    whatsapp: payload.whatsapp,
-    travelDates: payload.travelDates,
-    startDate: payload.startDate || null,
-    endDate: payload.endDate || null,
-    passengers: payload.passengers,
-    numberOfAdults: payload.numberOfAdults || null,
-    numberOfChildren: payload.numberOfChildren || null,
-    childrenAgesValues: payload.childrenAgesValues || null,
-    kidsAges: payload.kidsAges,
-    message: payload.message,
-    needAirlineTickets: payload.needAirlineTickets,
-    airlineFrom: payload.airlineFrom,
-    airlineDates: payload.airlineDates,
-    requestedDestinations: payload.requestedDestinations || payload.journeyName || null,
-    vehiclePreference: payload.vehiclePreference || null
-  });
-  fetch(ADMIN_REQUESTS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: body
-  }).catch(function() {});
-}
 
 // Format date range for display in emails (YYYY-MM-DD -> "15 Mar 2026" or "15 Mar – 25 Mar 2026")
 function formatDateRange(from, to) {
