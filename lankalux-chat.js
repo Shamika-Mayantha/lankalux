@@ -536,6 +536,7 @@
     }
     var d = state.draft || {};
     var payload = {
+      source: 'website-chat',
       name: d.name || null,
       email: d.email || null,
       whatsapp: d.whatsapp || null,
@@ -550,7 +551,8 @@
       message: d.message || '',
       needAirlineTickets: !!d.needAirlineTickets,
       airlineFrom: d.airlineFrom || '',
-      airlineDates: d.airlineDates || ''
+      airlineDates: d.airlineDates || '',
+      attribution: window.LankaLuxAttribution ? window.LankaLuxAttribution() : null
     };
     try {
       var res = await fetch(REQUESTS_URL, {
