@@ -72,10 +72,20 @@
     if (changed) el.setAttribute('style', updated);
   }
 
+  /* Lazy backgrounds (data-bg) haven't loaded yet: point them at the new photo up front. */
+  function swapLazyBackground(el) {
+    var key = photoKey(el.getAttribute('data-bg'));
+    var next = key && photos[key];
+    if (next) el.setAttribute('data-bg', next);
+  }
+
   function swapWithin(root) {
     if (!root || root.nodeType !== 1) return;
     if (root.tagName === 'IMG') swapImg(root);
     if (root.hasAttribute('style')) swapBackground(root);
+    if (root.hasAttribute('data-bg')) swapLazyBackground(root);
+    var lazy = root.querySelectorAll('[data-bg]');
+    for (var k = 0; k < lazy.length; k++) swapLazyBackground(lazy[k]);
     var imgs = root.getElementsByTagName('img');
     for (var i = 0; i < imgs.length; i++) swapImg(imgs[i]);
     var styled = root.querySelectorAll('[style*="url("]');
