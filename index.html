@@ -3618,6 +3618,9 @@ reviewCarousel.addEventListener('mouseleave', () => {
     }
   }
   
+  // lankalux-site-content.js calls this after loading reviews from admin
+  window.LankaLuxRefreshReviews = initReviewCarousel;
+
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewCarousel);
@@ -3907,6 +3910,7 @@ reviewCarousel.addEventListener('mouseleave', () => {
 
 <script src="/lankalux-instagram.js" defer></script>
 <script src="/lankalux-motion.js" defer></script>
+<script src="/lankalux-site-content.js" defer></script>
 <script src="/lankalux-chat.js?v=3" defer></script>
 <script src="/lankalux-analytics.js" defer></script>
 
