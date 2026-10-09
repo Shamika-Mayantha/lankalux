@@ -46,6 +46,16 @@
       "source": "/CMR/:path*",
       "destination": "/404",
       "permanent": false
+    },
+    {
+      "source": "/Vercel",
+      "destination": "/404",
+      "permanent": false
+    },
+    {
+      "source": "/Vercel/:path*",
+      "destination": "/404",
+      "permanent": false
     }
   ]
 }
