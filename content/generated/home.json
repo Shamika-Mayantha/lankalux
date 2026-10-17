@@ -1,0 +1,496 @@
+{
+  "hero": {
+    "lines": [
+      "Not a Tour Package.",
+      "Your version of Sri Lanka."
+    ],
+    "lead": "Private journeys designed around how you actually like to travel, with your own chauffeur-guide, thoughtful local planning and the freedom to change things along the way.",
+    "points": [
+      "Designed around you.",
+      "Matched to the right chauffeur.",
+      "Adapted while you travel."
+    ],
+    "slides": [
+      "images/homepage/homepage1.jpg",
+      "images/homepage/homepage2.jpg",
+      "images/homepage/homepage3.jpg",
+      "images/homepage/homepage4.jpg",
+      "images/homepage/homepage5.png",
+      "images/homepage/homepage6.jpg"
+    ]
+  },
+  "about": {
+    "title": "Your version of Sri Lanka.",
+    "paragraphs": [
+      "Some travellers want sunrise hikes and full days of exploring. Others want slow mornings, beautiful hotels and time to enjoy the journey.",
+      "That is why we do not start with a package.",
+      "We start by understanding you, your pace, interests, travel style and the experiences you would rather avoid.",
+      "Then we design Sri Lanka around that."
+    ],
+    "steps": [
+      {
+        "title": "We learn how you travel",
+        "text": "Not only where you want to go. We consider your pace, interests, comfort, food preferences, activity level and the kind of experience you want from Sri Lanka."
+      },
+      {
+        "title": "We design the route",
+        "text": "Your journey is planned around realistic travel times, worthwhile stops and experiences that actually suit you, not around filling every hour of the day."
+      },
+      {
+        "title": "We match your chauffeur-guide",
+        "text": "Your chauffeur will be one of the most important people during your journey. We aim to match travellers with someone suitable for their travel style."
+      },
+      {
+        "title": "We stay flexible",
+        "text": "Your holiday does not become fixed the moment you arrive. If plans, weather, energy levels or interests change, we help adapt the journey."
+      }
+    ]
+  },
+  "why": {
+    "title": "Why LankaLux",
+    "items": [
+      {
+        "action": "journeys",
+        "title": "Designed Around You",
+        "text": "Not a fixed route with your name added to it."
+      },
+      {
+        "action": "chauffeur",
+        "title": "Your Own Chauffeur-Guide",
+        "text": "One dedicated chauffeur-guide throughout your journey."
+      },
+      {
+        "action": "flexibility",
+        "title": "Freedom to Change",
+        "text": "Your itinerary stays flexible while you travel."
+      },
+      {
+        "action": "contact",
+        "title": "Support When You Need It",
+        "text": "Direct LankaLux assistance throughout your stay."
+      }
+    ],
+    "images": [
+      "images/signaturejourney/sigjhp1.jpg",
+      "images/fleet/voxy1.jpg",
+      "images/homepage/homepage4.jpg",
+      "images/homepage/homepage3.jpg"
+    ]
+  },
+  "services": {
+    "title": "The practical side is taken care of too.",
+    "items": [
+      {
+        "title": "Registered Tour Operator",
+        "text": "Officially operating within Sri Lanka's tourism framework with professional standards."
+      },
+      {
+        "title": "Licensed Chauffeur-Guides",
+        "text": "Experienced, professionally licensed chauffeur-guides ensuring comfort and safety throughout your journey."
+      },
+      {
+        "title": "Fully Insured Vehicles",
+        "text": "Modern, well-maintained vehicles covered by comprehensive insurance policies. Insurance coverage extends to travelers as well."
+      },
+      {
+        "title": "Airline Ticket Assistance",
+        "text": "We assist with booking and arranging airline tickets for your journey to Sri Lanka."
+      }
+    ]
+  },
+  "journeys": {
+    "title": "Need somewhere to start?",
+    "intro": "These are not fixed packages. They are starting points. Choose a journey you like and we will reshape it around you. See our <a href=\"/journeys\">signature journeys</a> or begin a <a href=\"/tailor-made-sri-lanka-tours\">tailor-made tour</a>.",
+    "items": [
+      {
+        "href": "/signature-journey",
+        "title": "Signature Sri Lanka Journey",
+        "images": [
+          {
+            "src": "images/signaturejourney/sigjhp1.jpg",
+            "alt": "Signature Sri Lanka journey landscape"
+          },
+          {
+            "src": "images/highlights/cultural/sigirya.jpg",
+            "alt": "Sigiriya Rock Fortress in Sri Lanka"
+          },
+          {
+            "src": "images/highlights/cultural/kandy.jpg",
+            "alt": "Kandy in Sri Lanka"
+          },
+          {
+            "src": "images/highlights/beach/mirissa.jpg",
+            "alt": "Mirissa beach in Sri Lanka"
+          }
+        ]
+      },
+      {
+        "href": "/nature-wildlife-journey",
+        "title": "Nature & Wildlife Discovery Journey",
+        "images": [
+          {
+            "src": "images/naturewildlife/wildlifehp1.jpg",
+            "alt": "Sri Lanka wildlife landscape"
+          },
+          {
+            "src": "images/naturewildlife/day2.jpg",
+            "alt": "Yala National Park in Sri Lanka"
+          },
+          {
+            "src": "images/naturewildlife/day3.jpg",
+            "alt": "Wildlife safari in Sri Lanka"
+          },
+          {
+            "src": "images/highlights/wildlife/elephant.jpg",
+            "alt": "Elephants in Sri Lanka"
+          }
+        ]
+      },
+      {
+        "href": "/hill-country-journey",
+        "title": "Hill Country & Scenic Rail Journey",
+        "images": [
+          {
+            "src": "images/hillcountry/hillcountryhp.jpg",
+            "alt": "Sri Lanka hill country landscape"
+          },
+          {
+            "src": "images/hillcountry/day3.jpg",
+            "alt": "Scenic train through Sri Lanka hill country"
+          },
+          {
+            "src": "images/hillcountry/day4.jpg",
+            "alt": "Nuwara Eliya in Sri Lanka"
+          },
+          {
+            "src": "images/highlights/tea/damrotea.jpg",
+            "alt": "Tea country in Sri Lanka"
+          }
+        ]
+      },
+      {
+        "href": "/coastal-retreat-journey",
+        "title": "Coastal Retreat Journey",
+        "images": [
+          {
+            "src": "images/coastalretreat/coastalhp.jpg",
+            "alt": "Sri Lanka coastal landscape"
+          },
+          {
+            "src": "images/coastalretreat/day1.jpg",
+            "alt": "Arugam Bay in Sri Lanka"
+          },
+          {
+            "src": "images/highlights/beach/mirissa.jpg",
+            "alt": "Mirissa beach in Sri Lanka"
+          },
+          {
+            "src": "images/coastalretreat/day7.jpg",
+            "alt": "Galle Fort in Sri Lanka"
+          }
+        ]
+      }
+    ]
+  },
+  "itineraryReview": {
+    "title": "Already planning Sri Lanka?",
+    "lead": "Send us your itinerary. We will improve it free.",
+    "paragraphs": [
+      "Already have your hotels or route planned?",
+      "Send it to us and we will look at the pacing, driving times, stops and activities, and tell you what we would change.",
+      "No obligation. No hard sell."
+    ],
+    "button": "REVIEW MY ITINERARY"
+  },
+  "chauffeur": {
+    "title": "More than assigning a driver.",
+    "paragraphs": [
+      {
+        "text": "Your chauffeur-guide may spend more time with you in Sri Lanka than anyone else.",
+        "strong": false
+      },
+      {
+        "text": "So we do not look only at which vehicle is available. We consider your travel style and aim to pair you with a chauffeur suited to your journey.",
+        "strong": false
+      },
+      {
+        "text": "Meet your chauffeur before you arrive.",
+        "strong": true
+      },
+      {
+        "text": "Selected LankaLux guests can receive a personal introduction from their chauffeur-guide before arrival.",
+        "strong": false
+      }
+    ],
+    "image": "images/fleet/voxy1.jpg"
+  },
+  "fleet": {
+    "title": "Your vehicle should fit your journey too.",
+    "lead": "From couples to families and larger groups, we match the vehicle to your group, luggage and route.",
+    "order": [
+      "voxy",
+      "kdh-flat",
+      "kdh-high",
+      "sedan",
+      "party-bus"
+    ],
+    "vehicles": {
+      "voxy": {
+        "title": "Toyota Voxy",
+        "microLabel": "Comfort and Space",
+        "badge": "Most Popular Choice",
+        "description": "Thoughtfully designed for comfort and versatility, the Toyota Voxy is the preferred choice for most LankaLux journeys. Its spacious seating, smooth suspension, and quiet cabin make long drives feel relaxed rather than tiring. With excellent air conditioning, generous luggage space, and easy access, it is ideal for couples, families, and small groups exploring Sri Lanka at an unhurried pace. Reliable, comfortable, and discreet, the Voxy blends practicality with refinement, making it perfectly suited for multi day travel across the island.",
+        "images": [
+          "images/fleet/voxy1.jpg",
+          "images/fleet/voxy2.jpg",
+          "images/fleet/voxy3.jpg"
+        ]
+      },
+      "kdh-flat": {
+        "title": "Toyota KDH (Flat Roof)",
+        "microLabel": "Group Travel",
+        "description": "A dependable and comfortable option for private group travel, the Toyota KDH Flat Roof offers ample seating while remaining easy to navigate across both city roads and rural routes. It is well suited for families and small groups who want space without feeling oversized. The interior is designed for practicality and comfort, making it a solid choice for day trips and multi stop itineraries where ease and reliability matter most.",
+        "images": [
+          "images/fleet/flatroof1.jpg",
+          "images/fleet/flatroof2.jpg",
+          "images/fleet/flatroof3.jpg"
+        ]
+      },
+      "kdh-high": {
+        "title": "Toyota KDH (High Roof)",
+        "microLabel": "Extended Journeys",
+        "description": "Designed for longer journeys and guests who value extra room, the High Roof KDH provides a noticeably airy and spacious interior. With increased headroom and comfortable seating, it allows passengers to move easily during extended drives. This vehicle is ideal for larger groups, longer itineraries, and trips involving significant luggage, offering a relaxed environment that supports flexible travel days across Sri Lanka.",
+        "images": [
+          "images/fleet/highroof1.jpg",
+          "images/fleet/highroof2.jpg",
+          "images/fleet/highroof3.jpg"
+        ]
+      },
+      "sedan": {
+        "title": "Sedan Type (Comfort Class)",
+        "microLabel": "Private Transfers",
+        "description": "Ideal for solo travellers or couples, the sedan option offers a smooth and discreet way to move through Sri Lanka. It is well suited for airport transfers, city travel, and shorter regional drives where simplicity and privacy are preferred. With a comfortable ride and understated presence, this option is perfect for guests who value efficiency and a calm travel experience.",
+        "images": [
+          "images/fleet/sedan1.jpg",
+          "images/fleet/sedan2.jpg",
+          "images/fleet/sedan3.jpg"
+        ]
+      },
+      "party-bus": {
+        "title": "Ashok Leyland Party Bus",
+        "microLabel": "Celebrations and Events",
+        "description": "This is where restraint ends and the celebration begins. The Ashok Leyland Party Bus is built for groups who want the journey itself to be unforgettable. Designed for music, movement, and atmosphere, it turns every drive into an event. Laughter, loud playlists, drinks flowing, smoke in the air, and energy that carries through the night, this bus is unapologetically bold. Ideal for birthdays, group celebrations, and wild nights across Sri Lanka, it is best enjoyed responsibly and remembered long after the lights go out.",
+        "images": [
+          "images/fleet/partybus1.jpg",
+          "images/fleet/partybus2.jpg",
+          "images/fleet/partybus3.jpg"
+        ]
+      }
+    }
+  },
+  "filmMoment": "images/highlights/beach/mirissa.jpg",
+  "flexibility": {
+    "title": "Your itinerary is a plan, not a rulebook.",
+    "paragraphs": [
+      "Maybe you wake up tired in Ella.",
+      "Maybe you loved wildlife and want another safari.",
+      "Maybe rain changes the day.",
+      "Maybe you discover somewhere you want to stay longer.",
+      "Where possible, LankaLux helps reshape the journey while you travel instead of forcing you to follow a plan that no longer suits you. Hotel, train and safari bookings may still carry change fees."
+    ]
+  },
+  "promise": {
+    "title": "Travel with clarity.",
+    "lead": "You should know what you are booking, what is included and who is looking after you.",
+    "items": [
+      "No unwanted shopping stops",
+      "No hidden chauffeur expenses",
+      "No forced hotel choices",
+      "No intentionally overloaded itineraries",
+      "Clear inclusions before you book",
+      "Support throughout your journey"
+    ],
+    "note": "Book your own hotels, let LankaLux arrange them, or combine both. Your journey does not have to fit into a package."
+  },
+  "moment": {
+    "title": "And one thing we will not put on your itinerary.",
+    "paragraphs": [
+      "Every journey leaves room for something unexpected.",
+      "A local breakfast. A sunset stop. A small family-run experience. Somewhere your chauffeur thinks you should see.",
+      "The best moments in Sri Lanka are not always the ones planned months in advance."
+    ]
+  },
+  "fromTheRoad": {
+    "title": "From the road.",
+    "lead": "Real journeys. Real moments. Sri Lanka as it happens.",
+    "cards": [
+      {
+        "title": "Tea country",
+        "image": "images/highlights/tea/stclairs.jpg",
+        "href": "https://www.instagram.com/lanka.lux/"
+      },
+      {
+        "title": "On safari",
+        "image": "images/highlights/wildlife/leopard.jpg",
+        "href": "https://www.instagram.com/lanka.lux/"
+      },
+      {
+        "title": "The south coast",
+        "image": "images/highlights/beach/mirissa.jpg",
+        "href": "https://www.instagram.com/lanka.lux/"
+      }
+    ]
+  },
+  "highlights": {
+    "title": "Sri Lanka Highlights",
+    "order": [
+      "cultural",
+      "tea",
+      "wildlife",
+      "beach"
+    ],
+    "data": {
+      "cultural": {
+        "title": "Cultural Heritage",
+        "description": "Discover the ancient wonders of Sri Lanka, from the sacred city of Kandy with its Temple of the Tooth Relic to the magnificent rock fortress of Sigiriya. Explore UNESCO World Heritage sites including the ancient cities of Anuradhapura and Polonnaruwa, where centuries of history come alive through intricate stone carvings, towering stupas, and well-preserved ruins.",
+        "images": [
+          "images/highlights/cultural/sigirya.jpg",
+          "images/highlights/cultural/kandy.jpg",
+          "images/highlights/cultural/atamasthana.jpg"
+        ]
+      },
+      "tea": {
+        "title": "Tea Country",
+        "description": "Journey through the misty hills of Nuwara Eliya and the rolling tea plantations that produce some of the world's finest Ceylon tea. Visit traditional tea factories, meet local tea pluckers, and enjoy breathtaking mountain scapes. Experience the cool climate and colonial charm of hill country towns while sipping freshly brewed tea overlooking endless emerald-green terraces.",
+        "images": [
+          "images/highlights/tea/damrotea.jpg",
+          "images/highlights/tea/stclairs.jpg",
+          "images/highlights/tea/gregorylake.jpg"
+        ]
+      },
+      "wildlife": {
+        "title": "Wildlife Safaris",
+        "description": "Embark on unforgettable wildlife encounters in Yala, Udawalawe, and Wilpattu National Parks. Spot leopards, elephants, sloth bears, and a diverse array of bird species in their natural habitats. Experience the thrill of early morning and evening game drives, guided by expert naturalists who share their deep knowledge of Sri Lanka's rich biodiversity and conservation efforts.",
+        "images": [
+          "images/highlights/wildlife/leopard.jpg",
+          "images/highlights/wildlife/bear.jpg",
+          "images/highlights/wildlife/elephant.jpg"
+        ]
+      },
+      "beach": {
+        "title": "Beach Escapes",
+        "description": "Relax on pristine golden beaches along Sri Lanka's stunning coastline. From the vibrant shores of Mirissa and Unawatuna to the tranquil bays of Pasikudah and Arugam Bay, discover perfect spots for swimming, surfing, and sunset watching. Enjoy fresh seafood, water sports, and the warm hospitality of coastal communities in these tropical paradises.",
+        "images": [
+          "images/highlights/beach/mirissa.jpg",
+          "images/highlights/beach/arugambay.jpg",
+          "images/highlights/beach/platter.jpg"
+        ]
+      }
+    }
+  },
+  "reviewsTitle": "The parts we could not have planned.",
+  "reviews": [
+    {
+      "quote": "While visiting the Kalutara temple, our chauffeur Shantha welcomed us into his nearby home. His wife prepared a homemade meal, let us try making hoppers, and even gifted us the equipment. This was not charged at all, just pure generosity, and became one of our favorite moments of the trip.",
+      "author": "Michael & Amina, Dubai"
+    },
+    {
+      "quote": "We never felt rushed with Shantha. If we wanted to stop somewhere or change plans a bit, it was never a problem. That made the trip feel relaxed.",
+      "author": "Arjun & Neha, India"
+    },
+    {
+      "quote": "Long drives can be tiring, but with Shantha it didn’t feel like that. Smooth driving, good music, and the Voxy had plenty of space for us and our luggage.",
+      "author": "Omar A, Dubai"
+    },
+    {
+      "quote": "Shantha was always calm and friendly, even on long driving days. The Toyota Voxy was very comfortable and clean, so traveling never felt tiring.",
+      "author": "Dmitry K, Russia"
+    },
+    {
+      "quote": "Everything felt quite easy throughout the trip. Pickups were on time, the car was comfortable, and we didn’t really have to think about planning once we arrived. It was a very smooth experience overall.",
+      "author": "Min-Joon & Soo-Yeon, South Korea"
+    },
+    {
+      "quote": "Exactly the kind of journey we wanted, without stress or compromises.",
+      "author": "Emma R, United Kingdom"
+    },
+    {
+      "quote": "Excellent trip organization. Every detail was thoughtfully planned, and we felt like special guests throughout our journey.",
+      "author": "Ivan & Elena P, Russia"
+    },
+    {
+      "quote": "Sri Lanka was amazing. The culture, the people, and the food were all unforgettable. We enjoyed great meals, fun nights, and so many memorable moments. Big thanks to LankaLux for organizing everything so well.",
+      "author": "Oren & Maya, Israel"
+    },
+    {
+      "quote": "An absolutely incredible experience from start to finish. The attention to detail and personalized service exceeded all our expectations.",
+      "author": "Jennifer & Michael T, United States"
+    }
+  ],
+  "how": {
+    "title": "How your LankaLux journey comes together",
+    "steps": [
+      {
+        "title": "Tell us how you travel",
+        "text": "Dates are only the beginning. Tell us the pace, places and experiences you actually enjoy."
+      },
+      {
+        "title": "See your LankaLux journey",
+        "text": "We create the proposed route and refine it with you."
+      },
+      {
+        "title": "Meet your chauffeur-guide",
+        "text": "Before arrival, you will know who is looking after you."
+      },
+      {
+        "title": "Arrive in Sri Lanka",
+        "text": "Your private journey begins."
+      },
+      {
+        "title": "Change something? Tell us.",
+        "text": "Your journey can adapt while you are travelling."
+      }
+    ]
+  },
+  "faq": {
+    "title": "A Few Practical Answers",
+    "items": [
+      {
+        "q": "What is included in a LankaLux journey?",
+        "a": "A private vehicle for your stay, airport pickup and drop-off, an English-speaking chauffeur-guide, and a custom itinerary. Hotels can be yours, arranged by LankaLux, or a mix of both. We plan the days around you rather than a fixed group package."
+      },
+      {
+        "q": "Is the chauffeur also a guide?",
+        "a": "Yes. You travel with a dedicated <a href=\"/private-chauffeur-guide-sri-lanka\">private chauffeur-guide</a>: one person who drives, helps with pacing, and shares local context. We do not describe this as a licensed national-guide qualification."
+      },
+      {
+        "q": "Are safari jeeps, trains and entrance fees included?",
+        "a": "Train tickets, safari jeep excursions, attraction entrance fees and optional activities are not included unless we specifically say so. We can arrange them where possible, with applicable fees paid separately or on site."
+      },
+      {
+        "q": "How do we start planning?",
+        "a": "Share dates, who is travelling, and the kind of pace you like. We send a custom itinerary, then refine it with you. You can write to us, use WhatsApp, or begin from one of our <a href=\"/journeys\">journey ideas</a>."
+      },
+      {
+        "q": "Can we travel with children?",
+        "a": "Yes. We pace the days more gently, choose suitable vehicles, and keep room for rest. See <a href=\"/sri-lanka-family-tours\">Sri Lanka family tours</a> for how we usually approach it."
+      },
+      {
+        "q": "Are the journeys on the website fixed packages?",
+        "a": "No. They are starting points. Choose a journey you like and we will reshape it around you."
+      },
+      {
+        "q": "Which vehicles can we travel in?",
+        "a": "We match the vehicle to your group, luggage and route. Options include a Toyota Voxy, Toyota KDH vans and a sedan. See <a href=\"#fleet\">Our Fleet</a>."
+      },
+      {
+        "q": "Can you review an itinerary we already have?",
+        "a": "Yes. Send your current hotels or route and we will look at pacing, driving times, stops and activities, and tell you what we would change. There is no obligation. Start from <a href=\"#itinerary-review\">Already planning Sri Lanka?</a>"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Tell us how you want to experience Sri Lanka.",
+    "text": "You do not need to know the perfect route yet. Tell us your dates, interests and travel style. We will help shape the rest."
+  }
+}

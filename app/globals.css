@@ -1,0 +1,344 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Tokens                                                              */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-forest-950: #0a1912;
+  --color-forest-900: #0e2219;
+  --color-forest-800: #14301f;
+  --color-forest-700: #1e4030;
+  --color-forest-600: #2c5640;
+  --color-ivory: #f4efe4;
+  --color-paper: #faf7f0;
+  --color-sand: #e9e1cf;
+  --color-ink: #13261c;
+  --color-ink-soft: #46574c;
+  --color-mist: #b9c4b7;
+  --color-gold: #c2a266;
+  --color-gold-bright: #d4b878;
+
+  --font-display: var(--font-gambetta), "Times New Roman", serif;
+  --font-sans: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
+
+  /* Five sizes do the visible work. */
+  --text-wordmark: clamp(4.5rem, 18.5vw, 19rem);
+  --text-display: clamp(3rem, 7.6vw, 8.5rem);
+  --text-title: clamp(2.25rem, 4.4vw, 4.75rem);
+  --text-statement: clamp(1.375rem, 2.1vw, 2.125rem);
+  --text-body: clamp(1.0625rem, 0.35vw + 0.98rem, 1.1875rem);
+  --text-small: 0.875rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-cine: cubic-bezier(0.7, 0, 0.2, 1);
+
+  --spacing-gutter: clamp(1rem, 3.2vw, 3rem);
+  --spacing-section: clamp(7rem, 14vw, 13.75rem);
+}
+
+:root {
+  --header-h: 5rem;
+  /* z-index scale */
+  --z-footer: 0;
+  --z-main: 1;
+  --z-header: 40;
+  --z-menu: 35;
+  --z-dialog: 60;
+  --z-curtain: 80;
+  --z-cursor: 90;
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-forest-950);
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.58;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    font-feature-settings: "ss01", "kern";
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-forest-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img {
+    user-select: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Components                                                          */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 104rem;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  .measure {
+    max-width: 62ch;
+  }
+
+  /* Rich text from the original pages */
+  .prose-lux {
+    max-width: 66ch;
+    font-size: var(--text-body);
+    line-height: 1.66;
+  }
+  .prose-lux h2 {
+    font-size: var(--text-title);
+    margin-top: clamp(4rem, 8vw, 7rem);
+    margin-bottom: 1.5rem;
+    max-width: 18ch;
+  }
+  .prose-lux h2:first-child {
+    margin-top: 0;
+  }
+  .prose-lux h3 {
+    font-size: var(--text-statement);
+    margin: 2.5rem 0 1rem;
+  }
+  .prose-lux p + p {
+    margin-top: 1.1em;
+  }
+  .prose-lux ul {
+    margin: 1.25rem 0;
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+  .prose-lux li + li {
+    margin-top: 0.5em;
+  }
+  .prose-lux a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+    transition: text-decoration-color 0.3s var(--ease-out-quart), color 0.3s var(--ease-out-quart);
+  }
+  .prose-lux a:hover {
+    text-decoration-color: currentColor;
+  }
+  .prose-lux .page-note {
+    margin-top: 2.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-sand);
+    font-size: 1rem;
+  }
+
+  /* Buttons: one shape, square-cornered. */
+  .btn {
+    --btn-bg: var(--color-gold);
+    --btn-fg: var(--color-forest-950);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 3.25rem;
+    padding: 0 1.6rem;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.45s var(--ease-out-expo), color 0.45s var(--ease-out-expo);
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-hover, var(--color-gold-bright));
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-out-expo);
+  }
+  .btn:hover::before {
+    transform: translateY(0);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-ivory {
+    --btn-bg: var(--color-ivory);
+    --btn-fg: var(--color-forest-950);
+    --btn-hover: var(--color-paper);
+  }
+  .btn-forest {
+    --btn-bg: var(--color-forest-900);
+    --btn-fg: var(--color-ivory);
+    --btn-hover: var(--color-forest-700);
+  }
+  .btn-arrow {
+    display: inline-block;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .btn:hover .btn-arrow,
+  .link-arrow:hover .btn-arrow {
+    transform: translateX(0.3rem);
+  }
+
+  .link-arrow {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 500;
+    padding-block: 0.4rem;
+    cursor: pointer;
+  }
+  .link-arrow::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.2rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.55s var(--ease-out-expo);
+  }
+  .link-arrow:hover::after,
+  .link-arrow[aria-current="page"]::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Darken photographs evenly where type sits on them. */
+  .photo-dim {
+    filter: brightness(0.72);
+  }
+  .scrim-bottom {
+    background: linear-gradient(to top, rgb(10 25 18 / 0.72), rgb(10 25 18 / 0) 60%);
+  }
+  .scrim-top {
+    background: linear-gradient(to bottom, rgb(10 25 18 / 0.55), rgb(10 25 18 / 0));
+  }
+
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--color-gold);
+    color: var(--color-forest-950);
+    transform: translateY(-200%);
+  }
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+html:not(.preload) .lux-preloader {
+  display: none;
+}
+html.preload header,
+html.preload .llx-chat-fab {
+  visibility: hidden;
+}
+
+/* The footer is uncovered from underneath where it fits one screen. */
+@media (min-width: 1024px) and (min-height: 760px) {
+  .lux-footer {
+    position: sticky;
+    bottom: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion: content is hidden only while the motion system is running.  */
+/* ------------------------------------------------------------------ */
+html.motion [data-reveal]:not([data-immediate]),
+html.motion [data-reveal-group]:not([data-immediate]) > *,
+html.motion [data-split]:not([data-immediate]) {
+  visibility: hidden;
+}
+/* First-screen text is painted at once on phones (it is the LCP); large screens reveal it. */
+@media (min-width: 1024px) {
+  html.motion [data-reveal][data-immediate],
+  html.motion [data-reveal-group][data-immediate] > *,
+  html.motion [data-split][data-immediate] {
+    visibility: hidden;
+  }
+}
+html.motion [data-clip] {
+  clip-path: inset(100% 0 0 0);
+}
+.split-line-mask {
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

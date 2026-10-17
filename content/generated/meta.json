@@ -1,0 +1,1276 @@
+{
+  "/": {
+    "title": "LankaLux | Bespoke Journeys Across Sri Lanka",
+    "description": "Private Sri Lanka tours with a chauffeur-guide and a custom itinerary, designed around how you like to travel. Not a tour package. Plan a tailor-made journey with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/",
+      "title": "LankaLux | Bespoke Journeys Across Sri Lanka",
+      "description": "Private Sri Lanka tours with a chauffeur-guide and a custom itinerary, designed around how you like to travel. Not a tour package.",
+      "image": "https://lankalux.com/images/homepage/homepage1.jpg",
+      "imageAlt": "Sri Lanka landscape on a LankaLux journey",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "LankaLux | Bespoke Journeys Across Sri Lanka",
+      "description": "Private Sri Lanka tours with a chauffeur-guide and a custom itinerary, designed around how you like to travel. Not a tour package.",
+      "image": "https://lankalux.com/images/homepage/homepage1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "LankaLux",
+        "alternateName": "Lanka Lux",
+        "url": "https://lankalux.com/",
+        "description": "Tailor-made private Sri Lanka tours with a chauffeur-guide and a custom itinerary, designed around how you like to travel."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "LankaLux",
+        "alternateName": "Lanka Lux",
+        "description": "Private chauffeur-guide journeys across Sri Lanka. Custom itineraries for culture, wildlife, hill country and coast, shaped around how you like to travel.",
+        "url": "https://lankalux.com/",
+        "logo": "https://lankalux.com/lankalux-logo.png",
+        "image": "https://lankalux.com/images/homepage/homepage1.jpg",
+        "areaServed": {
+          "@type": "Country",
+          "name": "Sri Lanka"
+        },
+        "email": "hello@lankalux.com",
+        "telephone": "+94763261788",
+        "sameAs": [
+          "https://www.instagram.com/lanka.lux/",
+          "https://www.facebook.com/profile.php?id=61585804686778"
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is included in a LankaLux journey?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A private vehicle for your stay, airport pickup and drop-off, an English-speaking chauffeur-guide, and a custom itinerary. Hotels can be yours, arranged by LankaLux, or a mix of both."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is the chauffeur also a guide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. You travel with a dedicated private chauffeur-guide: one person who drives, helps with pacing, and shares local context. LankaLux does not describe this as a licensed national-guide qualification."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are safari jeeps, trains and entrance fees included?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Train tickets, safari jeep excursions, attraction entrance fees and optional activities are not included unless specifically stated. They can be arranged where possible, with applicable fees paid separately or on site."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do we start planning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Share dates, who is travelling, and the kind of pace you like. LankaLux sends a custom itinerary, then refines it with you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can we travel with children?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Days can be paced more gently, with suitable vehicles and room for rest."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are the journeys on the website fixed packages?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. They are starting points. Choose a journey you like and LankaLux will reshape it around you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which vehicles can we travel in?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "LankaLux matches the vehicle to your group, luggage and route. Options include a Toyota Voxy, Toyota KDH vans and a sedan."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you review an itinerary we already have?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Send your current hotels or route and LankaLux will look at pacing, driving times, stops and activities, and tell you what it would change. There is no obligation."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "/journeys": {
+    "title": "Sri Lanka Journey Ideas | Culture, Wildlife, Hills & Coast | LankaLux",
+    "description": "Explore LankaLux journey ideas across Sri Lanka: a signature island route, wildlife safaris, hill country and scenic rail, or a coastal retreat. Private chauffeur-guide and handpicked stays.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/journeys",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/journeys",
+      "title": "Sri Lanka Journey Ideas | Culture, Wildlife, Hills & Coast | LankaLux",
+      "description": "Signature, wildlife, hill country, and coastal journey ideas, each with a private chauffeur-guide and handpicked stays.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg",
+      "imageAlt": "Signature Sri Lanka journey landscape",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka Journey Ideas | LankaLux",
+      "description": "Signature, wildlife, hill country, and coastal journey ideas with a private chauffeur-guide.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Journeys",
+            "item": "https://lankalux.com/journeys"
+          }
+        ]
+      }
+    ]
+  },
+  "/404": {
+    "title": "Page not found | LankaLux",
+    "description": "This page is not on the LankaLux website. Return home to explore tailor-made Sri Lanka journeys.",
+    "robots": "noindex, follow",
+    "canonical": null,
+    "og": {
+      "type": null,
+      "url": null,
+      "title": null,
+      "description": null,
+      "image": null,
+      "imageAlt": null,
+      "siteName": null,
+      "locale": null
+    },
+    "twitter": {
+      "card": null,
+      "title": null,
+      "description": null,
+      "image": null
+    },
+    "jsonLd": []
+  },
+  "/10-day-sri-lanka-itinerary": {
+    "title": "10-Day Sri Lanka Itinerary for First-Time Visitors | LankaLux",
+    "description": "A practical 10-day Sri Lanka itinerary: culture, hill country, wildlife and coast, travelled with a private chauffeur-guide. Then tailor it with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/10-day-sri-lanka-itinerary",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/10-day-sri-lanka-itinerary",
+      "title": "10-Day Sri Lanka Itinerary for First-Time Visitors | LankaLux",
+      "description": "A practical 10-day Sri Lanka itinerary: culture, hill country, wildlife and coast, travelled with a private chauffeur-guide. Then tailor it with LankaLux.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg",
+      "imageAlt": "Ten-day Sri Lanka journey landscape",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "10-Day Sri Lanka Itinerary for First-Time Visitors | LankaLux",
+      "description": "A practical 10-day Sri Lanka itinerary: culture, hill country, wildlife and coast, travelled with a private chauffeur-guide. Then tailor it with LankaLux.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "10-day itinerary",
+            "item": "https://lankalux.com/10-day-sri-lanka-itinerary"
+          }
+        ]
+      }
+    ]
+  },
+  "/private-chauffeur-guide-sri-lanka": {
+    "title": "Private Chauffeur-Guide in Sri Lanka | LankaLux",
+    "description": "Travel Sri Lanka with a dedicated English-speaking chauffeur-guide and a private vehicle from airport to airport. How LankaLux plans tailor-made journeys.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/private-chauffeur-guide-sri-lanka",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/private-chauffeur-guide-sri-lanka",
+      "title": "Private Chauffeur-Guide in Sri Lanka | LankaLux",
+      "description": "Travel Sri Lanka with a dedicated English-speaking chauffeur-guide and a private vehicle from airport to airport. How LankaLux plans tailor-made journeys.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg",
+      "imageAlt": "LankaLux private vehicle in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Private Chauffeur-Guide in Sri Lanka | LankaLux",
+      "description": "Travel Sri Lanka with a dedicated English-speaking chauffeur-guide and a private vehicle from airport to airport. How LankaLux plans tailor-made journeys.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Private chauffeur-guide",
+            "item": "https://lankalux.com/private-chauffeur-guide-sri-lanka"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Private Chauffeur-Guide in Sri Lanka",
+        "url": "https://lankalux.com/private-chauffeur-guide-sri-lanka",
+        "isPartOf": {
+          "@type": "TravelAgency",
+          "name": "LankaLux",
+          "url": "https://lankalux.com/"
+        }
+      }
+    ]
+  },
+  "/tailor-made-sri-lanka-tours": {
+    "title": "Tailor-Made Sri Lanka Tours | LankaLux",
+    "description": "Custom Sri Lanka itineraries with a private chauffeur-guide, handpicked stays, and a vehicle for your whole trip. Not a fixed group package.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/tailor-made-sri-lanka-tours",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/tailor-made-sri-lanka-tours",
+      "title": "Tailor-Made Sri Lanka Tours | LankaLux",
+      "description": "Custom Sri Lanka itineraries with a private chauffeur-guide, handpicked stays, and a vehicle for your whole trip. Not a fixed group package.",
+      "image": "https://lankalux.com/images/homepage/homepage1.jpg",
+      "imageAlt": "Sri Lanka landscape for a tailor-made journey",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Tailor-Made Sri Lanka Tours | LankaLux",
+      "description": "Custom Sri Lanka itineraries with a private chauffeur-guide, handpicked stays, and a vehicle for your whole trip. Not a fixed group package.",
+      "image": "https://lankalux.com/images/homepage/homepage1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tailor-made tours",
+            "item": "https://lankalux.com/tailor-made-sri-lanka-tours"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Tailor-Made Sri Lanka Tours",
+        "url": "https://lankalux.com/tailor-made-sri-lanka-tours"
+      }
+    ]
+  },
+  "/sri-lanka-family-tours": {
+    "title": "Sri Lanka Family Tours with a Private Chauffeur-Guide | LankaLux",
+    "description": "Tailor-made Sri Lanka travel with children: a private vehicle, a dedicated chauffeur-guide, gentler pacing, and room to rest.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/sri-lanka-family-tours",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/sri-lanka-family-tours",
+      "title": "Sri Lanka Family Tours with a Private Chauffeur-Guide | LankaLux",
+      "description": "Tailor-made Sri Lanka travel with children: a private vehicle, a dedicated chauffeur-guide, gentler pacing, and room to rest.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg",
+      "imageAlt": "Family-friendly private vehicle in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka Family Tours with a Private Chauffeur-Guide | LankaLux",
+      "description": "Tailor-made Sri Lanka travel with children: a private vehicle, a dedicated chauffeur-guide, gentler pacing, and room to rest.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Family tours",
+            "item": "https://lankalux.com/sri-lanka-family-tours"
+          }
+        ]
+      }
+    ]
+  },
+  "/signature-journey": {
+    "title": "10-Day Signature Sri Lanka Tour with Private Chauffeur-Guide | LankaLux",
+    "description": "A 10-day signature Sri Lanka journey covering culture, ancient cities, wildlife and the coast, with a private chauffeur-guide and handpicked stays. Tailor it with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/signature-journey",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/signature-journey",
+      "title": "10-Day Signature Sri Lanka Tour with Private Chauffeur-Guide | LankaLux",
+      "description": "Culture, wildlife and coast in one 10-day Sri Lanka journey, with a private chauffeur-guide and handpicked stays.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg",
+      "imageAlt": "Signature Sri Lanka journey",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "10-Day Signature Sri Lanka Tour | LankaLux",
+      "description": "Culture, wildlife and coast with a private chauffeur-guide and handpicked stays.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Journeys",
+            "item": "https://lankalux.com/journeys"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Signature Sri Lanka Journey",
+            "item": "https://lankalux.com/signature-journey"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "TouristTrip",
+        "name": "Signature Sri Lanka Journey",
+        "description": "A comprehensive 10-day journey showcasing Sri Lanka's culture, nature, wildlife, and coastal beauty, with a private chauffeur-guide.",
+        "url": "https://lankalux.com/signature-journey",
+        "provider": {
+          "@type": "TravelAgency",
+          "name": "LankaLux",
+          "url": "https://lankalux.com/"
+        },
+        "itinerary": {
+          "@type": "ItemList",
+          "numberOfItems": 10,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Arrival in Colombo"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Colombo to Sigiriya"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Cultural Triangle Exploration"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Sigiriya to Kandy"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Kandy to Nuwara Eliya"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Nuwara Eliya to Yala"
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "name": "Yala Wildlife Safari"
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "name": "Yala to Galle / Mirissa"
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "name": "Coastal Relaxation"
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "name": "Departure"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "/hill-country-journey": {
+    "title": "Sri Lanka Hill Country & Scenic Train Journey | LankaLux",
+    "description": "A hill country journey through Kandy, tea country, Nuwara Eliya and Ella, including the scenic train, with a private chauffeur-guide. Plan with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/hill-country-journey",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/hill-country-journey",
+      "title": "Sri Lanka Hill Country & Scenic Train Journey | LankaLux",
+      "description": "Kandy, tea country, Nuwara Eliya, Ella and the scenic train, with a private chauffeur-guide.",
+      "image": "https://lankalux.com/images/hillcountry/hillcountryhp.jpg",
+      "imageAlt": "Sri Lanka tea country on a LankaLux hill country journey",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka Hill Country & Scenic Train Journey | LankaLux",
+      "description": "Tea country, Ella and the scenic train with a private chauffeur-guide.",
+      "image": "https://lankalux.com/images/hillcountry/hillcountryhp.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Journeys",
+            "item": "https://lankalux.com/journeys"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Hill Country & Scenic Rail Journey",
+            "item": "https://lankalux.com/hill-country-journey"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "TouristTrip",
+        "name": "Hill Country & Scenic Rail Journey",
+        "description": "A hill country journey through tea plantations, Kandy, Nuwara Eliya, Ella and the scenic train, with a private chauffeur-guide.",
+        "url": "https://lankalux.com/hill-country-journey",
+        "provider": {
+          "@type": "TravelAgency",
+          "name": "LankaLux",
+          "url": "https://lankalux.com/"
+        }
+      }
+    ]
+  },
+  "/nature-wildlife-journey": {
+    "title": "Sri Lanka Wildlife Safari Journey with Private Chauffeur-Guide | LankaLux",
+    "description": "A nature and wildlife journey through Yala, Udawalawe, Sinharaja and Wilpattu, with a private chauffeur-guide. Tailor-made Sri Lanka safari travel with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/nature-wildlife-journey",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/nature-wildlife-journey",
+      "title": "Sri Lanka Wildlife Safari Journey with Private Chauffeur-Guide | LankaLux",
+      "description": "Yala, Udawalawe, Sinharaja and Wilpattu on a private wildlife journey with LankaLux.",
+      "image": "https://lankalux.com/images/naturewildlife/wildlifehp1.jpg",
+      "imageAlt": "Wildlife in Sri Lanka on a LankaLux journey",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka Wildlife Safari Journey | LankaLux",
+      "description": "National parks and wilderness with a private chauffeur-guide.",
+      "image": "https://lankalux.com/images/naturewildlife/wildlifehp1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Journeys",
+            "item": "https://lankalux.com/journeys"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Nature & Wildlife Discovery Journey",
+            "item": "https://lankalux.com/nature-wildlife-journey"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "TouristTrip",
+        "name": "Nature & Wildlife Discovery Journey",
+        "description": "An immersive journey focusing on Sri Lanka's biodiversity, from leopards and elephants to rainforests and national parks, with a private chauffeur-guide.",
+        "url": "https://lankalux.com/nature-wildlife-journey",
+        "provider": {
+          "@type": "TravelAgency",
+          "name": "LankaLux",
+          "url": "https://lankalux.com/"
+        }
+      }
+    ]
+  },
+  "/coastal-retreat-journey": {
+    "title": "Sri Lanka Coastal Retreat: Galle, Beaches & Private Chauffeur-Guide | LankaLux",
+    "description": "A coastal Sri Lanka journey around Arugam Bay, Mirissa and Galle Fort, with a private chauffeur-guide and handpicked stays. Tailor it with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/coastal-retreat-journey",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/coastal-retreat-journey",
+      "title": "Sri Lanka Coastal Retreat: Galle, Beaches & Private Chauffeur-Guide | LankaLux",
+      "description": "Arugam Bay, Mirissa and Galle on a coastal journey with a private chauffeur-guide.",
+      "image": "https://lankalux.com/images/coastalretreat/coastalhp.jpg",
+      "imageAlt": "Sri Lanka coast on a LankaLux coastal retreat",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka Coastal Retreat | LankaLux",
+      "description": "Galle, beaches and a private chauffeur-guide with LankaLux.",
+      "image": "https://lankalux.com/images/coastalretreat/coastalhp.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Journeys",
+            "item": "https://lankalux.com/journeys"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Coastal Retreat Journey",
+            "item": "https://lankalux.com/coastal-retreat-journey"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "TouristTrip",
+        "name": "Coastal Retreat Journey",
+        "description": "A coastal Sri Lanka journey around beaches, surf and historic Galle, with a private chauffeur-guide.",
+        "url": "https://lankalux.com/coastal-retreat-journey",
+        "provider": {
+          "@type": "TravelAgency",
+          "name": "LankaLux",
+          "url": "https://lankalux.com/"
+        }
+      }
+    ]
+  },
+  "/destinations/ella": {
+    "title": "Ella, Sri Lanka | Hill Country Journeys with LankaLux",
+    "description": "Ella and Sri Lanka tea country: the scenic train, viewpoints, and how many nights to stay on a private chauffeur-guide journey.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/ella",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/ella",
+      "title": "Ella, Sri Lanka | Hill Country Journeys with LankaLux",
+      "description": "Ella and Sri Lanka tea country: the scenic train, viewpoints, and how many nights to stay on a private chauffeur-guide journey.",
+      "image": "https://lankalux.com/images/hillcountry/hillcountryhp.jpg",
+      "imageAlt": "Hill country near Ella, Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Ella, Sri Lanka | Hill Country Journeys with LankaLux",
+      "description": "Ella and Sri Lanka tea country: the scenic train, viewpoints, and how many nights to stay on a private chauffeur-guide journey.",
+      "image": "https://lankalux.com/images/hillcountry/hillcountryhp.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Ella",
+            "item": "https://lankalux.com/destinations/ella"
+          }
+        ]
+      }
+    ]
+  },
+  "/destinations/galle": {
+    "title": "Galle, Sri Lanka | Coastal Journeys with LankaLux",
+    "description": "Galle Fort and the south coast on a private Sri Lanka journey: how long to stay, nearby beaches, and travel with a chauffeur-guide.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/galle",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/galle",
+      "title": "Galle, Sri Lanka | Coastal Journeys with LankaLux",
+      "description": "Galle Fort and the south coast on a private Sri Lanka journey: how long to stay, nearby beaches, and travel with a chauffeur-guide.",
+      "image": "https://lankalux.com/images/coastalretreat/day7.jpg",
+      "imageAlt": "Galle Fort in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Galle, Sri Lanka | Coastal Journeys with LankaLux",
+      "description": "Galle Fort and the south coast on a private Sri Lanka journey: how long to stay, nearby beaches, and travel with a chauffeur-guide.",
+      "image": "https://lankalux.com/images/coastalretreat/day7.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Galle",
+            "item": "https://lankalux.com/destinations/galle"
+          }
+        ]
+      }
+    ]
+  },
+  "/destinations/kandy": {
+    "title": "Kandy, Sri Lanka | Hill Capital on a LankaLux Journey",
+    "description": "Kandy as a gateway to Sri Lanka's hills: the Temple of the Tooth, the lake, and how it fits a private chauffeur-guide itinerary.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/kandy",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/kandy",
+      "title": "Kandy, Sri Lanka | Hill Capital on a LankaLux Journey",
+      "description": "Kandy as a gateway to Sri Lanka's hills: the Temple of the Tooth, the lake, and how it fits a private chauffeur-guide itinerary.",
+      "image": "https://lankalux.com/images/highlights/cultural/kandy.jpg",
+      "imageAlt": "Kandy in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Kandy, Sri Lanka | Hill Capital on a LankaLux Journey",
+      "description": "Kandy as a gateway to Sri Lanka's hills: the Temple of the Tooth, the lake, and how it fits a private chauffeur-guide itinerary.",
+      "image": "https://lankalux.com/images/highlights/cultural/kandy.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Kandy",
+            "item": "https://lankalux.com/destinations/kandy"
+          }
+        ]
+      }
+    ]
+  },
+  "/destinations/mirissa": {
+    "title": "Mirissa, Sri Lanka | South Coast Beaches with LankaLux",
+    "description": "Mirissa for beach days, seasonal whale watching, and an easy pairing with Galle on a private Sri Lanka coastal journey.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/mirissa",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/mirissa",
+      "title": "Mirissa, Sri Lanka | South Coast Beaches with LankaLux",
+      "description": "Mirissa for beach days, seasonal whale watching, and an easy pairing with Galle on a private Sri Lanka coastal journey.",
+      "image": "https://lankalux.com/images/highlights/beach/mirissa.jpg",
+      "imageAlt": "Mirissa beach in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Mirissa, Sri Lanka | South Coast Beaches with LankaLux",
+      "description": "Mirissa for beach days, seasonal whale watching, and an easy pairing with Galle on a private Sri Lanka coastal journey.",
+      "image": "https://lankalux.com/images/highlights/beach/mirissa.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Mirissa",
+            "item": "https://lankalux.com/destinations/mirissa"
+          }
+        ]
+      }
+    ]
+  },
+  "/destinations/sigiriya": {
+    "title": "Sigiriya, Sri Lanka | Private Journeys with LankaLux",
+    "description": "How to visit Sigiriya Rock Fortress on a private Sri Lanka journey: when to climb, how many nights nearby, and how it fits a tailor-made itinerary.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/sigiriya",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/sigiriya",
+      "title": "Sigiriya, Sri Lanka | Private Journeys with LankaLux",
+      "description": "How to visit Sigiriya Rock Fortress on a private Sri Lanka journey: when to climb, how many nights nearby, and how it fits a tailor-made itinerary.",
+      "image": "https://lankalux.com/images/highlights/cultural/sigirya.jpg",
+      "imageAlt": "Sigiriya Rock Fortress in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sigiriya, Sri Lanka | Private Journeys with LankaLux",
+      "description": "How to visit Sigiriya Rock Fortress on a private Sri Lanka journey: when to climb, how many nights nearby, and how it fits a tailor-made itinerary.",
+      "image": "https://lankalux.com/images/highlights/cultural/sigirya.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Sigiriya",
+            "item": "https://lankalux.com/destinations/sigiriya"
+          }
+        ]
+      }
+    ]
+  },
+  "/destinations/udawalawe": {
+    "title": "Udawalawe National Park | Elephants and Open Country | LankaLux",
+    "description": "Udawalawe for elephants and a calmer safari than Yala, on a private Sri Lanka wildlife journey with LankaLux.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/udawalawe",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/udawalawe",
+      "title": "Udawalawe National Park | Elephants and Open Country | LankaLux",
+      "description": "Udawalawe for elephants and a calmer safari than Yala, on a private Sri Lanka wildlife journey with LankaLux.",
+      "image": "https://lankalux.com/images/highlights/wildlife/elephant.jpg",
+      "imageAlt": "Elephants in Udawalawe, Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Udawalawe National Park | Elephants and Open Country | LankaLux",
+      "description": "Udawalawe for elephants and a calmer safari than Yala, on a private Sri Lanka wildlife journey with LankaLux.",
+      "image": "https://lankalux.com/images/highlights/wildlife/elephant.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Udawalawe",
+            "item": "https://lankalux.com/destinations/udawalawe"
+          }
+        ]
+      }
+    ]
+  },
+  "/destinations/yala": {
+    "title": "Yala National Park | Private Safari Journeys with LankaLux",
+    "description": "Visit Yala National Park on a private Sri Lanka journey: safari timing, leopards, and how LankaLux arranges jeeps beside your chauffeur-guide.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/destinations/yala",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/destinations/yala",
+      "title": "Yala National Park | Private Safari Journeys with LankaLux",
+      "description": "Visit Yala National Park on a private Sri Lanka journey: safari timing, leopards, and how LankaLux arranges jeeps beside your chauffeur-guide.",
+      "image": "https://lankalux.com/images/highlights/wildlife/leopard.jpg",
+      "imageAlt": "Leopard habitat in Yala National Park",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Yala National Park | Private Safari Journeys with LankaLux",
+      "description": "Visit Yala National Park on a private Sri Lanka journey: safari timing, leopards, and how LankaLux arranges jeeps beside your chauffeur-guide.",
+      "image": "https://lankalux.com/images/highlights/wildlife/leopard.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Yala",
+            "item": "https://lankalux.com/destinations/yala"
+          }
+        ]
+      }
+    ]
+  },
+  "/guides/best-time-to-visit-sri-lanka": {
+    "title": "Best Time to Visit Sri Lanka | LankaLux",
+    "description": "When to visit Sri Lanka: south-west and east-coast seasons, hill country, and wildlife parks. Plan a private journey around weather, not a myth of one perfect month.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/guides/best-time-to-visit-sri-lanka",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/guides/best-time-to-visit-sri-lanka",
+      "title": "Best Time to Visit Sri Lanka | LankaLux",
+      "description": "When to visit Sri Lanka: south-west and east-coast seasons, hill country, and wildlife parks. Plan a private journey around weather, not a myth of one perfect month.",
+      "image": "https://lankalux.com/images/highlights/beach/mirissa.jpg",
+      "imageAlt": "South-coast beach in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Best Time to Visit Sri Lanka | LankaLux",
+      "description": "When to visit Sri Lanka: south-west and east-coast seasons, hill country, and wildlife parks. Plan a private journey around weather, not a myth of one perfect month.",
+      "image": "https://lankalux.com/images/highlights/beach/mirissa.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Best time to visit Sri Lanka",
+            "item": "https://lankalux.com/guides/best-time-to-visit-sri-lanka"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "When is the best time to visit Sri Lanka's south coast?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The south and west are generally drier from roughly December to March. That is when Galle and Mirissa are the usual coastal chapter of a first visit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When is the east coast better?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The east is often calmer around the middle of the calendar year. A tailor-made itinerary can emphasise that coast instead of the south if those are your dates."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you visit Sri Lanka in the monsoon?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, if you accept rain on some days and choose regions accordingly. We do not promise sunshine. We do plan indoor hours, park timing and a coast that is more likely to be kind."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "/guides/chauffeur-guide-vs-self-driving": {
+    "title": "Chauffeur-Guide vs Self-Driving in Sri Lanka | LankaLux",
+    "description": "Private chauffeur-guide or a rental car in Sri Lanka? How LankaLux travels with one dedicated driver-guide, and when self-drive is a poorer fit.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/guides/chauffeur-guide-vs-self-driving",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/guides/chauffeur-guide-vs-self-driving",
+      "title": "Chauffeur-Guide vs Self-Driving in Sri Lanka | LankaLux",
+      "description": "Private chauffeur-guide or a rental car in Sri Lanka? How LankaLux travels with one dedicated driver-guide, and when self-drive is a poorer fit.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg",
+      "imageAlt": "LankaLux private vehicle in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Chauffeur-Guide vs Self-Driving in Sri Lanka | LankaLux",
+      "description": "Private chauffeur-guide or a rental car in Sri Lanka? How LankaLux travels with one dedicated driver-guide, and when self-drive is a poorer fit.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Chauffeur-guide vs self-driving",
+            "item": "https://lankalux.com/guides/chauffeur-guide-vs-self-driving"
+          }
+        ]
+      }
+    ]
+  },
+  "/guides/how-many-days-in-sri-lanka": {
+    "title": "How Many Days in Sri Lanka? | LankaLux",
+    "description": "How many days you need in Sri Lanka for a first visit: a week, ten days, or two weeks, with a private chauffeur-guide and a realistic pace.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/guides/how-many-days-in-sri-lanka",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/guides/how-many-days-in-sri-lanka",
+      "title": "How Many Days in Sri Lanka? | LankaLux",
+      "description": "How many days you need in Sri Lanka for a first visit: a week, ten days, or two weeks, with a private chauffeur-guide and a realistic pace.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg",
+      "imageAlt": "Sri Lanka journey landscape for planning trip length",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "How Many Days in Sri Lanka? | LankaLux",
+      "description": "How many days you need in Sri Lanka for a first visit: a week, ten days, or two weeks, with a private chauffeur-guide and a realistic pace.",
+      "image": "https://lankalux.com/images/signaturejourney/sigjhp1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "How many days in Sri Lanka",
+            "item": "https://lankalux.com/guides/how-many-days-in-sri-lanka"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is 7 days enough in Sri Lanka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A week can work if you drop a region rather than rushing all of them. Culture plus coast, or hills plus a park, is kinder than trying to see the whole island."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is 10 days enough for a first visit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ten days is a sensible first visit: Cultural Triangle, Kandy and tea country, a wildlife park, then the south coast. LankaLux runs this shape as the Signature journey, always adjustable."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What can you do with 14 days in Sri Lanka?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Two weeks lets you add a second park, more idle beach time, or a slower hill-country stay without stacking dawn starts."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "/guides/sri-lanka-hill-country-train": {
+    "title": "Sri Lanka Hill-Country Train | Ella & Tea Country | LankaLux",
+    "description": "The Sri Lanka hill-country train explained: Kandy to Ella, what to expect, tickets as a separate cost, and how a chauffeur-guide meets you at the station.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/guides/sri-lanka-hill-country-train",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/guides/sri-lanka-hill-country-train",
+      "title": "Sri Lanka Hill-Country Train | Ella & Tea Country | LankaLux",
+      "description": "The Sri Lanka hill-country train explained: Kandy to Ella, what to expect, tickets as a separate cost, and how a chauffeur-guide meets you at the station.",
+      "image": "https://lankalux.com/images/hillcountry/hillcountryhp.jpg",
+      "imageAlt": "Sri Lanka hill country landscape near the scenic train",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka Hill-Country Train | Ella & Tea Country | LankaLux",
+      "description": "The Sri Lanka hill-country train explained: Kandy to Ella, what to expect, tickets as a separate cost, and how a chauffeur-guide meets you at the station.",
+      "image": "https://lankalux.com/images/hillcountry/hillcountryhp.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Hill-country train",
+            "item": "https://lankalux.com/guides/sri-lanka-hill-country-train"
+          }
+        ]
+      }
+    ]
+  },
+  "/guides/sri-lanka-with-children": {
+    "title": "Sri Lanka with Children | Family Travel Notes | LankaLux",
+    "description": "Travelling Sri Lanka with children: gentler pacing, a private vehicle, a chauffeur-guide, and how many days families actually need. Not a group coach tour.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/guides/sri-lanka-with-children",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/guides/sri-lanka-with-children",
+      "title": "Sri Lanka with Children | Family Travel Notes | LankaLux",
+      "description": "Travelling Sri Lanka with children: gentler pacing, a private vehicle, a chauffeur-guide, and how many days families actually need. Not a group coach tour.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg",
+      "imageAlt": "Private van for family travel in Sri Lanka",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Sri Lanka with Children | Family Travel Notes | LankaLux",
+      "description": "Travelling Sri Lanka with children: gentler pacing, a private vehicle, a chauffeur-guide, and how many days families actually need. Not a group coach tour.",
+      "image": "https://lankalux.com/images/fleet/voxy1.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Sri Lanka with children",
+            "item": "https://lankalux.com/guides/sri-lanka-with-children"
+          }
+        ]
+      }
+    ]
+  },
+  "/guides/yala-vs-udawalawe": {
+    "title": "Yala vs Udawalawe | Which Safari Park? | LankaLux",
+    "description": "Yala or Udawalawe for a Sri Lanka safari: leopards versus elephants, crowding, how many nights, and how LankaLux arranges jeeps beside your chauffeur-guide.",
+    "robots": "index, follow",
+    "canonical": "https://lankalux.com/guides/yala-vs-udawalawe",
+    "og": {
+      "type": "website",
+      "url": "https://lankalux.com/guides/yala-vs-udawalawe",
+      "title": "Yala vs Udawalawe | Which Safari Park? | LankaLux",
+      "description": "Yala or Udawalawe for a Sri Lanka safari: leopards versus elephants, crowding, how many nights, and how LankaLux arranges jeeps beside your chauffeur-guide.",
+      "image": "https://lankalux.com/images/highlights/wildlife/leopard.jpg",
+      "imageAlt": "Wildlife in a Sri Lanka national park",
+      "siteName": "LankaLux",
+      "locale": "en_US"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Yala vs Udawalawe | Which Safari Park? | LankaLux",
+      "description": "Yala or Udawalawe for a Sri Lanka safari: leopards versus elephants, crowding, how many nights, and how LankaLux arranges jeeps beside your chauffeur-guide.",
+      "image": "https://lankalux.com/images/highlights/wildlife/leopard.jpg"
+    },
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://lankalux.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Yala vs Udawalawe",
+            "item": "https://lankalux.com/guides/yala-vs-udawalawe"
+          }
+        ]
+      }
+    ]
+  }
+}
