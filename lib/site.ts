@@ -8,6 +8,7 @@ export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61585804686
 export const ADMIN_ORIGIN = "https://admin.lankalux.com";
 export const SITE_CONTENT_URL = `${ADMIN_ORIGIN}/api/site-content`;
 export const ADMIN_REQUESTS_URL = `${ADMIN_ORIGIN}/api/requests`;
+export const CONCIERGE_URL = `${ADMIN_ORIGIN}/api/concierge`;
 
 // EmailJS account the static site already sent enquiries through.
 export const EMAILJS = { publicKey: "QUDoyR6ArRD0hqhQS", service: "service_2rzlol8", template: "template_9n2ggh3" };

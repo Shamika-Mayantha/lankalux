@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "@/components/motion/gsap";
 import { useLenis } from "@/components/motion/SmoothScroll";
 import { EMAIL, WHATSAPP_URL } from "@/lib/site";
+import { DateRange } from "./DateRange";
 import type { EnquiryRequest } from "./Enquiry";
 import { formatDateRange, sendEnquiry, type EnquiryPayload, type EnquirySource } from "./send";
 
@@ -30,11 +31,6 @@ const AGE_OPTIONS = [
   { value: "2-5", label: "2–5 years" },
   { value: "6-11", label: "6–11 years" },
 ];
-
-const today = () => {
-  const d = new Date();
-  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-};
 
 export function EnquiryDialog({ request, onClose }: { request: EnquiryRequest | null; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -204,33 +200,6 @@ function Area({ name, label, required, placeholder, defaultValue }: { name: stri
     <Field label={label + (required ? " *" : "")}>
       <textarea name={name} required={required} placeholder={placeholder} defaultValue={defaultValue} rows={5} className={`${inputCls} resize-y`} />
     </Field>
-  );
-}
-
-function DateRange({ from, to, labelFrom = "Arrival", labelTo = "Departure", title, hint, required }: {
-  from: string; to: string; labelFrom?: string; labelTo?: string; title: string; hint?: string; required?: boolean;
-}) {
-  const [start, setStart] = useState("");
-  const min = today();
-  const id = useId();
-  return (
-    <fieldset data-field>
-      <legend className="text-[0.95rem] font-medium">
-        {title}
-        {required ? " *" : ""}
-        {hint && <span className="font-normal text-ink-soft"> {hint}</span>}
-      </legend>
-      <div className="mt-2 grid grid-cols-2 gap-3">
-        <label htmlFor={id + "a"} className="text-[0.875rem] text-ink-soft">
-          {labelFrom}
-          <input id={id + "a"} type="date" name={from} min={min} required={required} onChange={(e) => setStart(e.target.value)} className={inputCls} />
-        </label>
-        <label htmlFor={id + "b"} className="text-[0.875rem] text-ink-soft">
-          {labelTo}
-          <input id={id + "b"} type="date" name={to} min={start || min} required={required} className={inputCls} />
-        </label>
-      </div>
-    </fieldset>
   );
 }
 

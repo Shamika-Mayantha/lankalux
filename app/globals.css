@@ -44,6 +44,7 @@
   --z-main: 1;
   --z-header: 40;
   --z-menu: 35;
+  --z-chat: 50;
   --z-dialog: 60;
   --z-curtain: 80;
   --z-cursor: 90;
@@ -330,6 +331,27 @@ html.motion [data-clip] {
   overflow: clip;
   padding-bottom: 0.08em;
   margin-bottom: -0.08em;
+}
+
+/* Popovers (date picker, chat) rise into place. */
+@keyframes lux-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+.lux-pop {
+  animation: lux-rise 0.5s var(--ease-out-expo) both;
+}
+@keyframes lux-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

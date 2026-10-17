@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
+import { Concierge } from "@/components/concierge/Concierge";
 import { EnquiryProvider } from "@/components/enquiry/Enquiry";
 import { Cursor } from "@/components/motion/Cursor";
 import { MotionRoot } from "@/components/motion/MotionRoot";
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <main id="main">{children}</main>
             </div>
             <Footer />
+            <Concierge />
             <PageTransition />
             <MotionRoot />
             <Cursor />
@@ -78,8 +80,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </SmoothScroll>
         <Analytics />
         <Script src="/lankalux-analytics.js" strategy="afterInteractive" />
-        <Script src="/lankalux-chat.js?v=4" strategy="lazyOnload" />
-        <link rel="stylesheet" href="/lankalux-chat.css?v=4" precedence="low" />
       </body>
     </html>
   );
