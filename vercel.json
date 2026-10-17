@@ -1,69 +1,24 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
+  "framework": "nextjs",
   "headers": [
     {
       "source": "/images/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800, stale-while-revalidate=2592000"
-        }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }]
     },
     {
       "source": "/(lankalux-logo.png|lankalux-logo-stacked.png|lankalux-mark.png|lankalux-favicon.png|lankalux-favicon.ico)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=604800, stale-while-revalidate=2592000"
-        }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }]
     },
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?<host>.*\\.vercel\\.app)"
-        }
-      ],
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
+      "has": [{ "type": "host", "value": "(?<host>.*\.vercel\.app)" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
-    {
-      "source": "/CMR",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    },
-    {
-      "source": "/CMR/:path*",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    }
+    { "source": "/CMR", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/CMR/:path*", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ],
   "redirects": [
-    {
-      "source": "/CMR",
-      "destination": "/404",
-      "permanent": false
-    },
-    {
-      "source": "/CMR/:path*",
-      "destination": "/404",
-      "permanent": false
-    }
+    { "source": "/CMR", "destination": "/404", "permanent": false },
+    { "source": "/CMR/:path*", "destination": "/404", "permanent": false }
   ]
 }

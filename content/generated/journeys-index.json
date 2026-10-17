@@ -1,0 +1,36 @@
+{
+  "h1": "Our Journeys",
+  "lead": "Thoughtfully paced itineraries across Sri Lanka—culture, wildlife, hills and tea, and coastal retreats.",
+  "intro": "Each journey is crafted for a seamless experience with a private chauffeur-guide, handpicked stays, and the flexibility to adapt to your pace. Choose a signature route or let us <a href=\"/tailor-made-sri-lanka-tours\">tailor one around you</a>.",
+  "blocks": [
+    {
+      "href": "/signature-journey",
+      "tag": "Signature",
+      "title": "Signature Sri Lanka Journey",
+      "desc": "A balanced introduction to the island—ancient cities, cultural sites, wildlife, and coast—with one seamless itinerary.",
+      "image": "images/signaturejourney/sigjhp1.jpg"
+    },
+    {
+      "href": "/nature-wildlife-journey",
+      "tag": "Wildlife & Nature",
+      "title": "Nature & Wildlife Discovery Journey",
+      "desc": "Safaris, national parks, and natural landscapes for those who want to focus on Sri Lanka’s wildlife and wilderness.",
+      "image": "images/naturewildlife/wildlifehp1.jpg"
+    },
+    {
+      "href": "/hill-country-journey",
+      "tag": "Tea & Scenery",
+      "title": "Hill Country & Scenic Rail Journey",
+      "desc": "Misty highlands, tea country, and the famous train through the hills—slow-paced and visually stunning.",
+      "image": "images/hillcountry/hillcountryhp.jpg"
+    },
+    {
+      "href": "/coastal-retreat-journey",
+      "tag": "Coast",
+      "title": "Coastal Retreat Journey",
+      "desc": "Beaches, surf, and historic Galle—a journey built around sun, sea, and relaxation.",
+      "image": "images/coastalretreat/coastalhp.jpg"
+    }
+  ],
+  "footer": "Ready to plan your trip? We’ll tailor an itinerary around you."
+}
