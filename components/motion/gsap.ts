@@ -12,6 +12,8 @@ gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, useGSAP);
 CustomEase.create("lux", "0.16, 1, 0.3, 1");
 CustomEase.create("luxInOut", "0.7, 0, 0.2, 1");
 gsap.defaults({ ease: "lux", duration: 1 });
+// Phones resize the viewport as the address bar slides away; don't re-measure pinned scenes for that.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

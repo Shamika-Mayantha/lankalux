@@ -9,8 +9,8 @@ import type { Photo as PhotoData } from "@/lib/photos";
 export type JourneyCard = { href: string; tag: string; title: string; desc: string; photo: PhotoData };
 
 /**
- * "Need somewhere to start?" On large screens the four journeys travel sideways while the
- * section holds; on phones and under reduced motion they stack.
+ * "Need somewhere to start?" The four journeys travel sideways while the section holds, on
+ * phones as well as large screens; under reduced motion they stack.
  */
 export function JourneysStrip({ title, intro, journeys }: { title: string; intro: string; journeys: JourneyCard[] }) {
   const root = useRef<HTMLElement>(null);
@@ -19,7 +19,7 @@ export function JourneysStrip({ title, intro, journeys }: { title: string; intro
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
         const el = track.current!;
         const distance = () => el.scrollWidth - window.innerWidth;
         const tween = gsap.to(el, {
@@ -50,8 +50,11 @@ export function JourneysStrip({ title, intro, journeys }: { title: string; intro
 
   return (
     <section ref={root} id="journeys" aria-labelledby="journeys-title" className="overflow-hidden bg-forest-900 text-ivory">
-      <div ref={track} className="flex flex-col gap-16 py-section lg:h-svh lg:flex-row lg:items-center lg:gap-[3vw] lg:py-0 lg:pl-[var(--spacing-gutter)] lg:pr-[8vw]">
-        <div className="wrap shrink-0 lg:w-[34vw] lg:px-0">
+      <div
+        ref={track}
+        className="flex flex-col gap-16 py-section motion-safe:h-svh motion-safe:flex-row motion-safe:items-center motion-safe:gap-[4vw] motion-safe:py-0 motion-safe:pl-[var(--spacing-gutter)] motion-safe:pr-[8vw] lg:motion-safe:gap-[3vw]"
+      >
+        <div className="wrap shrink-0 motion-safe:w-[84vw] motion-safe:px-0 lg:motion-safe:w-[34vw]">
           <h2 id="journeys-title" data-split className="text-title">
             {title}
           </h2>
@@ -62,11 +65,11 @@ export function JourneysStrip({ title, intro, journeys }: { title: string; intro
           <Link
             key={j.href}
             href={j.href}
-            className="group relative mx-[var(--spacing-gutter)] block shrink-0 lg:mx-0 lg:h-[78svh] lg:w-[min(58vw,64rem)]"
+            className="group relative mx-[var(--spacing-gutter)] block shrink-0 motion-safe:mx-0 motion-safe:h-[72svh] motion-safe:w-[84vw] lg:motion-safe:h-[78svh] lg:motion-safe:w-[min(58vw,64rem)]"
           >
-            <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10] lg:aspect-auto lg:h-full" data-clip>
+            <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10] motion-safe:aspect-auto motion-safe:h-full" data-clip>
               <div data-strip-photo className="absolute -inset-x-[10%] inset-y-0">
-                <Photo photo={j.photo} sizes="(min-width: 1024px) 64vw, (min-width: 640px) 100vw, 190vw" className="transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]" />
+                <Photo photo={j.photo} sizes="(min-width: 1024px) 64vw, 100vw" className="transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]" />
               </div>
               <div className="scrim-bottom absolute inset-0" />
               <div className="absolute inset-x-0 bottom-0 p-[clamp(1.25rem,3vw,2.75rem)]">
