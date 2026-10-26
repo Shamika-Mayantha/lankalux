@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion, useGSAP } from "@/components/motion/gsap";
 import { Magnetic } from "@/components/motion/Magnetic";
@@ -130,9 +131,9 @@ export function HomeHero({
                   Build my journey <span className="btn-arrow">→</span>
                 </button>
               </Magnetic>
-              <button type="button" className="link-arrow" onClick={() => enquire({ kind: "itinerary" })}>
-                Let us improve my itinerary, free <span className="btn-arrow">→</span>
-              </button>
+              <Link href="/journeys" className="link-arrow">
+                Explore our journeys <span className="btn-arrow">→</span>
+              </Link>
             </div>
           </div>
         </div>
