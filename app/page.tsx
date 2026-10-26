@@ -1,9 +1,8 @@
+import Link from "next/link";
 import home from "@/content/generated/home.json";
-import journeysIndex from "@/content/generated/journeys-index.json";
 import { Chapters, type Chapter } from "@/components/home/Chapters";
 import { Fleet, type Vehicle } from "@/components/home/Fleet";
 import { HomeHero } from "@/components/home/HomeHero";
-import { JourneysStrip } from "@/components/home/JourneysStrip";
 import { PlanNotRulebook } from "@/components/home/PlanNotRulebook";
 import { Preloader } from "@/components/home/Preloader";
 import { EnquiryButton } from "@/components/enquiry/Enquiry";
@@ -40,7 +39,7 @@ type VehicleKey = keyof typeof home.fleet.vehicles;
 export default async function HomePage() {
   const h = home;
 
-  const [heroPoster, aboutPhotos, chapters, journeyCards, vehicles, chauffeur, planBg, whyPhoto, roadCards, reviewBg, faqPhotos, reviews] = await Promise.all([
+  const [heroPoster, aboutPhotos, chapters, vehicles, chauffeur, planBg, whyPhoto, roadCards, reviewBg, faqPhotos, reviews] = await Promise.all([
     photo("images/hq/tea-hills.jpg", "Mist over tea estates in Sri Lanka's hill country"),
     Promise.all([
       photo("images/homepage/homepage4.jpg", "Walking through a tea estate above a lake"),
@@ -63,15 +62,6 @@ export default async function HomePage() {
           extras: await Promise.all(extras.map((k) => photo(k, data.title))),
         };
       }),
-    ),
-    Promise.all(
-      journeysIndex.blocks.map(async (b) => ({
-        href: b.href,
-        tag: b.tag,
-        title: b.title,
-        desc: b.desc,
-        photo: await photo(b.image, b.title),
-      })),
     ),
     Promise.all(
       h.fleet.order.map(async (key): Promise<Vehicle> => {
@@ -160,9 +150,16 @@ export default async function HomePage() {
           </h2>
         </div>
         <Chapters chapters={chapters} />
+        {/* Each chapter links its own journey; this is the way to all of them. */}
+        <div id="journeys" className="wrap flex flex-wrap items-center gap-x-10 gap-y-5 py-20">
+          <Link data-reveal href="/journeys" className="btn">
+            See all our journeys <span className="btn-arrow">→</span>
+          </Link>
+          <Link data-reveal href="/tailor-made-sri-lanka-tours" className="link-arrow">
+            Or start from scratch, tailor-made <span className="btn-arrow">→</span>
+          </Link>
+        </div>
       </section>
-
-      <JourneysStrip title={h.journeys.title} intro={h.journeys.intro} journeys={journeyCards} />
 
       {/* Why LankaLux and the practical side, side by side with one photograph. */}
       <section id="why" aria-labelledby="why-title" className="bg-ivory py-section">
