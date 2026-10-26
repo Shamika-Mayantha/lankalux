@@ -27,6 +27,13 @@ const CHAPTER_ROUTES: Record<string, { href: string; linkLabel: string; main: st
   beach: { href: "/coastal-retreat-journey", linkLabel: "The Coastal Retreat Journey", main: "images/coastalretreat/coastalhp.jpg", mainAlt: "Palms over the south coast" },
 };
 
+/** From the road uses photos the chapters above do not, so nothing repeats on the scroll. */
+const ROAD_CARDS = [
+  { title: "Hill country", image: "images/hq/nine-arch-bridge.jpg", alt: "The Nine Arch Bridge near Ella" },
+  { title: "On safari", image: "images/hq/elephants.jpg", alt: "Elephants on the plains" },
+  { title: "The south coast", image: "images/hq/galle-lighthouse.jpg", alt: "The lighthouse at Galle Fort" },
+];
+
 type HighlightKey = keyof typeof home.highlights.data;
 type VehicleKey = keyof typeof home.fleet.vehicles;
 
@@ -80,9 +87,9 @@ export default async function HomePage() {
       }),
     ),
     photo(h.chauffeur.image!, "A LankaLux Toyota Voxy ready for the road"),
-    photo(h.filmMoment!, "Palms on the headland at Mirissa"),
+    photo("images/hq/coconut-tree-hill.jpg", "Coconut Tree Hill above the sea at Mirissa"),
     photo("images/signaturejourney/sigjhp1.jpg", "Sigiriya at first light"),
-    Promise.all(h.fromTheRoad.cards.map((c) => photo(c.image!, c.title))),
+    Promise.all(ROAD_CARDS.map((c) => photo(c.image, c.alt))),
     photo("images/coastalretreat/day7.jpg", "Sunset on the ramparts of Galle Fort"),
     Promise.all([photo("images/hq/rainforest.jpg", "A stream through the rainforest"), photo("images/highlights/tea/gregorylake.jpg", "Gregory Lake in Nuwara Eliya")]),
     getReviews("home", h.reviews),
@@ -101,13 +108,13 @@ export default async function HomePage() {
         poster={<Photo photo={heroPoster} priority sizes="(min-width: 768px) 100vw, 140vw" />}
       />
 
-      {/* Your version of Sri Lanka: the statement holds while photographs pass beside it. */}
+      {/* We start with you: the statement holds while photographs pass beside it. */}
       <section id="about" aria-labelledby="about-title" className="relative bg-paper">
         <div className="relative lg:h-[210svh]">
           <div className="wrap sticky top-0 flex min-h-svh flex-col justify-center py-24 lg:py-0">
             <div className="mx-auto max-w-[40rem] text-center">
               <h2 id="about-title" data-split className="text-title">
-                {h.about.title}
+                We start with you, not a package.
               </h2>
               <p data-reveal className="mt-8 text-statement leading-[1.3]">
                 {h.about.paragraphs[0]} {h.about.paragraphs[1]}
@@ -169,15 +176,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="lg:col-span-6 lg:col-start-7 lg:pt-6">
-            <ul data-reveal-group className="space-y-10">
-              {h.why.items.map((w) => (
-                <li key={w.title}>
-                  <h3 className="text-[clamp(1.75rem,2.6vw,2.5rem)] leading-[1.05]">{w.title}</h3>
-                  <p className="mt-3 text-ink-soft">{w.text}</p>
-                </li>
-              ))}
-            </ul>
-            <div id="services" className="mt-24 bg-paper p-[clamp(1.5rem,3vw,3rem)]">
+            <div id="services" className="bg-paper p-[clamp(1.5rem,3vw,3rem)]">
               <h2 data-split className="max-w-[18ch] text-[clamp(1.75rem,2.6vw,2.5rem)] leading-[1.08]">
                 {h.services.title}
               </h2>
@@ -326,10 +325,10 @@ export default async function HomePage() {
             </a>
           </div>
           <div className="mt-14 grid gap-4 md:grid-cols-12">
-            {h.fromTheRoad.cards.map((c, i) => (
+            {ROAD_CARDS.map((c, i) => (
               <a
                 key={c.title}
-                href={c.href}
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`group relative block overflow-hidden ${i === 0 ? "aspect-[4/5] md:col-span-5" : i === 1 ? "aspect-[4/5] md:col-span-4 md:mt-24" : "aspect-[4/5] md:col-span-3 md:mt-48"}`}
@@ -362,22 +361,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* How it comes together. */}
-      <section id="how-it-works" aria-labelledby="how-title" className="bg-paper py-section">
-        <div className="wrap">
-          <h2 id="how-title" data-split className="max-w-[18ch] text-title">
-            {h.how.title}
-          </h2>
-          <ol data-reveal-group className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
-            {h.how.steps.map((s, i) => (
-              <li key={s.title} className="lg:pt-[calc(var(--i)*2.5rem)]" style={{ ["--i" as string]: i }}>
-                <h3 className="text-[1.625rem] leading-[1.1]">{s.title}</h3>
-                <p className="mt-3 text-ink-soft">{s.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
 
       {/* Practical answers beside a tall photograph. */}
       <section id="faq" aria-labelledby="faq-title" className="bg-forest-900 text-ivory">
