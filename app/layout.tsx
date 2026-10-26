@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
 import { Concierge } from "@/components/concierge/Concierge";
+import { CookieNotice } from "@/components/chrome/CookieNotice";
 import { EnquiryProvider } from "@/components/enquiry/Enquiry";
 import { Cursor } from "@/components/motion/Cursor";
 import { MotionRoot } from "@/components/motion/MotionRoot";
@@ -51,6 +52,18 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Google Analytics / Google Ads ids, read by /lankalux-analytics.js. Empty in Vercel = no Google tags at all.
+const tracking = {
+  ga: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "",
+  ads: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "",
+  labels: {
+    generate_lead: process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL || "",
+    whatsapp_click: process.env.NEXT_PUBLIC_GOOGLE_ADS_WHATSAPP_LABEL || "",
+  },
+};
+const trackingOn = Boolean(tracking.ga || tracking.ads);
+const trackingScript = `window.LANKALUX_TRACKING=${JSON.stringify(tracking).replace(/</g, "\\u003c")};`;
+
 // Before first paint: turn on the reveal system (unless reduced motion), hold the homepage
 // for its preloader on the first visit, and give up on hiding anything if scripts fail.
 const bootScript = `(function(){var d=document.documentElement;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('motion');try{if(location.pathname==='/'&&innerWidth>=1024&&!sessionStorage.getItem('lux-preloaded')){d.dataset.holdEnter='preloader';d.classList.add('preload')}}catch(e){}setTimeout(function(){if(!d.classList.contains('motion-ready')){d.classList.remove('motion','preload');delete d.dataset.holdEnter}},4000)})()`;
@@ -60,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${gambetta.variable} ${switzer.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+        {trackingOn && <script dangerouslySetInnerHTML={{ __html: trackingScript }} />}
       </head>
       <body>
         <a href="#main" className="skip-link">
@@ -73,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             <Footer />
             <Concierge />
+            {trackingOn && <CookieNotice />}
             <PageTransition />
             <MotionRoot />
             <Cursor />

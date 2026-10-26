@@ -2,7 +2,8 @@
  * - Vercel Web Analytics is loaded by the Next.js app (@vercel/analytics).
  * - Remembers how a visitor found the site (search, Instagram, an ad link...) and the first page they saw,
  *   so each enquiry sent to admin carries it: window.LankaLuxAttribution().
- * - Paste a GA4 Measurement ID (G-XXXXXXXX) into window.LANKALUX_GA_MEASUREMENT_ID to also enable Google Analytics.
+ * - Google Analytics 4 and Google Ads load only when their ids are set (window.LANKALUX_TRACKING, filled from
+ *   the NEXT_PUBLIC_* env vars in app/layout.tsx), with Consent Mode and window.LankaLuxTrack() for leads.
  */
 (function () {
   var KEY = 'lankalux_visit_source';
@@ -63,28 +64,60 @@
     };
   };
 
-  var id = window.LANKALUX_GA_MEASUREMENT_ID || '';
-  if (!id || String(id).indexOf('G-') !== 0) return;
-
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
-  document.head.appendChild(s);
+  // Google Analytics 4 and Google Ads, both off until their ids are set in Vercel (see app/layout.tsx).
+  var cfg = window.LANKALUX_TRACKING || {};
+  var gaId = cfg.ga || window.LANKALUX_GA_MEASUREMENT_ID || '';
+  var adsId = cfg.ads || '';
+  var labels = cfg.labels || {};
+  if (String(gaId).indexOf('G-') !== 0) gaId = '';
+  if (String(adsId).indexOf('AW-') !== 0) adsId = '';
+  if (!gaId && !adsId) return;
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
+
+  // Consent Mode: nothing is stored until the visitor accepts on the cookie notice. Before that Google
+  // only gets cookieless pings, which it uses to estimate conversions.
+  var CONSENT_KEY = 'lankalux_consent';
+  function consentValue(granted) {
+    var v = granted ? 'granted' : 'denied';
+    return { ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v };
+  }
+  var saved = '';
+  try { saved = localStorage.getItem(CONSENT_KEY) || ''; } catch (e) {}
+  var defaults = consentValue(saved === 'granted');
+  defaults.wait_for_update = 500;
+  gtag('consent', 'default', defaults);
+  window.LankaLuxConsent = function (granted) {
+    try { localStorage.setItem(CONSENT_KEY, granted ? 'granted' : 'denied'); } catch (e) {}
+    gtag('consent', 'update', consentValue(granted));
+  };
+
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId || adsId);
+  document.head.appendChild(s);
+
   gtag('js', new Date());
-  gtag('config', id, { anonymize_ip: true });
+  if (gaId) gtag('config', gaId, { anonymize_ip: true });
+  if (adsId) gtag('config', adsId);
+
+  // One call per lead: a GA event, plus a Google Ads conversion when that action has a label.
+  // Names: 'generate_lead' (enquiry form or a chat that became a request), 'whatsapp_click', 'email_click'.
+  window.LankaLuxTrack = function (name, params) {
+    gtag('event', name, params || {});
+    if (adsId && labels[name]) gtag('event', 'conversion', { send_to: adsId + '/' + labels[name] });
+  };
 
   document.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a') : null;
     if (!a || !a.href) return;
     var href = a.getAttribute('href') || '';
     if (href.indexOf('wa.me') !== -1 || href.indexOf('whatsapp') !== -1) {
-      gtag('event', 'whatsapp_click', { event_category: 'contact' });
+      window.LankaLuxTrack('whatsapp_click', { event_category: 'contact' });
     } else if (href.indexOf('mailto:') === 0) {
-      gtag('event', 'email_click', { event_category: 'contact' });
+      window.LankaLuxTrack('email_click', { event_category: 'contact' });
     }
   });
 

@@ -143,6 +143,8 @@ export function Concierge() {
       });
       const d = await res.json().catch(() => null);
       if (!d?.success) throw new Error(d?.error || "failed");
+      // The chat counts as a lead once admin has opened a request for it.
+      if (d.requestId && !state.requestId) window.LankaLuxTrack?.("generate_lead", { form: "concierge" });
       setState((s) => ({
         online: d.online,
         takenOver: d.takenOver,
