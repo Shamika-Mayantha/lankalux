@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
     return [
       ...htmlRedirects,
       { source: "/index", destination: "/", statusCode: 301 as const },
+      // The fleet lives on the homepage; people type lankalux.com/fleet.
+      { source: "/fleet", destination: "/#fleet", statusCode: 308 as const },
     ];
   },
 };
