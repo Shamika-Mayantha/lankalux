@@ -1,0 +1,2 @@
+# Photo masters stay in git but are never served, so keep them out of every Vercel upload.
+originals
