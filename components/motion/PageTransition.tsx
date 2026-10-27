@@ -32,11 +32,12 @@ export function PageTransition() {
       e.preventDefault();
 
       if (url.pathname === location.pathname) {
-        if (url.hash) {
-          history.replaceState(null, "", url.hash);
-          scrollToTarget(lenis, url.hash);
-        } else scrollToTarget(lenis, 0);
+        if (url.hash) history.replaceState(null, "", url.hash);
+        // Close the menu first: it holds Lenis stopped, so wait for it to let go before scrolling.
         window.dispatchEvent(new Event("lux:navigate"));
+        const target = url.hash || 0;
+        const scroll = (frames = 0) => (lenis?.isStopped && frames < 90 ? requestAnimationFrame(() => scroll(frames + 1)) : scrollToTarget(lenis, target));
+        scroll();
         return;
       }
       if (busy.current) return;
