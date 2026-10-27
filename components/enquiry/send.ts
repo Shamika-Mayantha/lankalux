@@ -30,6 +30,7 @@ export type EnquiryPayload = {
 declare global {
   interface Window {
     LankaLuxAttribution?: () => Record<string, string>;
+    LankaLuxTrack?: (name: string, params?: Record<string, string>) => void;
   }
 }
 
@@ -96,5 +97,7 @@ async function sendEmail(p: EnquiryPayload): Promise<boolean> {
  */
 export async function sendEnquiry(payload: EnquiryPayload, source: EnquirySource) {
   const [admin, email] = await Promise.all([sendToAdmin(payload, source), sendEmail(payload)]);
-  return admin || email;
+  const sent = admin || email;
+  if (sent) window.LankaLuxTrack?.("generate_lead", { form: source });
+  return sent;
 }
