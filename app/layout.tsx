@@ -52,10 +52,10 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Google Analytics / Google Ads ids, read by /lankalux-analytics.js. Empty in Vercel = no Google tags at all.
+// Google Analytics / Google Ads ids, read by /lankalux-analytics.js. The Ads tag id is public; Vercel env vars override it.
 const tracking = {
   ga: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "",
-  ads: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "",
+  ads: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18540176984",
   labels: {
     generate_lead: process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL || "",
     whatsapp_click: process.env.NEXT_PUBLIC_GOOGLE_ADS_WHATSAPP_LABEL || "",
