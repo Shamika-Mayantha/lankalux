@@ -107,7 +107,7 @@
   // Names: 'generate_lead' (enquiry form or a chat that became a request), 'whatsapp_click', 'email_click'.
   window.LankaLuxTrack = function (name, params) {
     gtag('event', name, params || {});
-    if (adsId && labels[name]) gtag('event', 'conversion', { send_to: adsId + '/' + labels[name] });
+    if (adsId && labels[name]) gtag('event', 'conversion', { send_to: adsId + '/' + labels[name], value: 1.0, currency: 'USD' });
   };
 
   document.addEventListener('click', function (e) {
